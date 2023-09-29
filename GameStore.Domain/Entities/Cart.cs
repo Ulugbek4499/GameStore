@@ -9,7 +9,7 @@ namespace GameStore.Domain.Entities
 {
     public class Cart:BaseAuditableEntity
     {
-        public virtual ICollection<CartItem>? Items { get; set; }
+        public virtual ICollection<CartItem>? CartItems { get; set; }
         public virtual Order? Order { get; set; }
     }
 }
