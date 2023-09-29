@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Application.UseCases.CartItems.Response
 {
-    internal class CartItemResponse
+    internal class OrderResponse
     {
     }
 }
