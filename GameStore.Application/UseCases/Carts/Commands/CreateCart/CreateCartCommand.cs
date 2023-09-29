@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GameStore.Application.Common.Interfaces;
+using GameStore.Domain.Entities;
 using MediatR;
 
 namespace GameStore.Application.UseCases.Carts.Commands.CreateCart
