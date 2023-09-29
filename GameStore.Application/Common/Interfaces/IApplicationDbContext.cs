@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using GameStore.Domain.Entities;
+﻿using GameStore.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Application.Common.Interfaces
 {

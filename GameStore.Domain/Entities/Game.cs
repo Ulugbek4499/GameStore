@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GameStore.Domain.Common;
+﻿using GameStore.Domain.Common;
 
 namespace GameStore.Domain.Entities
 {
-    public class Game:BaseAuditableEntity
+    public class Game : BaseAuditableEntity
     {
         public string Name { get; set; }
         public string Description { get; set; }

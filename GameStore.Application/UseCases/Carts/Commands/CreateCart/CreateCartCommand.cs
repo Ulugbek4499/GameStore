@@ -1,12 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GameStore.Application.UseCases.Carts.Commands.CreateCart
+﻿namespace GameStore.Application.UseCases.Carts.Commands.CreateCart
 {
-    internal class CreateCartCommand
-    {
-    }
+    /*  public class CreateCartCommand : IRequest<int>
+      {
+          public string CartNumber { get; set; }
+          public DateTime CartStartDate { get; set; }
+          public DateTime PaymentStartDate { get; set; }
+
+          public decimal TotalAmountOfCart { get; set; }
+          public decimal InAdvancePaymentOfCart { get; set; }
+          public int NumberOfMonths { get; set; }
+
+          public int HomeId { get; set; }
+          public int CustomerId { get; set; }
+          public int FounderId { get; set; }
+      }
+
+      public class CreateCartCommandHandler : IRequestHandler<CreateCartCommand, int>
+      {
+          private readonly IMapper _mapper;
+          private readonly IApplicationDbContext _context;
+
+          public CreateCartCommandHandler(IMapper mapper, IApplicationDbContext context)
+          {
+              _mapper = mapper;
+              _context = context;
+          }
+
+          public async Task<int> Handle(CreateCartCommand request, CancellationToken cancellationToken)
+          {
+              Cart Cart = _mapper.Map<Cart>(request);
+              await _context.Carts.AddAsync(Cart, cancellationToken);
+              await _context.SaveChangesAsync();
+
+              return Cart.Id;
+          }
+      }*/
 }

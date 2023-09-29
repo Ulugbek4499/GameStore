@@ -3,7 +3,7 @@ using GameStore.Domain.States;
 
 namespace GameStore.Domain.Entities
 {
-    public class Order:BaseAuditableEntity
+    public class Order : BaseAuditableEntity
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

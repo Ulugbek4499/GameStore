@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CartItems;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using GameStore.Application.Common.Exceptions;
 using GameStore.Application.Common.Interfaces;
 using GameStore.Domain.Entities;
@@ -39,20 +33,16 @@ namespace GameStore.Application.UseCases.CartItems.Commands.UpdateCartItem
             if (cartItem is null)
                 throw new NotFoundException(nameof(cartItem), request.Id);
 
-            var Home = await _context.Homes.FindAsync(request.HomeId);
+            var Game = await _context.Games.FindAsync(request.GameId);
 
-            if (Home is null)
-                throw new NotFoundException(nameof(Home), request.HomeId);
+            if (Game is null)
+                throw new NotFoundException(nameof(Game), request.GameId);
 
-            var Customer = await _context.Customers.FindAsync(request.CustomerId);
+            var Cart = await _context.Carts.FindAsync(request.CartId);
 
-            if (Customer is null)
-                throw new NotFoundException(nameof(Customer), request.CustomerId);
+            if (Cart is null)
+                throw new NotFoundException(nameof(Cart), request.CartId);
 
-            var Founder = await _context.Founders.FindAsync(request.FounderId);
-
-            if (Founder is null)
-                throw new NotFoundException(nameof(Founder), request.FounderId);
 
             await _context.SaveChangesAsync(cancellationToken);
         }

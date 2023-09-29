@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using GameStore.Application.UseCases.CartItems.Response;
 using GameStore.Application.UseCases.Comments.Commands.CreateComment;
 using GameStore.Application.UseCases.Comments.Commands.DeleteComment;
@@ -12,7 +7,7 @@ using GameStore.Domain.Entities;
 
 namespace GameStore.Application.Common.Mappings
 {
-    public class CommentMapping:Profile
+    public class CommentMapping : Profile
     {
         public CommentMapping()
         {

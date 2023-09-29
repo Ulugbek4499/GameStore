@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GameStore.Application.UseCases.Carts.Queries.GetAllCarts
+﻿namespace GameStore.Application.UseCases.Carts.Queries.GetAllCarts
 {
-    internal class GetAllCartsCommand
+    internal class GetAllCartsQuery
     {
     }
 }

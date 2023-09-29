@@ -1,12 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using GameStore.Application.Common.Interfaces;
+using MediatR;
 
 namespace GameStore.Application.UseCases.Comments.Queries.GetAllComments
 {
-    internal class GetAllCommentsQuery
+    public record GetAllCommentsQuery : IRequest<CommentResponse[]>;
+
+    public class GetAllCommentsQueryHandler : IRequestHandler<GetAllCommentsQuery, CommentResponse[]>
     {
+        private readonly IMapper _mapper;
+        private readonly IApplicationDbContext _context;
+
+        public GetAllCommentsQueryHandler(IMapper mapper, IApplicationDbContext context)
+        {
+            _mapper = mapper;
+            _context = context;
+        }
+
+        public async Task<CommentResponse[]> Handle(GetAllCommentsQuery request, CancellationToken cancellationToken)
+        {
+            var Comments = await _context.Comments.ToArrayAsync();
+
+            return _mapper.Map<CommentResponse[]>(Comments);
+        }
     }
 }

@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CartItems;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using GameStore.Application.Common.Interfaces;
 using GameStore.Domain.Entities;
 using MediatR;
 
 namespace GameStore.Application.UseCases.CartItems.Commands.CreateCartItem
 {
-    public class CreateCartItemCommand: IRequest<int>
+    public class CreateCartItemCommand : IRequest<int>
     {
         public int Count { get; set; }
         public int GameId { get; set; }
