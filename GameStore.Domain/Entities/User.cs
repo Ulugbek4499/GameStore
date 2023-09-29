@@ -12,6 +12,7 @@ namespace GameStore.Domain.Entities
     public class User : IdentityUser<int>
     {
         public string Name { get; set; }
+        public string Photo { get; set; }
 
         public virtual ICollection<Game> Games { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
