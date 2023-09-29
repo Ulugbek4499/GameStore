@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 
 namespace GameStore.Application.Common.Mappings
 {
@@ -12,10 +6,10 @@ namespace GameStore.Application.Common.Mappings
     {
         public CartMapping()
         {
-       /*     CreateMap<CreateContractCommand, Contract>().ReverseMap();
-            CreateMap<DeleteContractCommand, Contract>().ReverseMap();
-            CreateMap<UpdateContractCommand, Contract>().ReverseMap();
-            CreateMap<ContractResponse, Contract>().ReverseMap();*/
+           /* CreateMap<CreateCartCommand, Cart>().ReverseMap();
+            CreateMap<DeleteCartCommand, Cart>().ReverseMap();
+            CreateMap<UpdateCartCommand, Cart>().ReverseMap();
+            CreateMap<CartResponse, Cart>().ReverseMap();*/
         }
     }
 }
