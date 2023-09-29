@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using GameStore.Application.UseCases.CartItems.Response;
+using GameStore.Application.UseCases.Genres.Commands.CreateGenre;
+using GameStore.Application.UseCases.Genres.Commands.DeleteGenre;
+using GameStore.Application.UseCases.Genres.Commands.UpdateGenre;
+using GameStore.Domain.Entities;
 
-namespace GameStore.Application.Common.Mappings
+namespace GenreStore.Application.Common.Mappings
 {
-    internal class GenreMapping
+    public class GenreMapping : Profile
     {
+        public GenreMapping()
+        {
+            CreateMap<CreateGenreCommand, Genre>().ReverseMap();
+            CreateMap<DeleteGenreCommand, Genre>().ReverseMap();
+            CreateMap<UpdateGenreCommand, Genre>().ReverseMap();
+            CreateMap<GenreResponse, Genre>().ReverseMap();
+        }
     }
 }
