@@ -11,10 +11,42 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Interfaces\" />
-    <Folder Include="Common\Mappings\" />
     <Folder Include="Common\Models\" />
-    <Folder Include="UseCases\" />
+    <Folder Include="UseCases\CartItems\Commands\CreateCartItem\" />
+    <Folder Include="UseCases\CartItems\Commands\DeleteCartItem\" />
+    <Folder Include="UseCases\CartItems\Commands\UpdateCartItem\" />
+    <Folder Include="UseCases\CartItems\Queries\GetCartItemById\" />
+    <Folder Include="UseCases\CartItems\Queries\GetAllCartItems\" />
+    <Folder Include="UseCases\Carts\Commands\CreateCart\" />
+    <Folder Include="UseCases\Carts\Commands\DeleteCart\" />
+    <Folder Include="UseCases\Carts\Commands\UpdateCart\" />
+    <Folder Include="UseCases\Carts\Queries\GetAllCarts\" />
+    <Folder Include="UseCases\Carts\Queries\GetCartById\" />
+    <Folder Include="UseCases\Comments\Commands\CreateComment\" />
+    <Folder Include="UseCases\Comments\Commands\DeleteComment\" />
+    <Folder Include="UseCases\Comments\Commands\UpdateComment\" />
+    <Folder Include="UseCases\Comments\Queries\GetAllComments\" />
+    <Folder Include="UseCases\Comments\Queries\GetCommentById\" />
+    <Folder Include="UseCases\Games\Commands\CreateGame\" />
+    <Folder Include="UseCases\Games\Commands\DeleteGame\" />
+    <Folder Include="UseCases\Games\Commands\UpdateGame\" />
+    <Folder Include="UseCases\Games\Queries\GetAllGames\" />
+    <Folder Include="UseCases\Games\Queries\GetGameById\" />
+    <Folder Include="UseCases\Genres\Commands\CreateGenre\" />
+    <Folder Include="UseCases\Genres\Commands\DeleteGenre\" />
+    <Folder Include="UseCases\Genres\Commands\UpdateGenre\" />
+    <Folder Include="UseCases\Genres\Queries\GetAllGenres\" />
+    <Folder Include="UseCases\Genres\Queries\GetGenreById\" />
+    <Folder Include="UseCases\Orders\Commands\CreateOrder\" />
+    <Folder Include="UseCases\Orders\Commands\DeleteOrder\" />
+    <Folder Include="UseCases\Orders\Commands\UpdateOrder\" />
+    <Folder Include="UseCases\Orders\Queries\GetAllOrders\" />
+    <Folder Include="UseCases\Orders\Queries\GetOrderById\" />
+    <Folder Include="UseCases\Users\Commands\CreateUser\" />
+    <Folder Include="UseCases\Users\Commands\DeleteUser\" />
+    <Folder Include="UseCases\Users\Commands\UpdateUser\" />
+    <Folder Include="UseCases\Users\Queries\GetAllUsers\" />
+    <Folder Include="UseCases\Users\Queries\GetUserById\" />
   </ItemGroup>
 
   <ItemGroup>
