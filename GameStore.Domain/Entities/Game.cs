@@ -17,7 +17,8 @@ namespace GameStore.Domain.Entities
         public int UserId { get; set; }
         public virtual User User { get; set; }
 
-        public virtual ICollection<Genre> Genres { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Genre>? Genres { get; set; }
+        public virtual ICollection<Comment>? Comments { get; set; }
+        public virtual ICollection<CartItem>? CartItems { get; set; }
     }
 }
