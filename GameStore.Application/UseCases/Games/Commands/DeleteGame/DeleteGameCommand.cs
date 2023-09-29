@@ -1,5 +1,6 @@
 ﻿using GameStore.Application.Common.Exceptions;
 using GameStore.Application.Common.Interfaces;
+using GameStore.Domain.Entities;
 using MediatR;
 
 namespace GameStore.Application.UseCases.Games.Commands.DeleteGame
@@ -16,12 +17,12 @@ namespace GameStore.Application.UseCases.Games.Commands.DeleteGame
 
         public async Task Handle(DeleteGameCommand request, CancellationToken cancellationToken)
         {
-            Game? Game = await _context.Games.FindAsync(request.Id, cancellationToken);
+            Game? game = await _context.Games.FindAsync(request.Id, cancellationToken);
 
-            if (Game is null)
-                throw new NotFoundException(nameof(Game), request.Id);
+            if (game is null)
+                throw new NotFoundException(nameof(game), request.Id);
 
-            _context.Games.Remove(Game);
+            _context.Games.Remove(game);
 
             await _context.SaveChangesAsync(cancellationToken);
         }

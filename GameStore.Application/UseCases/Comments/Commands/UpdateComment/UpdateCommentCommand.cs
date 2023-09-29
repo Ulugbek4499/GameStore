@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GameStore.Application.Common.Exceptions;
 using GameStore.Application.Common.Interfaces;
+using GameStore.Domain.Entities;
 using MediatR;
 
 namespace GameStore.Application.UseCases.Comments.Commands.UpdateComment
@@ -8,17 +9,9 @@ namespace GameStore.Application.UseCases.Comments.Commands.UpdateComment
     public class UpdateCommentCommand : IRequest
     {
         public int Id { get; set; }
-        public string CommentNumber { get; set; }
-        public DateTime CommentStartDate { get; set; }
-        public DateTime PaymentStartDate { get; set; }
-
-        public decimal TotalAmountOfComment { get; set; }
-        public decimal InAdvancePaymentOfComment { get; set; }
-        public int NumberOfMonths { get; set; }
-
-        public int HomeId { get; set; }
-        public int CustomerId { get; set; }
-        public int FounderId { get; set; }
+        public string Text { get; set; }
+        public int UserId { get; set; }
+        public int GameId { get; set; }
     }
 
     public class UpdateCommentCommandHandler : IRequestHandler<UpdateCommentCommand>
@@ -34,26 +27,21 @@ namespace GameStore.Application.UseCases.Comments.Commands.UpdateComment
 
         public async Task Handle(UpdateCommentCommand request, CancellationToken cancellationToken)
         {
-            Comment? Comment = await _context.Comments.FindAsync(request.Id);
-            _mapper.Map(request, Comment);
+            Comment? comment = await _context.Comments.FindAsync(request.Id);
+            _mapper.Map(request, comment);
 
-            if (Comment is null)
-                throw new NotFoundException(nameof(Comment), request.Id);
+            if (comment is null)
+                throw new NotFoundException(nameof(comment), request.Id);
 
-            var Home = await _context.Homes.FindAsync(request.HomeId);
+            var User = await _context.Users.FindAsync(request.UserId);
 
-            if (Home is null)
-                throw new NotFoundException(nameof(Home), request.HomeId);
+            if (User is null)
+                throw new NotFoundException(nameof(User), request.UserId);
 
-            var Customer = await _context.Customers.FindAsync(request.CustomerId);
+            var Game = await _context.Games.FindAsync(request.GameId);
 
-            if (Customer is null)
-                throw new NotFoundException(nameof(Customer), request.CustomerId);
-
-            var Founder = await _context.Founders.FindAsync(request.FounderId);
-
-            if (Founder is null)
-                throw new NotFoundException(nameof(Founder), request.FounderId);
+            if (Game is null)
+                throw new NotFoundException(nameof(Game), request.GameId);
 
             await _context.SaveChangesAsync(cancellationToken);
         }

@@ -1,5 +1,6 @@
 ﻿using GameStore.Application.Common.Exceptions;
 using GameStore.Application.Common.Interfaces;
+using GameStore.Domain.Entities;
 using MediatR;
 
 namespace GameStore.Application.UseCases.Comments.Commands.DeleteComment
@@ -16,12 +17,12 @@ namespace GameStore.Application.UseCases.Comments.Commands.DeleteComment
 
         public async Task Handle(DeleteCommentCommand request, CancellationToken cancellationToken)
         {
-            Comment? Comment = await _context.Comments.FindAsync(request.Id, cancellationToken);
+            Comment? comment = await _context.Comments.FindAsync(request.Id, cancellationToken);
 
-            if (Comment is null)
-                throw new NotFoundException(nameof(Comment), request.Id);
+            if (comment is null)
+                throw new NotFoundException(nameof(comment), request.Id);
 
-            _context.Comments.Remove(Comment);
+            _context.Comments.Remove(comment);
 
             await _context.SaveChangesAsync(cancellationToken);
         }

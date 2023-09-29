@@ -1,5 +1,7 @@
-﻿using AutoMapper;
+﻿using System.Data.Entity;
+using AutoMapper;
 using GameStore.Application.Common.Interfaces;
+using GameStore.Application.UseCases.CartItems.Response;
 using MediatR;
 
 namespace GameStore.Application.UseCases.Comments.Queries.GetAllComments

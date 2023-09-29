@@ -1,22 +1,14 @@
 ﻿using AutoMapper;
 using GameStore.Application.Common.Interfaces;
+using GameStore.Domain.Entities;
 using MediatR;
 
 namespace GameStore.Application.UseCases.Genres.Commands.CreateGenre
 {
     public class CreateGenreCommand : IRequest<int>
     {
-        public string GenreNumber { get; set; }
-        public DateTime GenreStartDate { get; set; }
-        public DateTime PaymentStartDate { get; set; }
-
-        public decimal TotalAmountOfGenre { get; set; }
-        public decimal InAdvancePaymentOfGenre { get; set; }
-        public int NumberOfMonths { get; set; }
-
-        public int HomeId { get; set; }
-        public int CustomerId { get; set; }
-        public int FounderId { get; set; }
+        public string Name { get; set; }
+        public int? ParentGenreId { get; set; }
     }
 
     public class CreateGenreCommandHandler : IRequestHandler<CreateGenreCommand, int>
@@ -32,11 +24,11 @@ namespace GameStore.Application.UseCases.Genres.Commands.CreateGenre
 
         public async Task<int> Handle(CreateGenreCommand request, CancellationToken cancellationToken)
         {
-            Genre Genre = _mapper.Map<Genre>(request);
-            await _context.Genres.AddAsync(Genre, cancellationToken);
+            Genre genre = _mapper.Map<Genre>(request);
+            await _context.Genres.AddAsync(genre, cancellationToken);
             await _context.SaveChangesAsync();
 
-            return Genre.Id;
+            return genre.Id;
         }
     }
 }

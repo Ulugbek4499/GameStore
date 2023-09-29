@@ -1,5 +1,6 @@
 ﻿using GameStore.Application.Common.Exceptions;
 using GameStore.Application.Common.Interfaces;
+using GameStore.Domain.Entities;
 using MediatR;
 
 namespace GameStore.Application.UseCases.Genres.Commands.DeleteGenre
@@ -16,12 +17,12 @@ namespace GameStore.Application.UseCases.Genres.Commands.DeleteGenre
 
         public async Task Handle(DeleteGenreCommand request, CancellationToken cancellationToken)
         {
-            Genre? Genre = await _context.Genres.FindAsync(request.Id, cancellationToken);
+            Genre? genre = await _context.Genres.FindAsync(request.Id, cancellationToken);
 
-            if (Genre is null)
-                throw new NotFoundException(nameof(Genre), request.Id);
+            if (genre is null)
+                throw new NotFoundException(nameof(genre), request.Id);
 
-            _context.Genres.Remove(Genre);
+            _context.Genres.Remove(genre);
 
             await _context.SaveChangesAsync(cancellationToken);
         }

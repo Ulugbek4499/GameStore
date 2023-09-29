@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using GameStore.Application.Common.Exceptions;
 using GameStore.Application.Common.Interfaces;
+using GameStore.Application.UseCases.CartItems.Response;
+using GameStore.Domain.Entities;
 using MediatR;
 
 namespace GameStore.Application.UseCases.Games.Queries.GetGameById

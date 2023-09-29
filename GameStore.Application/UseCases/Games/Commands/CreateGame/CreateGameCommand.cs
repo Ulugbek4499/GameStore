@@ -1,22 +1,17 @@
 ﻿using AutoMapper;
 using GameStore.Application.Common.Interfaces;
+using GameStore.Domain.Entities;
 using MediatR;
 
 namespace GameStore.Application.UseCases.Games.Commands.CreateGame
 {
     public class CreateGameCommand : IRequest<int>
     {
-        public string GameNumber { get; set; }
-        public DateTime GameStartDate { get; set; }
-        public DateTime PaymentStartDate { get; set; }
-
-        public decimal TotalAmountOfGame { get; set; }
-        public decimal InAdvancePaymentOfGame { get; set; }
-        public int NumberOfMonths { get; set; }
-
-        public int HomeId { get; set; }
-        public int CustomerId { get; set; }
-        public int FounderId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public decimal Price { get; set; }
+        public string? Picture { get; set; }
+        public int UserId { get; set; }
     }
 
     public class CreateGameCommandHandler : IRequestHandler<CreateGameCommand, int>
@@ -32,11 +27,11 @@ namespace GameStore.Application.UseCases.Games.Commands.CreateGame
 
         public async Task<int> Handle(CreateGameCommand request, CancellationToken cancellationToken)
         {
-            Game Game = _mapper.Map<Game>(request);
-            await _context.Games.AddAsync(Game, cancellationToken);
+            Game game = _mapper.Map<Game>(request);
+            await _context.Games.AddAsync(game, cancellationToken);
             await _context.SaveChangesAsync();
 
-            return Game.Id;
+            return game.Id;
         }
     }
 }

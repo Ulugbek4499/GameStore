@@ -1,22 +1,15 @@
 ﻿using AutoMapper;
 using GameStore.Application.Common.Interfaces;
+using GameStore.Domain.Entities;
 using MediatR;
 
 namespace GameStore.Application.UseCases.Comments.Commands.CreateComment
 {
     public class CreateCommentCommand : IRequest<int>
     {
-        public string CommentNumber { get; set; }
-        public DateTime CommentStartDate { get; set; }
-        public DateTime PaymentStartDate { get; set; }
-
-        public decimal TotalAmountOfComment { get; set; }
-        public decimal InAdvancePaymentOfComment { get; set; }
-        public int NumberOfMonths { get; set; }
-
-        public int HomeId { get; set; }
-        public int CustomerId { get; set; }
-        public int FounderId { get; set; }
+        public string Text { get; set; }
+        public int UserId { get; set; }
+        public int GameId { get; set; }
     }
 
     public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand, int>
@@ -32,11 +25,11 @@ namespace GameStore.Application.UseCases.Comments.Commands.CreateComment
 
         public async Task<int> Handle(CreateCommentCommand request, CancellationToken cancellationToken)
         {
-            Comment Comment = _mapper.Map<Comment>(request);
-            await _context.Comments.AddAsync(Comment, cancellationToken);
+            Comment comment = _mapper.Map<Comment>(request);
+            await _context.Comments.AddAsync(comment, cancellationToken);
             await _context.SaveChangesAsync();
 
-            return Comment.Id;
+            return comment.Id;
         }
     }
 }
