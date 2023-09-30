@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNetCore.Identity;
 
-namespace GameStore.Domain.Entities;
+namespace GameStore.Domain.Entities.Identity;
 
 public class User : IdentityUser<int>
 {

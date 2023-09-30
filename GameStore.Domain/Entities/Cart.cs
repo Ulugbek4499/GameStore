@@ -1,4 +1,5 @@
 ﻿using GameStore.Domain.Common;
+using GameStore.Domain.Entities.Identity;
 
 namespace GameStore.Domain.Entities;
 
