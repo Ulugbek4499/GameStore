@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameStore.Domain.Entities.Identity.Model
+namespace GameStore.Application.Models
 {
     public class AuthResultModel
     {
