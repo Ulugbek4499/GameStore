@@ -5,10 +5,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using YourApplicationNamespace.Models; // Replace with the correct namespace for ApplicationUser
-using YourApplicationNamespace.Data; // Replace with the correct namespace for AppDbContext
 using GameStore.MVC.Services;
 using Microsoft.AspNetCore.Mvc;
+using GameStore.Application.Common.Interfaces;
+using GameStore.Domain.Entities.Identity;
+using GameStore.Infrastructure.Persistence;
 
 namespace GameStore.MVC
 {
@@ -39,8 +40,8 @@ namespace GameStore.MVC
             services.AddSingleton(tokenValidationParameters);
 
             // Add Identity
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<AppDbContext>()
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
             // Add Authentication
