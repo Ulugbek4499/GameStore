@@ -1,3 +1,6 @@
+using GameStore.Application;
+using GameStore.Infrastructure;
+using GameStore.WebApi;
 
 namespace GameStore.Api
 {
@@ -8,13 +11,16 @@ namespace GameStore.Api
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            builder.Services.AddApplication();
+            builder.Services.AddInfrastructure(builder.Configuration);
+            builder.Services.AddApi(builder.Configuration);
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

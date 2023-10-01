@@ -1,4 +1,4 @@
-﻿namespace GameStore.Application.UseCases.CartItems.Response
+﻿namespace GameStore.Application.UseCases.Carts
 {
     internal class CartResponse
     {

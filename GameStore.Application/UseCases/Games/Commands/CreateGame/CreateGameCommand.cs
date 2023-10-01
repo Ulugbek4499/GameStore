@@ -35,7 +35,7 @@ public class CreateGameCommandHandler : IRequestHandler<CreateGameCommand, int>
 
         if (request.Picture is not null)
         {
-            var gamePhoto = _configuration["ProductTypePicturePath"];
+            var gamePhoto = _configuration["GamePicturePath"];
             string filename = game.Id + Path.GetExtension(request.Picture.FileName);
             string gamePhotoImagePath = Path.Combine(gamePhoto, filename);
             using (var fs = new FileStream(gamePhotoImagePath, FileMode.Create))

@@ -1,7 +1,7 @@
 ﻿using GameStore.Domain.Entities;
 using GameStore.Domain.Entities.Identity;
 
-namespace GameStore.Application.UseCases.CartItems.Response
+namespace GameStore.Application.UseCases.Comments
 {
     public class CommentResponse
     {

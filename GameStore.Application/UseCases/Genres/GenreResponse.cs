@@ -1,6 +1,6 @@
 ﻿using GameStore.Domain.Entities;
 
-namespace GameStore.Application.UseCases.CartItems.Response
+namespace GameStore.Application.UseCases.Genres
 {
     public class GenreResponse
     {

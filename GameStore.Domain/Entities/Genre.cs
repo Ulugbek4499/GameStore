@@ -11,4 +11,5 @@ public class Genre : BaseAuditableEntity
 
     public virtual ICollection<Genre>? ChildGenres { get; set; }
     public virtual ICollection<Game>? Games { get; set; }
+
 }

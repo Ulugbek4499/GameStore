@@ -1,7 +1,7 @@
 ﻿using GameStore.Domain.Entities;
 using GameStore.Domain.States;
 
-namespace GameStore.Application.UseCases.CartItems.Response
+namespace GameStore.Application.UseCases.Orders
 {
     public class OrderResponse
     {

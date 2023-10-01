@@ -1,4 +1,4 @@
-﻿using GameStore.Application.UseCases.CartItems.Response;
+﻿using GameStore.Application.UseCases.Games;
 using GameStore.Application.UseCases.Games.Commands.CreateGame;
 using GameStore.Application.UseCases.Games.Commands.DeleteGame;
 using GameStore.Application.UseCases.Games.Commands.UpdateGame;

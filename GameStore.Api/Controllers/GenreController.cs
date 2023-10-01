@@ -1,4 +1,4 @@
-﻿using GameStore.Application.UseCases.CartItems.Response;
+﻿using GameStore.Application.UseCases.Genres;
 using GameStore.Application.UseCases.Genres.Commands.CreateGenre;
 using GameStore.Application.UseCases.Genres.Commands.DeleteGenre;
 using GameStore.Application.UseCases.Genres.Commands.UpdateGenre;
