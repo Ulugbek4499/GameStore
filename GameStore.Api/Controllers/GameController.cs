@@ -18,7 +18,6 @@ namespace GameStore.WebApi.Controllers
             return await _mediator.Send(command);
         }
 
-
         [HttpGet("[action]")]
         public async ValueTask<GameResponse> GetGameById(int Id)
         {

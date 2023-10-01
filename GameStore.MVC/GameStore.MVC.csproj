@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Authentications\" />
+    <Folder Include="wwwroot\GamePictures\" />
   </ItemGroup>
 
 </Project>
