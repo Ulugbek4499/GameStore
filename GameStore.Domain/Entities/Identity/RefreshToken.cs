@@ -19,6 +19,6 @@ namespace GameStore.Domain.Entities.Identity
         public DateTime DateExpire { get; set; }
 
         public int UserId { get; set; }
-        public User User { get; set; }
+        public virtual User User { get; set; }
     }
 }

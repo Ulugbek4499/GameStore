@@ -7,44 +7,43 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace GameStore.Infrastructure.Persistence
+namespace GameStore.Infrastructure.Persistence;
+
+public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<int>, int>, IApplicationDbContext
 {
-    public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<int>, int>, IApplicationDbContext
+    private readonly AuditableEntitySaveChangesInterceptor _auditableEntitySaveChangesInterceptor;
+
+    public ApplicationDbContext(
+         DbContextOptions<ApplicationDbContext> options,
+         AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor)
+         : base(options)
     {
-        private readonly AuditableEntitySaveChangesInterceptor _auditableEntitySaveChangesInterceptor;
+        _auditableEntitySaveChangesInterceptor = auditableEntitySaveChangesInterceptor;
+    }
 
-        public ApplicationDbContext(
-             DbContextOptions<ApplicationDbContext> options,
-             AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor)
-             : base(options)
-        {
-            _auditableEntitySaveChangesInterceptor = auditableEntitySaveChangesInterceptor;
-        }
+    public DbSet<Cart> Carts { get; set; }
+    public DbSet<CartItem> CartItems { get; set; }
+    public DbSet<Comment> Comments { get; set; }
+    public DbSet<Game> Games { get; set; }
+    public DbSet<Genre> Genres { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
 
-        public DbSet<Cart> Carts { get; set; }
-        public DbSet<CartItem> CartItems { get; set; }
-        public DbSet<Comment> Comments { get; set; }
-        public DbSet<Game> Games { get; set; }
-        public DbSet<Genre> Genres { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<RefreshToken> RefreshTokens { get; set; }
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        // Add any custom configurations or constraints here
+    }
 
-            // Add any custom configurations or constraints here
-        }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.AddInterceptors(_auditableEntitySaveChangesInterceptor);
+    }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.AddInterceptors(_auditableEntitySaveChangesInterceptor);
-        }
-
-        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            return await base.SaveChangesAsync(cancellationToken);
-        }
+    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        return await base.SaveChangesAsync(cancellationToken);
     }
 }

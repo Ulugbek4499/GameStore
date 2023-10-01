@@ -21,14 +21,13 @@ public static class ConfigureServices
     {
         services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(options =>
         {
-
             options.UseNpgsql(configuration.GetConnectionString("DbConnect"));
             options.UseLazyLoadingProxies();
         });
 
-        services.AddIdentity<User, IdentityRole>()
-              .AddEntityFrameworkStores<ApplicationDbContext>()
-              .AddDefaultTokenProviders();
+        services.AddIdentity<User, IdentityRole<int>>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
 
         services.AddTransient<IDateTime, DateTimeService>();
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
