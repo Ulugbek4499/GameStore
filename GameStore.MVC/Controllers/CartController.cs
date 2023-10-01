@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GameStore.Application.UseCases.Carts.Commands.CreateCart;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.MVC.Controllers
 {
@@ -24,7 +25,7 @@ namespace GameStore.MVC.Controllers
             return View();
         }
 
-        [HttpGet("[action]")]
+       /* [HttpGet("[action]")]
         public async ValueTask<IActionResult> GetAllCarts()
         {
             var Carts = await Mediator.Send(new GetAllCartsQuery());
@@ -60,6 +61,6 @@ namespace GameStore.MVC.Controllers
             var Cart = await Mediator.Send(new GetCartByIdQuery(id));
 
             return View("ViewCart", Cart);
-        }
+        }*/
     }
 }
