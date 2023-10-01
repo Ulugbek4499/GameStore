@@ -34,7 +34,7 @@ namespace GameStore.MVC
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
-            ApplicationDbContextInitialiser.SeedRolesToDb(app).Wait();
+            //ApplicationDbContextInitialiser.SeedRolesToDb(app).Wait();
 
             app.Run();
         }

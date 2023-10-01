@@ -20,10 +20,6 @@ public static class ConfigureServices
             options.UseLazyLoadingProxies();
         });
 
-        services.AddIdentity<User, IdentityRole<int>>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
-
         services.AddTransient<IDateTime, DateTimeService>();
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
         services.AddScoped<AuditableEntitySaveChangesInterceptor>();

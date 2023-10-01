@@ -1,4 +1,5 @@
-﻿using GameStore.Application.Common.Interfaces;
+﻿using System.Text;
+using GameStore.Application.Common.Interfaces;
 using GameStore.Domain.Entities.Identity;
 using GameStore.Infrastructure.Persistence;
 using GameStore.MVC.Services;
@@ -21,13 +22,27 @@ public static class ConfigureServices
 
         var tokenValidationParameters = new TokenValidationParameters()
         {
-            // Token validation parameters
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["JWT:Secret"])),
+
+            ValidateIssuer = true,
+            ValidIssuer = configuration["JWT:Issuer"],
+
+            ValidateAudience = true,
+            ValidAudience = configuration["JWT:Audience"],
+
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
         };
         services.AddSingleton(tokenValidationParameters);
 
-        services.AddIdentity<User, IdentityRole<int>>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
+        services.AddIdentity<User, IdentityRole<int>>(options =>
+        {
+            // Identity options, if needed
+        })
+             .AddRoles<IdentityRole<int>>() 
+             .AddEntityFrameworkStores<ApplicationDbContext>()
+             .AddDefaultTokenProviders();
 
         services.AddAuthentication(options =>
         {
