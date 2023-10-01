@@ -1,4 +1,4 @@
-﻿@{
+﻿@*@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -6,3 +6,88 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+*@
+
+@using GameStore.Service.DTOs.Games;
+@model IEnumerable<GameResultDto>
+@{
+    ViewData["Title"] = "Home";
+}
+
+<br />
+<div class="genre-filter text-white">
+    
+    @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+    {
+        <div class="float-end">
+            <p class="text-white">
+                &#128269 @Html.TextBox("search", null, new { pattern = "^.{3,}$", title = "Search term must be at least 3 characters long." })
+                <span class="field-validation-valid text-danger" data_valmsg_for="search"></span>
+            </p>
+        </div>
+        <div>
+            <button id="filterButton" class="btn btn-dark">&#43;Add genre</button>
+            <label>|</label>
+            @foreach (var genre in ViewBag.Genres)
+            {
+                <label>
+                    <input type="radio" name="genreId" value="@genre.Id" />
+                    @genre.Name
+                </label>
+            }
+        </div>
+    }
+</div>
+
+<div class="clr"></div>
+
+<a href="games/create" class="btn btn-success float-end">Add Game</a>
+<br />
+
+<div class="clr"></div>
+
+@foreach (var item in Model)
+{
+    <div class="card text-white bg-dark border-0 box" style="width: 27rem;">
+        @if (item.Image != null)
+        {
+            <div class="image-container">
+                <a href="games/details/@item.Id"><img class="card-img-top" src="Images/@item.Image.FileName" alt="Game image cap"></a>
+            </div>
+        }
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    @if (item.Price == 0 || item.Price == null)
+                    {
+                        <p class="text-price lead">Free</p>
+                    }
+                    else
+                    {
+                        <p class="text-price lead">$@item.Price</p>
+                    }
+                </div>
+                <div class="col">
+                    <h3></h3>
+                </div>
+                <div class="col">
+                    <h3></h3>
+                </div>
+                <div class="col">
+                    <a href="#" class="btn btn-success">BUY</a>
+                </div>
+            </div>
+            <div class="row">
+                @{
+                    var genreNames = string.Join(" / ", item.Genres.Select(genre => genre.Name));
+                }
+                <div class="col">
+                    <p class="card-text">@genreNames</p>
+                </div>
+                <a href="games/details/@item.Id"><h6 class="text-white">@item.Name</h6></a>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="clr"></div>

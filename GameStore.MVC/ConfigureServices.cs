@@ -40,7 +40,7 @@ public static class ConfigureServices
         {
             // Identity options, if needed
         })
-             .AddRoles<IdentityRole<int>>() 
+             .AddRoles<IdentityRole<int>>()
              .AddEntityFrameworkStores<ApplicationDbContext>()
              .AddDefaultTokenProviders();
 

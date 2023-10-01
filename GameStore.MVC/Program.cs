@@ -1,6 +1,5 @@
 using GameStore.Application;
 using GameStore.Infrastructure;
-using GameStore.Infrastructure.Persistence;
 
 namespace GameStore.MVC
 {

@@ -1,9 +1,7 @@
 ﻿using GameStore.Application.Common.Interfaces;
-using GameStore.Domain.Entities.Identity;
 using GameStore.Infrastructure.Persistence;
 using GameStore.Infrastructure.Persistence.Interceptors;
 using GameStore.Infrastructure.Services;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
