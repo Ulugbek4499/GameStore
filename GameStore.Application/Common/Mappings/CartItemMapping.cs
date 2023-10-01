@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using GameStore.Application.UseCases.CartItems;
 using GameStore.Application.UseCases.CartItems.Commands.CreateCartItem;
 using GameStore.Application.UseCases.CartItems.Commands.DeleteCartItem;
 using GameStore.Application.UseCases.CartItems.Commands.UpdateCartItem;
-using GameStore.Application.UseCases.CartItems.Response;
 using GameStore.Domain.Entities;
 
 namespace GameStore.Application.Common.Mappings

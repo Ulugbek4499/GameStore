@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GameStore.Application.UseCases.CartItems.Response;
+using GameStore.Application.UseCases.Games.Commands.CreateGame;
+using GameStore.Application.UseCases.Games.Commands.DeleteGame;
+using GameStore.Application.UseCases.Games.Commands.UpdateGame;
+using GameStore.Application.UseCases.Games.Queries.GetAllGames;
+using GameStore.Application.UseCases.Games.Queries.GetGameById;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.WebApi.Controllers
 {
@@ -12,12 +18,6 @@ namespace GameStore.WebApi.Controllers
             return await _mediator.Send(command);
         }
 
-        [HttpPost("[action]")]
-        public async Task<List<GameResponse>> AddGamesFromExcel(IFormFile excelfile)
-        {
-            var result = await _mediator.Send(new AddGamesFromExcel(excelfile));
-            return result;
-        }
 
         [HttpGet("[action]")]
         public async ValueTask<GameResponse> GetGameById(int Id)
@@ -29,35 +29,6 @@ namespace GameStore.WebApi.Controllers
         public async ValueTask<IEnumerable<GameResponse>> GetAllGames()
         {
             return await _mediator.Send(new GetAllGamesQuery());
-        }
-
-        [HttpGet("[action]")]
-        public async ValueTask<ActionResult<PaginatedList<GameResponse>>> GetAllGamesPagination(
-            [FromQuery] GetGamesPaginationQuery query)
-        {
-            return await _mediator.Send(query);
-        }
-
-        [HttpGet("[action]")]
-        public async Task<FileResult> GetGamesInExcel(string fileName = "Game")
-        {
-            var result = await _mediator.Send(new GetGamesExcel { FileName = fileName });
-            return File(result.FileContents, result.Option, result.FileName);
-        }
-
-        [HttpGet("[action]")]
-        public async Task<FileResult> GetGameByIdPDF(int id)
-        {
-            var result = await _mediator.Send(new GetGameByIdPDFQuery(id));
-            return File(result.FileContents, result.Options, result.FileName);
-        }
-
-        [HttpGet("[action]")]
-        public async Task<ActionResult<FormFile>> GetClaimGamePdfTemplate(int id)
-        {
-            var result = await _mediator.Send(new GetGamePDFQuery(id));
-
-            return File(result.FileContents, result.Options, result.FileName);
         }
 
         [HttpPut("[action]")]

@@ -4,6 +4,7 @@ using GameStore.Application.UseCases.Carts.Commands.DeleteCart;
 using GameStore.Application.UseCases.Carts.Commands.UpdateCart;
 using GameStore.Application.UseCases.Carts.Queries.GetAllCarts;
 using GameStore.Application.UseCases.Carts.Queries.GetCartById;
+using GameStore.WebApi.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CartStore.WebApi.Controllers
@@ -18,7 +19,7 @@ namespace CartStore.WebApi.Controllers
             return await _mediator.Send(command);
         }
 
-
+/*
         [HttpGet("[action]")]
         public async ValueTask<CartResponse> GetCartById(int Id)
         {
@@ -43,6 +44,6 @@ namespace CartStore.WebApi.Controllers
         {
             await _mediator.Send(command);
             return NoContent();
-        }
+        }*/
     }
 }

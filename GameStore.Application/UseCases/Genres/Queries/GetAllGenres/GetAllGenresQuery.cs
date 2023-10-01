@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using GameStore.Application.Common.Interfaces;
-using GameStore.Application.UseCases.CartItems.Response;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

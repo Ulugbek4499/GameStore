@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using GameStore.Application.UseCases.CartItems.Response;
+using GameStore.Application.UseCases.Carts;
 using GameStore.Application.UseCases.Carts.Commands.CreateCart;
 using GameStore.Application.UseCases.Carts.Commands.DeleteCart;
 using GameStore.Application.UseCases.Carts.Commands.UpdateCart;

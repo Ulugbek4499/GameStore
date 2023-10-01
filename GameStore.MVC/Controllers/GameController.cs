@@ -1,8 +1,10 @@
-﻿using GameStore.Application.UseCases.Games.Commands.CreateGame;
+﻿using GameStore.Application.UseCases.CartItems.Response;
+using GameStore.Application.UseCases.Games.Commands.CreateGame;
 using GameStore.Application.UseCases.Games.Commands.DeleteGame;
 using GameStore.Application.UseCases.Games.Commands.UpdateGame;
 using GameStore.Application.UseCases.Games.Queries.GetAllGames;
 using GameStore.Application.UseCases.Games.Queries.GetGameById;
+using GameStore.Application.UseCases.Genres.Queries.GetAllGenres;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.MVC.Controllers
@@ -12,6 +14,9 @@ namespace GameStore.MVC.Controllers
         [HttpGet("[action]")]
         public async ValueTask<IActionResult> CreateGame()
         {
+            GenreResponse[] genres = await Mediator.Send(new GetAllGenresQuery());
+            ViewData["Genres"] = genres;
+
             return View();
         }
 

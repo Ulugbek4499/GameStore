@@ -1,4 +1,4 @@
-﻿using GameStore.Application.UseCases.CartItems.Response;
+﻿using GameStore.Application.UseCases.Comments;
 using GameStore.Application.UseCases.Comments.Commands.CreateComment;
 using GameStore.Application.UseCases.Comments.Commands.DeleteComment;
 using GameStore.Application.UseCases.Comments.Commands.UpdateComment;
