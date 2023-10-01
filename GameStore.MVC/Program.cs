@@ -1,11 +1,12 @@
 using GameStore.Application;
 using GameStore.Infrastructure;
+using GameStore.Infrastructure.Persistence;
 
 namespace GameStore.MVC
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -26,12 +27,14 @@ namespace GameStore.MVC
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            ApplicationDbContextInitialiser.SeedRolesToDb(app).Wait();
 
             app.Run();
         }
