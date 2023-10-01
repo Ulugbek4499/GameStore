@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GameStore.Application.Common.Interfaces;
-using GameStore.Infrastructure.Persistence.Interceptors;
+﻿using GameStore.Application.Common.Interfaces;
+using GameStore.Domain.Entities.Identity;
 using GameStore.Infrastructure.Persistence;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
+using GameStore.Infrastructure.Persistence.Interceptors;
 using GameStore.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
-using GameStore.Domain.Entities.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace GameStore.Infrastructure;
 

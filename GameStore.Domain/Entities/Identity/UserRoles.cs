@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GameStore.Domain.Entities.Identity
+﻿namespace GameStore.Domain.Entities.Identity
 {
     public static class UserRoles
     {

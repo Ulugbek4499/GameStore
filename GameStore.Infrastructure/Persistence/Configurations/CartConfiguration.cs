@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using GameStore.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using GameStore.Domain.Entities;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GameStore.Infrastructure.Persistence.Configurations
 {
@@ -13,9 +8,9 @@ namespace GameStore.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Cart> builder)
         {
-/*            builder.Property(t => t.CartItems)
-              .HasMaxLength(200)
-              .IsRequired();*/
+            /*            builder.Property(t => t.CartItems)
+                          .HasMaxLength(200)
+                          .IsRequired();*/
         }
     }
 }

@@ -25,42 +25,42 @@ namespace GameStore.MVC.Controllers
             return View();
         }
 
-       /* [HttpGet("[action]")]
-        public async ValueTask<IActionResult> GetAllCarts()
-        {
-            var Carts = await Mediator.Send(new GetAllCartsQuery());
+        /* [HttpGet("[action]")]
+         public async ValueTask<IActionResult> GetAllCarts()
+         {
+             var Carts = await Mediator.Send(new GetAllCartsQuery());
 
-            return View(Carts);
-        }
+             return View(Carts);
+         }
 
-        [HttpGet("[action]")]
-        public async ValueTask<IActionResult> UpdateCart(int Id)
-        {
-            var Cart = await Mediator.Send(new GetCartByIdQuery(Id));
+         [HttpGet("[action]")]
+         public async ValueTask<IActionResult> UpdateCart(int Id)
+         {
+             var Cart = await Mediator.Send(new GetCartByIdQuery(Id));
 
-            return View(Cart);
-        }
+             return View(Cart);
+         }
 
-        [HttpPost("[action]")]
-        public async ValueTask<IActionResult> UpdateCart([FromForm] UpdateCartCommand Cart)
-        {
-            await Mediator.Send(Cart);
-            return RedirectToAction("GetAllCarts");
-        }
+         [HttpPost("[action]")]
+         public async ValueTask<IActionResult> UpdateCart([FromForm] UpdateCartCommand Cart)
+         {
+             await Mediator.Send(Cart);
+             return RedirectToAction("GetAllCarts");
+         }
 
-        public async ValueTask<IActionResult> DeleteCart(int Id)
-        {
-            await Mediator.Send(new DeleteCartCommand(Id));
+         public async ValueTask<IActionResult> DeleteCart(int Id)
+         {
+             await Mediator.Send(new DeleteCartCommand(Id));
 
-            return RedirectToAction("GetAllCarts");
-        }
+             return RedirectToAction("GetAllCarts");
+         }
 
-        [HttpGet("[action]")]
-        public async ValueTask<IActionResult> ViewCart(int id)
-        {
-            var Cart = await Mediator.Send(new GetCartByIdQuery(id));
+         [HttpGet("[action]")]
+         public async ValueTask<IActionResult> ViewCart(int id)
+         {
+             var Cart = await Mediator.Send(new GetCartByIdQuery(id));
 
-            return View("ViewCart", Cart);
-        }*/
+             return View("ViewCart", Cart);
+         }*/
     }
 }

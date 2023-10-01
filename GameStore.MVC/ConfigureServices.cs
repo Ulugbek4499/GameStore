@@ -1,15 +1,11 @@
-﻿using System;
-using System.Text;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using GameStore.MVC.Services;
-using Microsoft.AspNetCore.Mvc;
-using GameStore.Application.Common.Interfaces;
+﻿using GameStore.Application.Common.Interfaces;
 using GameStore.Domain.Entities.Identity;
 using GameStore.Infrastructure.Persistence;
+using GameStore.MVC.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GameStore.MVC;
 
