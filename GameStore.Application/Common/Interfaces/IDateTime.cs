@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace GameStore.Application.Common.Interfaces
 {
-    internal interface IDateTime
+    public interface IDateTime
     {
+        DateTime Now { get; }
     }
+
 }

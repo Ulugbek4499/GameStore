@@ -33,11 +33,6 @@ namespace GameStore.Application.UseCases.Comments.Commands.UpdateComment
             if (comment is null)
                 throw new NotFoundException(nameof(comment), request.Id);
 
-            var User = await _context.Users.FindAsync(request.UserId);
-
-            if (User is null)
-                throw new NotFoundException(nameof(User), request.UserId);
-
             var Game = await _context.Games.FindAsync(request.GameId);
 
             if (Game is null)

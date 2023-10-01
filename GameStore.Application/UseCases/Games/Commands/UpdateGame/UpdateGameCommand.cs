@@ -35,11 +35,6 @@ namespace GameStore.Application.UseCases.Games.Commands.UpdateGame
             if (game is null)
                 throw new NotFoundException(nameof(game), request.Id);
 
-            var User = await _context.Users.FindAsync(request.UserId);
-
-            if (User is null)
-                throw new NotFoundException(nameof(User), request.UserId);
-
             await _context.SaveChangesAsync(cancellationToken);
         }
     }

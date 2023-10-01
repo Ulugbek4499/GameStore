@@ -1,4 +1,6 @@
-﻿using GameStore.Domain.Common;
+﻿using GameStore.Application.Common.Interfaces;
+using GameStore.Domain.Common;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 

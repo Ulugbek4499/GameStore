@@ -1,65 +1,70 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GameStore.Application.UseCases.Orders.Commands.CreateOrder;
+using GameStore.Application.UseCases.Orders.Commands.DeleteOrder;
+using GameStore.Application.UseCases.Orders.Commands.UpdateOrder;
+using GameStore.Application.UseCases.Orders.Queries.GetAllOrders;
+using GameStore.Application.UseCases.Orders.Queries.GetOrderById;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.MVC.Controllers
 {
-    public class FounderController : ApiBaseController
+    public class OrderController : ApiBaseController
     {
         [HttpGet("[action]")]
-        public async ValueTask<IActionResult> CreateFounder()
+        public async ValueTask<IActionResult> CreateOrder()
         {
             return View();
         }
 
         [HttpPost("[action]")]
-        public async ValueTask<IActionResult> CreateFounder([FromForm] CreateFounderCommand Founder)
+        public async ValueTask<IActionResult> CreateOrder([FromForm] CreateOrderCommand Order)
         {
-            await Mediator.Send(Founder);
+            await Mediator.Send(Order);
 
-            return RedirectToAction("GetAllFounders");
+            return RedirectToAction("GetAllOrders");
         }
 
         [HttpGet("[action]")]
-        public async ValueTask<IActionResult> CreateFounderFromExcel()
+        public async ValueTask<IActionResult> CreateOrderFromExcel()
         {
             return View();
         }
 
         [HttpGet("[action]")]
-        public async ValueTask<IActionResult> GetAllFounders()
+        public async ValueTask<IActionResult> GetAllOrders()
         {
-            var Founders = await Mediator.Send(new GetAllFoundersQuery());
+            var Orders = await Mediator.Send(new GetAllOrdersQuery());
 
-            return View(Founders);
+            return View(Orders);
         }
 
         [HttpGet("[action]")]
-        public async ValueTask<IActionResult> UpdateFounder(int Id)
+        public async ValueTask<IActionResult> UpdateOrder(int Id)
         {
-            var Founder = await Mediator.Send(new GetFounderByIdQuery(Id));
+            var Order = await Mediator.Send(new GetOrderByIdQuery(Id));
 
-            return View(Founder);
+            return View(Order);
         }
 
         [HttpPost("[action]")]
-        public async ValueTask<IActionResult> UpdateFounder([FromForm] UpdateFounderCommand Founder)
+        public async ValueTask<IActionResult> UpdateOrder([FromForm] UpdateOrderCommand Order)
         {
-            await Mediator.Send(Founder);
-            return RedirectToAction("GetAllFounders");
+            await Mediator.Send(Order);
+            return RedirectToAction("GetAllOrders");
         }
 
-        public async ValueTask<IActionResult> DeleteFounder(int Id)
+        public async ValueTask<IActionResult> DeleteOrder(int Id)
         {
-            await Mediator.Send(new DeleteFounderCommand(Id));
+            await Mediator.Send(new DeleteOrderCommand(Id));
 
-            return RedirectToAction("GetAllFounders");
+            return RedirectToAction("GetAllOrders");
         }
 
         [HttpGet("[action]")]
-        public async ValueTask<IActionResult> ViewFounder(int id)
+        public async ValueTask<IActionResult> ViewOrder(int id)
         {
-            var Founder = await Mediator.Send(new GetFounderByIdQuery(id));
+            var Order = await Mediator.Send(new GetOrderByIdQuery(id));
 
-            return View("ViewFounder", Founder);
+            return View("ViewOrder", Order);
         }
     }
 }
