@@ -32,13 +32,6 @@
                         </li>
                     </ul>
                 </div>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="navbar-nav float-right">
-                        <li class="nav-item">
-                            <a asp-controller="Authentication" asp-action="Regestr" class="nav-link float-end">Sign in</a>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </nav>
     </div>
@@ -78,7 +71,6 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script>$('#year').text(new Date().getFullYear());</script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

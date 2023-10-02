@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameStore.Infrastructure", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameStore.Application", "GameStore.Application\GameStore.Application.csproj", "{A4256B6E-5223-4573-98EC-B99988BA42C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.WebApi", "GameStore.Api\GameStore.WebApi.csproj", "{F5035A2F-59FC-4E0B-B5EF-60F8F9E3F724}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameStore.WebApi", "GameStore.Api\GameStore.WebApi.csproj", "{F5035A2F-59FC-4E0B-B5EF-60F8F9E3F724}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

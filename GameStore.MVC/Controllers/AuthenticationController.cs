@@ -1,19 +1,15 @@
-﻿/*using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using GameStore.Application.Models;
+﻿using GameStore.Application.Models;
 using GameStore.Domain.Entities.Identity;
 using GameStore.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace GameStore.MVC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthenticationController
+    public class AuthenticationController: Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -22,10 +18,10 @@ namespace GameStore.MVC.Controllers
         private readonly TokenValidationParameters _tokenValidationParameters;
 
         public AuthenticationController(
-            UserManager<User> userManager, 
-            RoleManager<IdentityRole> roleManager, 
-            ApplicationDbContext context, 
-            IConfiguration configuration, 
+            UserManager<User> userManager,
+            RoleManager<IdentityRole> roleManager,
+            ApplicationDbContext context,
+            IConfiguration configuration,
             TokenValidationParameters tokenValidationParameters)
         {
             _userManager = userManager;
@@ -35,19 +31,22 @@ namespace GameStore.MVC.Controllers
             _tokenValidationParameters = tokenValidationParameters;
         }
 
-        [HttpPost("regester-user")]
-        public async Task<IActionResult> Regestr([FromBody] RegisterModel registerModel)
+        [HttpGet("[action]")]
+        public async ValueTask<IActionResult> Regestr()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Please, provide all the required fields");
-            }
+            return View();
+        }
+
+
+        [HttpPost("[action]")]
+        public async ValueTask<IActionResult> Regestr([FromBody] RegisterModel registerModel)
+        {
 
             var userExists = await _userManager.FindByEmailAsync(registerModel.EmailAddress);
 
             if (userExists != null)
             {
-                return BadRequest($"User {registerModel.EmailAddress} already exists");
+                return RedirectToAction("_AuthenticationLayout", "Unauthenticated");
             }
 
             User newUser = new User()
@@ -56,6 +55,8 @@ namespace GameStore.MVC.Controllers
                 LastName = registerModel.LastName,
                 Email = registerModel.EmailAddress,
                 UserName = registerModel.UserName,
+                Password = registerModel.Password
+
             };
 
             var result = await _userManager.CreateAsync(newUser, registerModel.Password);
@@ -77,23 +78,19 @@ namespace GameStore.MVC.Controllers
                         break;
                 }
 
-                return Ok("User created");
+                return View("Regestr");
             }
 
-            return BadRequest("User could not be created");
+            return RedirectToAction("_AuthenticationLayout", "Unauthenticated");
         }
-
+/*
         [HttpPost("login-user")]
         public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Please, provide all required fields");
-            }
 
             var userExists = await _userManager.FindByEmailAsync(loginModel.EmailAddress);
 
-            if(userExists !=null && await _userManager.CheckPasswordAsync(userExists, loginModel.Password))
+            if (userExists != null && await _userManager.CheckPasswordAsync(userExists, loginModel.Password))
             {
                 var tokenValue = await GenerateJWTTokenAsync(userExists, null);
 
@@ -101,9 +98,9 @@ namespace GameStore.MVC.Controllers
             }
 
             return Unauthorized();
-        }
+        }*/
 
-        [HttpPost("refresh-token")]
+    /*    [HttpPost("refresh-token")]
         public async Task<IActionResult> RefreshToken([FromBody] TokenRequestModel tokenRequestModel)
         {
             if (!ModelState.IsValid)
@@ -203,8 +200,7 @@ namespace GameStore.MVC.Controllers
 
             return response;
 
-        }
+        }*/
 
     }
 }
-*/
