@@ -38,6 +38,8 @@ public class CreateGameCommandHandler : IRequestHandler<CreateGameCommand, int>
             var gamePhoto = _configuration["GamePicturePath"];
             string filename = game.Id + Path.GetExtension(request.Picture.FileName);
             string gamePhotoImagePath = Path.Combine(gamePhoto, filename);
+
+
             using (var fs = new FileStream(gamePhotoImagePath, FileMode.Create))
             {
                 await request.Picture.CopyToAsync(fs);
