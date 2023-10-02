@@ -33,9 +33,9 @@
             @if (!string.IsNullOrWhiteSpace(game.Picture))
             {
                 <div class="image-container">
-                    <a href="Games/details/@game.Id">
+                    <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white">
                         <img class="card-img-top" src="@Url.Content(game.Picture)" alt="Game image cap" />
-                    </a>
+                   </a>
                 </div>
             }
             <div class="card-body">
