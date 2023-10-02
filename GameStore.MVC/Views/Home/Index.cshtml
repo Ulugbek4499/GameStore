@@ -7,25 +7,30 @@
 }
 
 <div class="container">
-    <div class="input-group mb-1 mt-3" style="display:flex; justify-content: space-between; gap: 20px;">
+    <div class="input-group mb-1 mt-3" style="display:flex; justify-content: space-between; align-items:center;">
+
         <div style="display:flex; gap:5px">
-            <a href="@Url.Action("CreateGame", "Game")" class="btn btn-primary mr-2">
-                <i class="fa-solid fa-plus"></i> Add Game
+            <a href="@Url.Action("CreateGame", "Game")" class="btn btn-transparent mr-2 text-white">
+                <i class="fa-solid fas-fa-plus"></i>+ Add Game
             </a>
         </div>
-        <div class="input-group mb-1 mt-3">
-        <input id="searchInput" type="text" class="form-control" placeholder="Search for games...">
-        <div class="input-group-append">
-            <button id="searchButton" class="btn btn-primary" type="button">Search</button>
+
+        <div class="input-group mb-1 mt-3 w-25"">
+            <form style="position:relative; display:flex">
+                 <input id="searchInput" type="text" class="form-control border-0" style="background-color:#353535">
+                <i class="fa-solid fa-magnifying-glass" style="color: #d2d7df; position:absolute; left:2px; width:25px; height:25px;"></i>
+            </form>
         </div>
-    </div>
+                @* <button id="searchButton" type="submit" style="position:absolute; left:2px; width:25px; height:25px;" >
+                </button>*@
     </div>
 
-    <div style="display:flex; gap:5px">
+    <div style="display:flex; gap:5px; justify-content:end;">
         <button class="btn btn-info mr-2" id="addGenreButton">
             <i class="fa-solid fa-plus" style="color: white"></i> Add Genre
         </button>
     </div>
+
     <div class="modal fade" id="addGenreModal" tabindex="-1" role="dialog" aria-labelledby="addGenreModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -52,7 +57,10 @@
             </div>
         </div>
     </div>
+
 </div>
+
+
 
 <div class="container" style="overflow-y: auto;">
     <div class="row row-cols-3">

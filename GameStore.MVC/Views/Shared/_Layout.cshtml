@@ -8,50 +8,47 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/GameStore.MVC.styles.css" asp-append-version="true" />
 </head>
+
 <body class="bg-black">
+
     <div class="container">
-        <nav class="navbar navbar-expand-sm navbar-dark bg-black">
-            <div class="container">
-                <a asp-controller="Home" asp-action="Index" class="navbar-brand">Games Store</a>
-                <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a asp-controller="Home" asp-action="Index" class="nav-link">Games</a>
-                        </li>
-                        <li class="nav-item active">
-                            <a href="#" class="nav-link">Community</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">Support</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="navbar-nav float-right">
-                        <li class="nav-item">
-                            <a asp-controller="Authentication" asp-action="Regestr" class="nav-link float-end">Sign in</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <div style="display:flex; max-width:1100px; margin:0 auto; align-items:center; position:fixed; top:0; z-index:1;">
+            <a asp-controller="Home" asp-action="Index" class="navbar-brand text-white">Game store</a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <nav class="navbar navbar-expand-sm navbar-dark bg-black">
+                <ul class="navbar-nav ml-auto ">
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="Index" class="nav-link">Games</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link text-body-tertiary">Community</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Support</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <ul class="navbar-nav float-right" style="position:absolute; right:0px">
+                <li class="nav-item">
+                    <a asp-controller="Authentication" asp-action="Regestr" class="nav-link text-white-50 float-end">Sign in</a>
+                </li>
+            </ul>
+        </div>
     </div>
 
-    <div class="clr"></div>
-
-    <div class="container bg-dark">
+    <div class="container" style="background-color:#1e1e1e; margin-top:70px;">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <div class="clr"></div>
 
     <div class="container">
         <footer id="main-footer" class="border-top footer text-muted bg-black">
