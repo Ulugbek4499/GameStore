@@ -41,6 +41,9 @@ namespace GameStore.MVC.Controllers
         public async ValueTask<IActionResult> UpdateGame(int Id)
         {
             var Game = await Mediator.Send(new GetGameByIdQuery(Id));
+            GenreResponse[] genres = await Mediator.Send(new GetAllGenresQuery());
+            ViewData["Genres"] = genres;
+
 
             return View(Game);
         }

@@ -1,14 +1,16 @@
-﻿@*@using GameStore.Application.UseCases.Games;
+﻿@using GameStore.Application.UseCases.Games;
+@using GameStore.Application.UseCases.Genres;
 @{
     ViewData["Title"] = "Home Page";
     GameResponse[] Games = ViewData["Games"] as GameResponse[];
+    GenreResponse[] Genres = ViewData["Genres"] as GenreResponse[];
 }
 
 <div class="container">
     <div class="input-group mb-1 mt-3" style="display:flex; justify-content: space-between; gap: 20px;">
-        <div style="display:flex; gap: 5px">
-            <a href="@Url.Action("GetAllGenres")" style="color: darkslategrey">
-                <i class="fa-solid fa-plus" style="color: white"></i> Add Genre
+        <div style="display:flex; gap:5px">
+            <a href="@Url.Action("CreateGame", "Game")" class="btn btn-primary mr-2">
+                <i class="fa-solid fa-plus"></i> Add Game
             </a>
         </div>
         <div class="input-group" style="max-width: 200px;">
@@ -22,85 +24,35 @@
     </div>
 
     <div style="display:flex; gap:5px">
-        <a href="@Url.Action("CreateGame", "Game")" class="btn btn-primary mr-2">
-            <i class="fa-solid fa-plus"></i> Add Game
-        </a>
+        <button class="btn btn-info mr-2" id="addGenreButton">
+            <i class="fa-solid fa-plus" style="color: white"></i> Add Genre
+        </button>
     </div>
-
-    @foreach (var game in Games)
-    {
-        <div class="card text-white bg-dark border-0 box" style="width: 27rem;">
-            @if (!string.IsNullOrWhiteSpace(game.Picture))
-            {
-                <div class="image-container">
-                    <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white">
-                        <img class="card-img-top" src="@Url.Content(game.Picture)" alt="Game image cap" />
-                   </a>
+    <div class="modal fade" id="addGenreModal" tabindex="-1" role="dialog" aria-labelledby="addGenreModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addGenreModalLabel">Select Genres</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            }
-            <div class="card-body">
-                <div class="row">
-                    <div class="col">
-                        @if (game.Price == 0 || game.Price == null)
-                        {
-                            <p class="text-price lead">Free</p>
-                        }
-                        else
-                        {
-                            <p class="text-price lead">$@game.Price</p>
-                        }
-                    </div>
-                    <div class="col">
-                        <h3></h3>
-                    </div>
-                    <div class="col">
-                        <h3></h3>
-                    </div>
-                    <div class="col">
-                        <a href="#" class="btn btn-success">BUY</a>
-                    </div>
-                </div>
-                <div class="row">
-                    @{
-                        var genreNames = string.Join(" / ", game.Genres.Select(genre => genre.Name));
+                <div class="modal-body">
+                    @foreach (var genre in Genres)
+                    {
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input genre-checkbox" value="@genre.Id" id="genre-@genre.Id">
+                            <label class="form-check-label" for="genre-@genre.Id">@genre.Name</label>
+                        </div>
                     }
-                    <div class="col">
-                        <p class="card-text">@genreNames</p>
-                    </div>
-                    <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white" >@game.Name</a>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="filterByGenre">Apply</button>
+                    <button type="button" class="btn btn-secondary" id="resetFilter">Reset Filter</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
-    }
-</div>
-*@
-@using GameStore.Application.UseCases.Games;
-@{
-    ViewData["Title"] = "Home Page";
-    GameResponse[] Games = ViewData["Games"] as GameResponse[];
-}
-
-<div class="container">
-    <div class="input-group mb-1 mt-3" style="display:flex; justify-content: space-between; gap: 20px;">
-        <div style="display:flex; gap: 5px">
-            <a href="@Url.Action("GetAllGenres")" style="color: darkslategrey">
-                <i class="fa-solid fa-plus" style="color: white"></i> Add Genre
-            </a>
-        </div>
-        <div class="input-group" style="max-width: 200px;">
-            <input id="searchInput" type="text" class="form-control" />
-            <div class="input-group-append">
-                <button id="searchButton" class="btn btn-info" type="button">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div style="display:flex; gap:5px">
-        <a href="@Url.Action("CreateGame", "Game")" class="btn btn-primary mr-2">
-            <i class="fa-solid fa-plus"></i> Add Game
-        </a>
     </div>
 </div>
 
@@ -108,7 +60,7 @@
     <div class="row row-cols-3">
         @foreach (var game in Games)
         {
-            <div class="col mb-4">
+            <div class="col mb-4 filtered-game" data-genres="@string.Join(",", game.Genres.Select(genre => genre.Id))">
                 <div class="card text-white bg-dark border-0 box" style="width: 27rem;">
                     @if (!string.IsNullOrWhiteSpace(game.Picture))
                     {
@@ -156,3 +108,60 @@
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Initialize an array to store selected genre IDs
+        var selectedGenres = [];
+
+        // When the "Add Genre" button is clicked, show the genre selection modal.
+        $("#addGenreButton").click(function () {
+            $('#addGenreModal').modal('show');
+        });
+
+        // When a genre checkbox is clicked, update the selectedGenres array.
+        $('.genre-checkbox').change(function () {
+            var genreId = $(this).val();
+            if (this.checked) {
+                selectedGenres.push(genreId);
+            } else {
+                // Remove the genre from the array if unchecked
+                selectedGenres = selectedGenres.filter(id => id !== genreId);
+            }
+        });
+
+        // When the "Apply" button in the modal is clicked, filter games by selected genres.
+        $("#filterByGenre").click(function () {
+            // Filter games by selected genres
+            $('.filtered-game').each(function () {
+                var gameGenres = $(this).data('genres').split(',').map(Number);
+                if (selectedGenres.length === 0 || selectedGenres.some(genre => gameGenres.includes(genre))) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+
+            // Close the modal
+            $('#addGenreModal').modal('hide');
+        });
+
+        // When the "Reset Filter" button in the modal is clicked, reset genre filter.
+        $("#resetFilter").click(function () {
+            // Uncheck all checkboxes
+            $('.genre-checkbox').prop('checked', false);
+
+            // Reset the selected genres
+            selectedGenres = [];
+
+            // Show all games
+            $('.filtered-game').show();
+
+            // Close the modal
+            $('#addGenreModal').modal('hide');
+        });
+    });
+</script>

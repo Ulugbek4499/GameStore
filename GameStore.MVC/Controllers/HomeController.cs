@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using GameStore.Application.UseCases.Games.Queries.GetAllGames;
+using GameStore.Application.UseCases.Genres.Queries.GetAllGenres;
 using GameStore.MVC.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,12 +20,15 @@ namespace GameStore.MVC.Controllers
         }
 
         public async Task<IActionResult> IndexAsync()
-          {
+        {
                 var Games = await Mediator.Send(new GetAllGamesQuery());
                 ViewData["Games"] = Games;
 
-                return View();
-           }
+                var Genres = await Mediator.Send(new GetAllGenresQuery());
+                ViewData["Genres"] = Genres;
+
+            return View();
+        }
    
         public IActionResult Privacy()
         {

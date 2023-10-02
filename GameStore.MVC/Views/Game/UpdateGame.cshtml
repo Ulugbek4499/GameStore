@@ -1,56 +1,57 @@
 ﻿@using GameStore.Application.UseCases.Games;
-
+@using GameStore.Application.UseCases.Genres;
+@model GameResponse
 @{
+    ViewData["Title"] = "Update Game";
     Layout = "_Layout";
+    GenreResponse[] Genres = ViewData["Genres"] as GenreResponse[];
 }
 
-@model GameResponse
+<h2>@ViewData["Title"]</h2>
 
-<form asp-action="Edit" method="post" enctype="multipart/form-data">
+<form asp-action="UpdateGame" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <div class="box">
-        <div class="form-group">
-            <label asp-for="Name" class="control-label text-white"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Description" class="control-label text-white">Description</label>
-            <input asp-for="Description" class="form-control" />
-            <span asp-validation-for="Description" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Price" class="control-label text-white">Price</label>
-            <input asp-for="Price" class="form-control" />
-            <span asp-validation-for="Price" class="text-danger"></span>
-        </div>
-
-        <div class="form-group box">
-            <label class="control-label">Genres</label>
-            @foreach (var genre in ViewBag.Genres)
-            {
-                <div class="form-check">
-                    <input type="checkbox" name="GenresIds" value="@genre.Id" class="form-check-input" />
-                    <label class="form-check-label text-white">@genre.Name</label>
-                </div>
-            }
-            <span asp-validation-for="Genres" class="text-danger"></span>
-        </div>
-        <div class="clr"></div>
-
-        <div class="form-group">
-            <input type="submit" value="Edit" class="btn btn-primary" />
-        </div>
+    <div class="form-group">
+        <label asp-for="Name" class="control-label">Name</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
+    <div class="form-group">
+        <label asp-for="Description" class="control-label">Description</label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Price" class="control-label">Price</label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Genres" class="control-label">Genres</label>
+        @foreach (var genre in Genres)
+        {
+            <div class="form-check">
+                <input type="checkbox" name="GenreIds" value="@genre.Id" class="form-check-input"
+                @(Model.Genres.Any(g => g.Id == genre.Id) ? "checked" : "") />
+                <label class="form-check-label">@genre.Name</label>
+            </div>
+        }
+        <span asp-validation-for="Genres" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Picture" class="control-label">Game Picture</label>
+        <input type="file" name="Picture" accept=".jpg, .jpeg, .png" class="form-control-file" />
+        <span asp-validation-for="Picture" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <img src="@Url.Content(Model.Picture)" alt="Current Game Picture" class="img-thumbnail" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Game</button>
 </form>
-
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
