@@ -13,14 +13,12 @@
                 <i class="fa-solid fa-plus"></i> Add Game
             </a>
         </div>
-        <div class="input-group" style="max-width: 200px;">
-            <input id="searchInput" type="text" class="form-control" />
-            <div class="input-group-append">
-                <button id="searchButton" class="btn btn-info" type="button">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </div>
+        <div class="input-group mb-1 mt-3">
+        <input id="searchInput" type="text" class="form-control" placeholder="Search for games...">
+        <div class="input-group-append">
+            <button id="searchButton" class="btn btn-primary" type="button">Search</button>
         </div>
+    </div>
     </div>
 
     <div style="display:flex; gap:5px">
@@ -99,7 +97,8 @@
                             <div class="col">
                                 <p class="card-text">@genreNames</p>
                             </div>
-                            <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white">@game.Name</a>
+                            <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white" class="game-name">@game.Name</a>
+
                         </div>
                     </div>
                 </div>
@@ -111,6 +110,32 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        // When the "Search" button is clicked, perform the search.
+        $("#searchButton").click(function () {
+            searchGames();
+        });
+
+        // Function to perform the search
+        function searchGames() {
+            var searchTerm = $("#searchInput").val().toLowerCase();
+
+            $('.filtered-game').each(function () {
+                var gameName = $(this).find('.game-name').text().toLowerCase();
+
+                if (gameName.includes(searchTerm)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+    });
+
+</script>
 
 <script>
     $(document).ready(function () {

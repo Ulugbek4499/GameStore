@@ -77,7 +77,7 @@ namespace GameStore.Application.UseCases.Games.Commands.UpdateGame
                 using (var fs = new FileStream(gamePhotoImagePath, FileMode.Create))
                 {
                     await request.Picture.CopyToAsync(fs);
-                    game.Picture = Path.Combine(gamePhotoFolder, uniqueFileName); // Update the relative path in the database
+                    game.Picture = Path.Combine(gamePhotoFolder, uniqueFileName); // Store the relative path in the database
                 }
             }
 
