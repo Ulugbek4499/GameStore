@@ -25,14 +25,9 @@ namespace GameStore.MVC.Controllers
         {
             await Mediator.Send(Game);
 
-            return RedirectToAction("GetAllGames");
+            return RedirectToAction("Index", "Home");
         }
 
-        [HttpGet("[action]")]
-        public async ValueTask<IActionResult> CreateGameFromExcel()
-        {
-            return View();
-        }
 
         [HttpGet("[action]")]
         public async ValueTask<IActionResult> GetAllGames()
@@ -54,14 +49,14 @@ namespace GameStore.MVC.Controllers
         public async ValueTask<IActionResult> UpdateGame([FromForm] UpdateGameCommand Game)
         {
             await Mediator.Send(Game);
-            return RedirectToAction("GetAllGames");
+            return RedirectToAction("Index", "Home");
         }
 
         public async ValueTask<IActionResult> DeleteGame(int Id)
         {
             await Mediator.Send(new DeleteGameCommand(Id));
 
-            return RedirectToAction("GetAllGames");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet("[action]")]
