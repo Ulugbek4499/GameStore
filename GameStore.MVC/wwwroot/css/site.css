@@ -17,7 +17,25 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
+.container1 {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.container2 {
+    display: flex;
+    justify-content: space-around;
+    gap: 250px;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    right: 0px;
+    left: 0px;
+    z-index: 2;
+    background-color: black;
+}
+.body-container {
+    background-color: #1e1e1e;
+    margin-top: 50px;
+
 }
 
