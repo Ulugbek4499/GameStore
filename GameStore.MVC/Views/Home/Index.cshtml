@@ -62,23 +62,23 @@
 
 
 
-<div class="container" style="overflow-y: auto;">
+<div class="" >
     <div class="row row-cols-3">
         @foreach (var game in Games)
         {
-            <div class="col mb-4 filtered-game" data-genres="@string.Join(",", game.Genres.Select(genre => genre.Id))">
-                <div class="card text-white bg-dark border-0 box" style="width: 27rem;">
+            <div class="col-4 mb-4 filtered-game" data-genres="@string.Join(",", game.Genres.Select(genre => genre.Id))">
+                <div class="card text-white bg-dark border-0 box card-content" >
                     @if (!string.IsNullOrWhiteSpace(game.Picture))
                     {
                         <div class="image-container">
-                            <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white">
+                            <a  class = "images"href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white">
                                 <img class="card-img-top" src="@Url.Content(game.Picture)" alt="Game image cap" />
                             </a>
                         </div>
                     }
                     <div class="card-body">
                         <div class="row">
-                            <div class="col">
+                            <div class="col" >
                                 @if (game.Price == 0 || game.Price == null)
                                 {
                                     <p class="text-price lead">Free</p>
