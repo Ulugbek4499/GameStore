@@ -63,7 +63,7 @@
         @foreach (var game in Games)
         {
             <div class="col-4 mb-4 filtered-game" data-genres="@string.Join(",", game.Genres.Select(genre => genre.Id))">
-                <div class="text-white  border-0  card-content" style="">
+                <div class="text-white  border-0  card-content">
                     @if (!string.IsNullOrWhiteSpace(game.Picture))
                     {
                         <div class="image-container position-relative">

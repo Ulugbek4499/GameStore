@@ -117,8 +117,6 @@ html {
 
 .card-container {
     margin-top: 110px;
-    background-color: white;
-    backdrop-filter: blur(0.5px);
 }
 .card-content {
     width: 430px;
