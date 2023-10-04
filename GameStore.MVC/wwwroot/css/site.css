@@ -47,14 +47,87 @@ html {
     display: flex;
     justify-content: center;
 }
+
+.input-group-father{
+    display:flex;
+    justify-content: space-around;
+    max-width:1400px;
+    position:fixed;
+    top:50px;
+    right: 0;
+    left:0;
+    z-index:1;
+    background-color:#1e1e1e ;
+}
+
+.add-genre-btn{
+    width:50%;
+    margin-top: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    justify-content:end;
+    width:50%;
+}
+
+
+.add-game-btn {
+    display: flex;
+    margin-top: 10px;
+    justify-content: end;
+    margin-right: 25px;
+}
+
+.input-group form {
+    background: #353535;
+    display: flex;
+    margin-top: 1.4rem;
+    width: 155px;
+    height:35px;
+}
+
+.search-father {
+    display: flex;
+    justify-content: end;
+    margin-right: 75px;
+}
+
+.search-input {
+    font-family: Arial;
+    font-size: 1.2rem;
+    outline: none;
+    padding: 0.6rem 0;
+    border: none;
+    width: 175px;
+    background-color: #353535;
+}
+
+.search-btn {
+    width: 40px;
+    font-size: 1.2rem;
+    color: #fff;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+    padding-left:10px;
+}
+
+.card-container {
+    margin-top: 110px;
+    background-color: white;
+    backdrop-filter: blur(0.5px);
+}
 .card-content {
-    width: 300px;
-    height: 240px;
-    margin-top: 30px;
+    width: 430px;
+    height: 340px;
+ 
 }
 .image-container {
-    width: 280px;
-    height: 200px;
+    width: 430px;
+    height: 50px;
 }
 .footer-content {
     display: flex;

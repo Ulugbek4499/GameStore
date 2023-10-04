@@ -6,114 +6,92 @@
     GenreResponse[] Genres = ViewData["Genres"] as GenreResponse[];
 }
 
-<div class="container">
-    <div class="input-group mb-1 mt-3" style="display:flex; justify-content: space-between; align-items:center;">
-
-        <div style="display:flex; gap:5px">
-            <a href="@Url.Action("CreateGame", "Game")" class="btn btn-transparent mr-2 text-white">
-                <i class="fa-solid fas-fa-plus"></i>+ Add Game
-            </a>
-        </div>
-
-        <div class="input-group mb-1 mt-3 w-25"">
-            <form style="position:relative; display:flex">
-                 <input id="searchInput" type="text" class="form-control border-0" style="background-color:#353535">
-                <i class="fa-solid fa-magnifying-glass" style="color: #d2d7df; position:absolute; left:2px; width:25px; height:25px;"></i>
-            </form>
-        </div>
-                @* <button id="searchButton" type="submit" style="position:absolute; left:2px; width:25px; height:25px;" >
-                </button>*@
-    </div>
-
-    <div style="display:flex; gap:5px; justify-content:end;">
-        <button class="btn btn-info mr-2" id="addGenreButton">
-            <i class="fa-solid fa-plus" style="color: white"></i> Add Genre
+<div class="input-group-father">
+        
+    <div class="add-genre-btn">
+       <button class="btn btn-transparent ps-5 text-white" id="addGenreButton">
+            + Add Genre
         </button>
     </div>
 
-    <div class="modal fade" id="addGenreModal" tabindex="-1" role="dialog" aria-labelledby="addGenreModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addGenreModalLabel">Select Genres</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    @foreach (var genre in Genres)
-                    {
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input genre-checkbox" value="@genre.Id" id="genre-@genre.Id">
-                            <label class="form-check-label" for="genre-@genre.Id">@genre.Name</label>
-                        </div>
-                    }
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="filterByGenre">Apply</button>
-                    <button type="button" class="btn btn-secondary" id="resetFilter">Reset Filter</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
+    <div class="input-group">
+        <div class = "search-father">
+            <form>          
+                <button class="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+                <input id="searchInput" type="text" placeholder="Search" class="search-input">
+            </form>
+        </div>
+        <div class="add-game-btn">
+              <a href="@Url.Action("CreateGame", "Game")" class="btn btn-success">Add Game</a>
         </div>
     </div>
 
 </div>
 
+<div class="modal fade" id="addGenreModal" tabindex="-1" role="dialog" aria-labelledby="addGenreModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addGenreModalLabel">Select Genres</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+        @foreach (var genre in Genres)
+        {
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input genre-checkbox" value="@genre.Id" id="genre-@genre.Id">
+                        <label class="form-check-label" for="genre-@genre.Id">@genre.Name</label>
+                    </div>
+        }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="filterByGenre">Apply</button>
+                <button type="button" class="btn btn-secondary" id="resetFilter">Reset Filter</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <div>
-    <div class="row row-cols-3">
+    <div class="row row-cols-3 card-container">
         @foreach (var game in Games)
         {
             <div class="col-4 mb-4 filtered-game" data-genres="@string.Join(",", game.Genres.Select(genre => genre.Id))">
-                <div class="card text-white bg-dark border-0 box card-content" >
+                <div class="text-white  border-0  card-content" style="">
                     @if (!string.IsNullOrWhiteSpace(game.Picture))
                     {
-                        <div class="image-container">
-                            <a  class = "images"href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white">
+                        <div class="image-container position-relative">
+                            <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white">
                                 <img class="card-img-top" src="@Url.Content(game.Picture)" alt="Game image cap" />
+                                <div class="overlay">
+                                    <div class="overlay-content">
+                                        @if (game.Price == 0 || game.Price == null)
+                                        {
+                                            <p class="text-price lead">Free</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="text-price lead">$@game.Price</p>
+                                        }
+                                        <a href="#" class="btn btn-success">BUY</a>
+                                        <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white" class="game-name">@game.Name</a>
+                                    </div>
+                                </div>
                             </a>
                         </div>
                     }
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col" >
-                                @if (game.Price == 0 || game.Price == null)
-                                {
-                                    <p class="text-price lead">Free</p>
-                                }
-                                else
-                                {
-                                    <p class="text-price lead">$@game.Price</p>
-                                }
-                            </div>
-                            <div class="col">
-                                <h3></h3>
-                            </div>
-                            <div class="col">
-                                <h3></h3>
-                            </div>
-                            <div class="col">
-                                <a href="#" class="btn btn-success">BUY</a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            @{
-                                var genreNames = string.Join(" / ", game.Genres.Select(genre => genre.Name));
-                            }
-                            <div class="col">
-                                <p class="card-text">@genreNames</p>
-                            </div>
-                            <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white" class="game-name">@game.Name</a>
-
-                        </div>
-                    </div>
                 </div>
             </div>
         }
     </div>
 </div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
