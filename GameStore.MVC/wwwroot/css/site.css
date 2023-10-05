@@ -129,7 +129,6 @@ html {
     width: 430px;
     height: 250px;
     position:relative;
-
 }
 
 .card-img-top {
@@ -184,3 +183,11 @@ html {
     background-color: black;
 }
 
+/* Game Deails */
+.image-container-detail{
+    width: 860px;
+    height: 500px;
+    position: center;
+}
+.details-container {
+}
