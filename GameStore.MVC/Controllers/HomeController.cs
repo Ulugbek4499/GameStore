@@ -21,15 +21,15 @@ namespace GameStore.MVC.Controllers
 
         public async Task<IActionResult> IndexAsync()
         {
-                var Games = await Mediator.Send(new GetAllGamesQuery());
-                ViewData["Games"] = Games;
+            var Games = await Mediator.Send(new GetAllGamesQuery());
+            ViewData["Games"] = Games;
 
-                var Genres = await Mediator.Send(new GetAllGenresQuery());
-                ViewData["Genres"] = Genres;
+            var Genres = await Mediator.Send(new GetAllGenresQuery());
+            ViewData["Genres"] = Genres;
 
             return View();
         }
-   
+
         public IActionResult Privacy()
         {
             return View();

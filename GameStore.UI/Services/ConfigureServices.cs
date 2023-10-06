@@ -1,12 +1,8 @@
 ﻿using GameStore.Application.Common.Interfaces;
 using GameStore.Domain.Entities.Identity;
-using Microsoft.AspNetCore.Mvc;
-using GameStore.Application.Common.Interfaces;
-using GameStore.Domain.Entities.Identity;
-using GameStore.UI.Services;
-using GameStore.UI.Data;
+using GameStore.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.UI.Services;
 

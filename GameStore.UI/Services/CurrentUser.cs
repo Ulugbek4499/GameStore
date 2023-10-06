@@ -1,7 +1,7 @@
-﻿using GameStore.Application.Common.Interfaces;
-using System.Security.Claims;
+﻿using System.Security.Claims;
+using GameStore.Application.Common.Interfaces;
 
-namespace GameStore.UI
+namespace GameStore.UI.Services
 {
     public class CurrentUser : IApplicationUser
     {

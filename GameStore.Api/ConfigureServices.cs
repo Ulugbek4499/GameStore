@@ -1,9 +1,7 @@
-﻿using Microsoft.OpenApi.Models;
-using Serilog.Events;
-using Serilog;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using GameStore.Application.Common.Interfaces;
 using GameStore.WebApi.Services;
+using Microsoft.OpenApi.Models;
 
 namespace GameStore.WebApi;
 
