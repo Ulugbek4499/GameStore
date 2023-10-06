@@ -21,7 +21,6 @@ public static class ConfigureServices
         services.AddTransient<IDateTime, DateTimeService>();
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
         services.AddScoped<AuditableEntitySaveChangesInterceptor>();
-        services.AddScoped<ApplicationDbContextInitialiser>();
 
         return services;
     }

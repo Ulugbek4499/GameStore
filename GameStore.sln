@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameStore.Application", "Ga
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameStore.WebApi", "GameStore.Api\GameStore.WebApi.csproj", "{F5035A2F-59FC-4E0B-B5EF-60F8F9E3F724}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.UI", "GameStore.UI\GameStore.UI.csproj", "{72B38597-AD8B-4668-B44D-D14A65B1A773}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{F5035A2F-59FC-4E0B-B5EF-60F8F9E3F724}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5035A2F-59FC-4E0B-B5EF-60F8F9E3F724}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5035A2F-59FC-4E0B-B5EF-60F8F9E3F724}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72B38597-AD8B-4668-B44D-D14A65B1A773}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72B38597-AD8B-4668-B44D-D14A65B1A773}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72B38597-AD8B-4668-B44D-D14A65B1A773}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72B38597-AD8B-4668-B44D-D14A65B1A773}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
