@@ -2,11 +2,12 @@ using GameStore.Application;
 using GameStore.Infrastructure;
 using GameStore.UI.Services;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddWebUIServices(builder.Configuration);
+builder.Services.AddWebUIServices(builder.Configuration);  
 
 var app = builder.Build();
 
