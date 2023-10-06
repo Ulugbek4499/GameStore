@@ -14,7 +14,7 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddWebUIServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IUser, CurrentUser>();
+        services.AddScoped<IApplicationUser, CurrentUser>();
         services.AddControllersWithViews();
 
         services.Configure<ApiBehaviorOptions>(options =>
@@ -36,7 +36,7 @@ public static class ConfigureServices
         };
         services.AddSingleton(tokenValidationParameters);
 
-        services.AddIdentity<User, IdentityRole<int>>(options =>
+        services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
         {
             // Identity options, if needed
         })

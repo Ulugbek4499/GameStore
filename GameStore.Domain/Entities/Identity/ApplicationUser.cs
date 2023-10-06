@@ -2,11 +2,10 @@
 
 namespace GameStore.Domain.Entities.Identity;
 
-public class User : IdentityUser<int>
+public class ApplicationUser : IdentityUser<int>
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
-    public string Password { get; set; }
     public string? Photo { get; set; }
 
     public virtual ICollection<Game>? Games { get; set; }

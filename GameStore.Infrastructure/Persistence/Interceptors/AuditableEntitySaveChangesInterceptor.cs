@@ -8,11 +8,11 @@ namespace GameStore.Infrastructure.Persistence.Interceptors;
 
 public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
 {
-    private readonly IUser _user;
+    private readonly IApplicationUser _user;
     private readonly IDateTime _dateTime;
 
     public AuditableEntitySaveChangesInterceptor(
-        IUser user,
+        IApplicationUser user,
         IDateTime dateTime)
     {
         _user = user;

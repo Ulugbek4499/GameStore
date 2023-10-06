@@ -3,7 +3,7 @@ using GameStore.Application.Common.Interfaces;
 
 namespace GameStore.MVC.Services;
 
-public class CurrentUser : IUser
+public class CurrentUser : IApplicationUser
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 

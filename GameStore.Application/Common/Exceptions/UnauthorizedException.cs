@@ -13,7 +13,7 @@
         { }
 
         public UnauthorizedException(string message, object key)
-            : base($"User :{message} with {key} is not authorized")
+            : base($"ApplicationUser :{message} with {key} is not authorized")
         { }
     }
 }

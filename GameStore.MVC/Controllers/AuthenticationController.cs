@@ -11,14 +11,14 @@ namespace GameStore.MVC.Controllers
     [ApiController]
     public class AuthenticationController: Controller
     {
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
         private readonly TokenValidationParameters _tokenValidationParameters;
 
         public AuthenticationController(
-            UserManager<User> userManager,
+            UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             ApplicationDbContext context,
             IConfiguration configuration,
@@ -49,7 +49,7 @@ namespace GameStore.MVC.Controllers
                 return RedirectToAction("_AuthenticationLayout", "Unauthenticated");
             }
 
-            User newUser = new User()
+            ApplicationUser newUser = new ApplicationUser()
             {
                 FirstName = registerModel.FirstName,
                 LastName = registerModel.LastName,
@@ -116,7 +116,7 @@ namespace GameStore.MVC.Controllers
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
             RefreshToken? storedToken = await _context.RefreshTokens.FirstOrDefaultAsync(x => x.Token == tokenRequestVM.RefreshToken);
-            User? dbUser = await _userManager.FindByIdAsync(storedToken.UserId.ToString());
+            ApplicationUser? dbUser = await _userManager.FindByIdAsync(storedToken.UserId.ToString());
 
             try
             {
@@ -137,7 +137,7 @@ namespace GameStore.MVC.Controllers
             }
         }
 
-        private async Task<AuthResultModel> GenerateJWTTokenAsync(User user, RefreshToken rToken)
+        private async Task<AuthResultModel> GenerateJWTTokenAsync(ApplicationUser user, RefreshToken rToken)
         {
             var authClaims = new List<Claim>()
             {
@@ -148,7 +148,7 @@ namespace GameStore.MVC.Controllers
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            //Add User Role Claims
+            //Add ApplicationUser Role Claims
             var userRoles = await _userManager.GetRolesAsync(user);
             foreach (var userRole in userRoles)
             {

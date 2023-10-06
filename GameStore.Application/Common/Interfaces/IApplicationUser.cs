@@ -1,6 +1,6 @@
 ﻿namespace GameStore.Application.Common.Interfaces
 {
-    public interface IUser
+    public interface IApplicationUser
     {
         string? Id { get; }
     }
