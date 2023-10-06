@@ -11,6 +11,7 @@ public static class ConfigureServices
     public static IServiceCollection AddWebUIServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IApplicationUser, CurrentUser>();
+        services.AddScoped<IFileService, FileService>();
 
         services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()

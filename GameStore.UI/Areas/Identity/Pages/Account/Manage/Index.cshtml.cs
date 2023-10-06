@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using GameStore.Domain.Entities.Identity;
+using GameStore.UI.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -17,13 +18,16 @@ namespace GameStore.UI.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IFileService _fileService;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            IFileService fileService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            this._fileService = fileService;
         }
 
         /// <summary>
@@ -59,6 +63,10 @@ namespace GameStore.UI.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            public string  FirstName { get; set; }
+            public string LastName { get; set; }
+            public string Photo { get; set; }
+            public IFormFile ImageFile { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -70,7 +78,10 @@ namespace GameStore.UI.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                FirstName=user.FirstName,
+                LastName=user.LastName,
+                Photo=user.Photo
             };
         }
 
@@ -110,6 +121,30 @@ namespace GameStore.UI.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
+            if (Input.FirstName != user.FirstName)
+            { 
+                user.FirstName= Input.FirstName;
+                await _userManager.UpdateAsync(user);
+            }
+            if (Input.LastName != user.LastName)
+            {
+                user.LastName = Input.LastName;
+                await _userManager.UpdateAsync(user);
+            }
+
+            //code for image 
+            if (Input.ImageFile != null)
+            {
+                var result = _fileService.SaveImage(Input.ImageFile);
+                if (result.Item1 == 1)
+                {
+                    var oldImage = user.Photo;
+                    user.Photo = result.Item2;
+                    await _userManager.UpdateAsync(user);
+                    var deleteResult = _fileService.DeleteImage(oldImage);
+                }
+            }
+
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
