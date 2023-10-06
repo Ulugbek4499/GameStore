@@ -1,10 +1,5 @@
-using GameStore.UI.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using GameStore.Application;
 using GameStore.Infrastructure;
-using GameStore.Application.Common.Interfaces;
-using GameStore.Domain.Entities.Identity;
 using GameStore.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
