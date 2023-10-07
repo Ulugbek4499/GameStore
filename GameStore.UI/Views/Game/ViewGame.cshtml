@@ -1,0 +1,50 @@
+﻿@using GameStore.Application.UseCases.Games
+
+@{
+    Layout = "_Layout";
+}
+
+@model GameResponse
+
+<div class="move-margin">
+    <div class="card text-white bg-dark border-0 box" style="width: 71rem;">
+        <div class="image-container">
+            <img src="~/@Model.Picture" alt="@Model.Name" class="img-fluid" />
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <p class="text-price lead card-text">@Model.Name</p>
+                    <p class="display-6">$@Model.Price</p>
+                </div>
+                <div class="col">
+                </div>
+                <div class="col">
+                    <a href="#" class="btn btn-success ms-5">BUY</a>
+                </div>
+            </div>
+            <hr />
+            <p>
+                @foreach (var genre in Model.Genres)
+                {
+                    <button class="hidden-corners-button">@genre.Name</button>
+                }
+            </p>
+            <br />
+            <div class="row">
+                <h6 class="thin-version">@Model.Description</h6>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col">
+                    <a asp-action="UpdateGame" asp-route-id="@Model.Id" class="btn btn-primary">Edit Game</a>
+                </div>
+                <div class="col">
+                    <a asp-action="DeleteGame" asp-route-id="@Model.Id" class="btn btn-danger">Delete Game</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="clr"></div>

@@ -1,22 +1,191 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
+    background-color: black;
 }
 
-body {
-  margin-bottom: 60px;
+.container1 {
+    max-width: 1400px;
+    margin: 0 auto;
 }
+
+.container2 {
+    display: flex;
+    justify-content: space-around;
+    gap: 250px;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    right: 0px;
+    left: 0px;
+    z-index: 2;
+    background-color: black;
+}
+
+.body-faza {
+    display: flex;
+    justify-content: center;
+}
+
+.body-container {
+    background-color: #1e1e1e;
+    margin-top: 50px;
+    max-width: 1400px;
+    padding: 0px 50px 0px 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.input-group-father {
+    display: flex;
+    justify-content: space-around;
+    max-width: 1400px;
+    position: fixed;
+    top: 50px;
+    right: 0;
+    left: 0;
+    z-index: 1;
+    background-color: #1e1e1e;
+}
+
+.add-genre-btn {
+    width: 50%;
+    margin-top: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    width: 50%;
+}
+
+
+.add-game-btn {
+    display: flex;
+    margin-top: 10px;
+    justify-content: end;
+    margin-right: 25px;
+}
+
+.input-group form {
+    background: #353535;
+    display: flex;
+    margin-top: 1.4rem;
+    width: 155px;
+    height: 35px;
+}
+
+.search-father {
+    display: flex;
+    justify-content: end;
+    margin-right: 75px;
+}
+
+.search-input {
+    font-family: Arial;
+    font-size: 1.2rem;
+    outline: none;
+    padding: 0.6rem 0;
+    border: none;
+    width: 175px;
+    background-color: #353535;
+}
+
+.search-btn {
+    width: 40px;
+    font-size: 1.2rem;
+    color: #fff;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+    padding-left: 10px;
+}
+
+.card-container {
+    margin-top: 110px;
+}
+
+.card-content {
+    width: 430px;
+    height: 250px;
+    background-color: mistyrose;
+    backdrop-filter: blur(12.5px);
+}
+
+.image-container {
+    width: 430px;
+    height: 250px;
+    position: relative;
+}
+
+.card-img-top {
+    width: 430px;
+    height: 250px;
+}
+
+.info-box-container {
+    display: flex;
+    position: absolute;
+    align-items: center;
+    bottom: 0px;
+    width: 430px;
+    height: 70px;
+    background-color: transparent;
+    backdrop-filter: blur(1.9px);
+}
+
+.price-name-box {
+    width: 70%;
+    padding-left: 10px;
+}
+
+.buy-btn-container {
+    width: 30%;
+    padding-left: 50px;
+}
+
+.text-price {
+    color: white;
+    font-size: 30px;
+    font-weight: lighter;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.game-name {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.footer-content {
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: space-around;
+    gap: 650px;
+    right: 0px;
+    left: 0px;
+    bottom: 0;
+    z-index: 1;
+    background-color: black;
+}
+
+/* Game Deails */
+

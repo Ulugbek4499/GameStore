@@ -1,11 +1,17 @@
 ﻿using System.Diagnostics;
+using GameStore.Application.UseCases.Games.Queries.GetAllGames;
+using GameStore.Application.UseCases.Genres.Queries.GetAllGenres;
 using GameStore.UI.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.UI.Controllers
 {
     public class HomeController : Controller
     {
+        private IMediator? _mediator;
+        public IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<IMediator>();
+
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -13,8 +19,14 @@ namespace GameStore.UI.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
+            var Games = await Mediator.Send(new GetAllGamesQuery());
+            ViewData["Games"] = Games;
+
+            var Genres = await Mediator.Send(new GetAllGenresQuery());
+            ViewData["Genres"] = Genres;
+
             return View();
         }
 

@@ -1,8 +1,182 @@
-﻿@{
+﻿@using GameStore.Application.UseCases.Games;
+@using GameStore.Application.UseCases.Genres;
+@{
     ViewData["Title"] = "Home Page";
+    GameResponse[] Games = ViewData["Games"] as GameResponse[];
+    GenreResponse[] Genres = ViewData["Genres"] as GenreResponse[];
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+
+<div class="input-group-father">
+
+    <div class="add-genre-btn">
+        <button class="btn btn-transparent ps-5 text-white" id="addGenreButton">
+            + Add Genre
+        </button>
+    </div>
+
+    <div class="input-group">
+        <div class="search-father">
+            <form>
+                <button class="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+                <input id="searchInput" type="text" placeholder="Search" class="search-input">
+            </form>
+        </div>
+        <div class="add-game-btn">
+            <a href="@Url.Action("CreateGame", "Game")" class="btn btn-success">Add Game</a>
+        </div>
+    </div>
+
 </div>
+
+<div class="modal fade" id="addGenreModal" tabindex="-1" role="dialog" aria-labelledby="addGenreModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addGenreModalLabel">Select Genres</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @foreach (var genre in Genres)
+                {
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input genre-checkbox" value="@genre.Id" id="genre-@genre.Id">
+                        <label class="form-check-label" for="genre-@genre.Id">@genre.Name</label>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="filterByGenre">Apply</button>
+                <button type="button" class="btn btn-secondary" id="resetFilter">Reset Filter</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <div class="row row-cols-3 card-container">
+        @foreach (var game in Games)
+        {
+            <div class="col-4 mb-4 filtered-game" data-genres="@string.Join(",", game.Genres.Select(genre => genre.Id))">
+                <div class="text-white  border-0  card-content">
+                    @if (!string.IsNullOrWhiteSpace(game.Picture))
+                    {
+                        <div class="image-container">
+                            <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white">
+                                <img class="card-img-top" src="@Url.Content(game.Picture)" alt="Game image cap" />
+                                <div class="info-box-container">
+                                    <div class="price-name-box">
+                                        @if (game.Price == 0 || game.Price == null)
+                                        {
+                                            <p class="text-price">Free</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="text-price">$@game.Price</p>
+                                        }
+                                        <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white" class="game-name">@game.Name</a>
+                                    </div>
+                                    <div class="buy-btn-container">
+                                        <a href="#" class="btn btn-success">BUY</a>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        // When the "Search" button is clicked, perform the search.
+        $("#searchButton").click(function () {
+            searchGames();
+        });
+
+        // Function to perform the search
+        function searchGames() {
+            var searchTerm = $("#searchInput").val().toLowerCase();
+
+            $('.filtered-game').each(function () {
+                var gameName = $(this).find('.game-name').text().toLowerCase();
+
+                if (gameName.includes(searchTerm)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+    });
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        // Initialize an array to store selected genre IDs
+        var selectedGenres = [];
+
+        // When the "Add Genre" button is clicked, show the genre selection modal.
+        $("#addGenreButton").click(function () {
+            $('#addGenreModal').modal('show');
+        });
+
+        // When a genre checkbox is clicked, update the selectedGenres array.
+        $('.genre-checkbox').change(function () {
+            var genreId = $(this).val();
+            if (this.checked) {
+                selectedGenres.push(genreId);
+            } else {
+                // Remove the genre from the array if unchecked
+                selectedGenres = selectedGenres.filter(id => id !== genreId);
+            }
+        });
+
+        // When the "Apply" button in the modal is clicked, filter games by selected genres.
+        $("#filterByGenre").click(function () {
+            // Filter games by selected genres
+            $('.filtered-game').each(function () {
+                var gameGenres = $(this).data('genres').split(',').map(Number);
+                if (selectedGenres.length === 0 || selectedGenres.some(genre => gameGenres.includes(genre))) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+
+            // Close the modal
+            $('#addGenreModal').modal('hide');
+        });
+
+        // When the "Reset Filter" button in the modal is clicked, reset genre filter.
+        $("#resetFilter").click(function () {
+            // Uncheck all checkboxes
+            $('.genre-checkbox').prop('checked', false);
+
+            // Reset the selected genres
+            selectedGenres = [];
+
+            // Show all games
+            $('.filtered-game').show();
+
+            // Close the modal
+            $('#addGenreModal').modal('hide');
+        });
+    });
+</script>
