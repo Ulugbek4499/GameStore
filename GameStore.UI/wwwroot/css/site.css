@@ -25,13 +25,14 @@ html {
 
 .container2 {
     display: flex;
-    justify-content: space-around;
-    gap: 250px;
+    justify-content: space-between;
+    gap: 10px;
     align-items: center;
     position: fixed;
+    padding: 0px 90px 0px 50px;
     top: 0;
-    right: 0px;
-    left: 0px;
+    right:0;
+    left: 0;
     z-index: 2;
     background-color: black;
 }
@@ -44,21 +45,25 @@ html {
 .body-container {
     background-color: #1e1e1e;
     margin-top: 50px;
-    max-width: 1400px;
     padding: 0px 50px 0px 50px;
     display: flex;
     justify-content: center;
 }
-
+.main-container{
+    display: flex;
+    justify-content:center;
+    align-items:center;
+}
 .input-group-father {
     display: flex;
-    justify-content: space-around;
-    max-width: 1400px;
+    justify-content: space-between;
+    padding: 0 50px 0 20px;
     position: fixed;
     top: 50px;
-    right: 0;
-    left: 0;
+    right: 0px;
+    left: 0px;
     z-index: 1;
+    margin: 0 auto;
     background-color: #1e1e1e;
 }
 
@@ -89,7 +94,6 @@ html {
     width: 155px;
     height: 35px;
 }
-
 .search-father {
     display: flex;
     justify-content: end;
@@ -120,24 +124,28 @@ html {
 
 .card-container {
     margin-top: 110px;
+    display:flex;
+    justify-content: space-between;
+    width:100%;
 }
 
 .card-content {
-    width: 430px;
-    height: 250px;
-    background-color: mistyrose;
-    backdrop-filter: blur(12.5px);
+    width: 100%;
+    height: 340px;
+   
 }
 
 .image-container {
-    width: 430px;
-    height: 250px;
+    width: 100%;
+    height: 300px;
     position: relative;
+     background-color: transparent   ;
+    backdrop-filter: blur(12.5px); 
 }
 
 .card-img-top {
     width: 430px;
-    height: 250px;
+    height: 300px;
 }
 
 .info-box-container {
@@ -145,10 +153,10 @@ html {
     position: absolute;
     align-items: center;
     bottom: 0px;
-    width: 430px;
-    height: 70px;
-    background-color: transparent;
-    backdrop-filter: blur(1.9px);
+    width: 100%;
+    height: 30%;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(1px);
 }
 
 .price-name-box {
@@ -168,7 +176,9 @@ html {
     margin-bottom: 0px;
     margin-top: 0px;
 }
-
+.text-genres{
+    font-size:14px;
+}
 .game-name {
     color: white;
     font-size: 18px;

@@ -5,27 +5,27 @@
     GameResponse[] Games = ViewData["Games"] as GameResponse[];
     GenreResponse[] Genres = ViewData["Genres"] as GenreResponse[];
 }
+    <div class="input-group-father">
+        <div class="add-genre-btn">
+            <button class="btn btn-transparent ps-5 text-white" id="addGenreButton" data-toggle="modal" data-target="#addGenreModal">
+                + Add Genre
+            </button>
+        </div>
+        <div class="input-group">
+            <div class="search-father">
+                <form>
+                    <button id="searchButton" class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <input id="searchInput" type="text" placeholder="Search" class="search-input">
+                </form>
+            </div>
+            <div class="add-game-btn">
+                <a href="@Url.Action("CreateGame", "Game")" class="btn btn-success">Add Game</a>
+            </div>
+        </div>
+    </div>
 
-<div class="input-group-father">
-    <div class="add-genre-btn">
-        <button class="btn btn-transparent ps-5 text-white" id="addGenreButton" data-toggle="modal" data-target="#addGenreModal">
-            + Add Genre
-        </button>
-    </div>
-    <div class="input-group">
-        <div class="search-father">
-            <form>
-                <button id="searchButton" class="search-btn">
-                    <i class="fas fa-search"></i>
-                </button>
-                <input id="searchInput" type="text" placeholder="Search" class="search-input">
-            </form>
-        </div>
-        <div class="add-game-btn">
-            <a href="@Url.Action("CreateGame", "Game")" class="btn btn-success">Add Game</a>
-        </div>
-    </div>
-</div>
 
 <div class="modal fade" id="addGenreModal" tabindex="-1" role="dialog" aria-labelledby="addGenreModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -49,11 +49,10 @@
     </div>
 </div>
 
-<div>
-    <div class="row row-cols-3 card-container">
+    <div class="row card-container">
         @foreach (var game in Games)
         {
-            <div class="col-4 mb-4 filtered-game" data-genres="@string.Join(",", game.Genres.Select(genre => genre.Id))">
+            <div class="col-4 mb-4  filtered-game" data-genres="@string.Join(",", game.Genres.Select(genre => genre.Id))">
                 <div class="text-white border-0 card-content">
                     @if (!string.IsNullOrWhiteSpace(game.Picture))
                     {
@@ -81,8 +80,10 @@
                                         {
                                             <p class="text-price">$@game.Price</p>
                                         }
-                                        <p class="text-genres mb-0 pb-0">@string.Join("/ ", game.Genres.Select(genre => genre.Name))</p>
+                                        <div style="line-height: 1.2">
+                                        <p class="text-genres mb-0 pb-0 ">@string.Join("/ ", game.Genres.Select(genre => genre.Name))</p>
                                         <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white; padding-top:0px; margin-top:0px;" class="game-name">@game.Name</a>
+                                        </div>
                                     </div>
                                     <div class="buy-btn-container">
                                         <a href="#" class="btn btn-success">BUY</a>
@@ -95,7 +96,7 @@
             </div>
         }
     </div>
-</div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
