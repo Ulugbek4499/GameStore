@@ -188,12 +188,16 @@ html {
 }
 
 /* Game Deails */
-.image-container-view 
-{
-    width: 70%;
-    height: 30%;
+.move-margin{
+    position:relative;
     display:flex;
     justify-content:center;
+}
+
+.image-container-view {
+    width: 85%;
+    display: flex;
+    justify-content: center;
 }
 
 .create-box {
