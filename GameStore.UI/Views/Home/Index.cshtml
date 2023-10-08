@@ -60,7 +60,18 @@
                         <div class="image-container">
                             <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white">
                                 <img class="card-img-top" src="@Url.Content(game.Picture)" alt="Game image cap" />
+                                <div class="game-actions">
+                                    <div class="row">
+                                        <div class="col">
+                                            <a asp-action="UpdateGame" asp-route-id="@game.Id" class="btn btn-primary btn-sm game-action edit-game">Edit Game</a>
+                                        </div>
+                                        <div class="col">
+                                            <a asp-action="DeleteGame" asp-route-id="@game.Id" class="btn btn-danger btn-sm game-action delete-game">Delete Game</a>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="info-box-container">
+
                                     <div class="price-name-box">
                                         @if (game.Price == 0 || game.Price == null)
                                         {

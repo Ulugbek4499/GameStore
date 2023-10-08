@@ -209,3 +209,16 @@ html {
 
 
 
+
+.game-actions {
+    display: none;
+}
+
+.image-container:hover .game-actions {
+    display: block;
+}
+
+.game-action {
+    margin-top: 5px;
+    width: 100%;
+}
