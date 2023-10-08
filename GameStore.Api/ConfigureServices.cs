@@ -10,7 +10,6 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddApi(this IServiceCollection services, IConfiguration configuration)
     {
-        //services.AddTransient<IUpdateHandler, UpdateHandler>();
         services.AddScoped<IApplicationUser, CurrentUser>();
         services.AddControllers().AddJsonOptions(x =>
         {
