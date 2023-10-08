@@ -19,7 +19,7 @@
     <div class="input-group">
         <div class="search-father">
             <form>
-                <button class="search-btn">
+                <button id="searchButton" class="search-btn">
                     <i class="fas fa-search"></i>
                 </button>
                 <input id="searchInput" type="text" placeholder="Search" class="search-input">
@@ -50,14 +50,10 @@
                     </div>
                 }
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="filterByGenre">Apply</button>
-                <button type="button" class="btn btn-secondary" id="resetFilter">Reset Filter</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
         </div>
     </div>
 </div>
+
 
 
 <div>
@@ -101,11 +97,11 @@
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-
 <script>
     $(document).ready(function () {
         // When the "Search" button is clicked, perform the search.
-        $("#searchButton").click(function () {
+        $("#searchButton").click(function (e) {
+            e.preventDefault(); // Prevent the default form submission.
             searchGames();
         });
 
@@ -124,8 +120,8 @@
             });
         }
     });
-
 </script>
+
 
 <script>
     $(document).ready(function () {
@@ -137,7 +133,7 @@
             $('#addGenreModal').modal('show');
         });
 
-        // When a genre checkbox is clicked, update the selectedGenres array.
+        // When a genre checkbox is clicked, update the selectedGenres array and filter games.
         $('.genre-checkbox').change(function () {
             var genreId = $(this).val();
             if (this.checked) {
@@ -146,11 +142,20 @@
                 // Remove the genre from the array if unchecked
                 selectedGenres = selectedGenres.filter(id => id !== genreId);
             }
+
+            // Automatically filter games when checkboxes are changed
+            filterGames();
         });
 
-        // When the "Apply" button in the modal is clicked, filter games by selected genres.
-        $("#filterByGenre").click(function () {
-            // Filter games by selected genres
+        // Automatically close the modal when the user clicks outside of it
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('#addGenreModal').length && !$(e.target).is('#addGenreButton')) {
+                $('#addGenreModal').modal('hide');
+            }
+        });
+
+        // Function to filter games based on selected genres
+        function filterGames() {
             $('.filtered-game').each(function () {
                 var gameGenres = $(this).data('genres').split(',').map(Number);
                 if (selectedGenres.length === 0 || selectedGenres.some(genre => gameGenres.includes(genre))) {
@@ -159,24 +164,6 @@
                     $(this).hide();
                 }
             });
-
-            // Close the modal
-            $('#addGenreModal').modal('hide');
-        });
-
-        // When the "Reset Filter" button in the modal is clicked, reset genre filter.
-        $("#resetFilter").click(function () {
-            // Uncheck all checkboxes
-            $('.genre-checkbox').prop('checked', false);
-
-            // Reset the selected genres
-            selectedGenres = [];
-
-            // Show all games
-            $('.filtered-game').show();
-
-            // Close the modal
-            $('#addGenreModal').modal('hide');
-        });
+        }
     });
 </script>
