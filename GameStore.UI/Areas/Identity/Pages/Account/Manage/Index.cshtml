@@ -5,13 +5,13 @@
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
-<h3>@ViewData["Title"]</h3>
+<h3 style="color:white">@ViewData["Title"]</h3>
 <partial name="_StatusMessage" for="StatusMessage" />
 <div class="row">
     @if (!string.IsNullOrEmpty(Model.Input.Photo))
     {
         <div class="col-md-4">
-            <img src="/Uploads/@Model.Input.Photo" style="width:250px; height:300px"/>
+            <img src="/Uploads/@Model.Input.Photo" style="width:200px; height:250px; padding-right:10px;"/>
         </div>
     }
 
@@ -38,7 +38,7 @@
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
             <div class="m-2">
-                <label class="form-label" for="Image">Profile Picture</label>
+                <label class="form-label" style="color:white" for="Image">Profile Picture</label>
                <input asp-for="Input.ImageFile"/>    
             </div>
 
