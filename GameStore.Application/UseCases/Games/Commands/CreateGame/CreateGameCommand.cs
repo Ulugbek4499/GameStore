@@ -4,6 +4,7 @@ using GameStore.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace GameStore.Application.UseCases.Games.Commands.CreateGame;
@@ -13,8 +14,9 @@ public class CreateGameCommand : IRequest<int>
     public string Description { get; set; }
     public decimal Price { get; set; }
     public IFormFile? Picture { get; set; }
-    public ICollection<int> GenreIds { get; set; }
+    public ICollection<int> GenreIds { get; set; } // Add this property
 }
+
 
 public class CreateGameCommandHandler : IRequestHandler<CreateGameCommand, int>
 {
@@ -34,6 +36,10 @@ public class CreateGameCommandHandler : IRequestHandler<CreateGameCommand, int>
     public async Task<int> Handle(CreateGameCommand request, CancellationToken cancellationToken)
     {
         Game game = _mapper.Map<Game>(request);
+
+        game.Genres = await _context.Genres
+       .Where(g => request.GenreIds.Contains(g.Id))
+       .ToListAsync();
 
         if (request.Picture is not null && request.Picture.Length > 0)
         {

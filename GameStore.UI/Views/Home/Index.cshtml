@@ -6,16 +6,12 @@
     GenreResponse[] Genres = ViewData["Genres"] as GenreResponse[];
 }
 
-
-
 <div class="input-group-father">
-
     <div class="add-genre-btn">
-        <button class="btn btn-transparent ps-5 text-white" id="addGenreButton">
+        <button class="btn btn-transparent ps-5 text-white" id="addGenreButton" data-toggle="modal" data-target="#addGenreModal">
             + Add Genre
         </button>
     </div>
-
     <div class="input-group">
         <div class="search-father">
             <form>
@@ -29,7 +25,6 @@
             <a href="@Url.Action("CreateGame", "Game")" class="btn btn-success">Add Game</a>
         </div>
     </div>
-
 </div>
 
 <div class="modal fade" id="addGenreModal" tabindex="-1" role="dialog" aria-labelledby="addGenreModalLabel" aria-hidden="true">
@@ -54,14 +49,12 @@
     </div>
 </div>
 
-
-
 <div>
     <div class="row row-cols-3 card-container">
         @foreach (var game in Games)
         {
             <div class="col-4 mb-4 filtered-game" data-genres="@string.Join(",", game.Genres.Select(genre => genre.Id))">
-                <div class="text-white  border-0  card-content">
+                <div class="text-white border-0 card-content">
                     @if (!string.IsNullOrWhiteSpace(game.Picture))
                     {
                         <div class="image-container">
@@ -77,7 +70,8 @@
                                         {
                                             <p class="text-price">$@game.Price</p>
                                         }
-                                        <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white" class="game-name">@game.Name</a>
+                                        <p class="text-genres mb-0 pb-0">@string.Join("/ ", game.Genres.Select(genre => genre.Name))</p>
+                                        <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white; padding-top:0px; margin-top:0px;" class="game-name">@game.Name</a>
                                     </div>
                                     <div class="buy-btn-container">
                                         <a href="#" class="btn btn-success">BUY</a>
@@ -91,7 +85,6 @@
         }
     </div>
 </div>
-
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -119,51 +112,33 @@
                 }
             });
         }
-    });
-</script>
 
-
-<script>
-    $(document).ready(function () {
-        // Initialize an array to store selected genre IDs
-        var selectedGenres = [];
-
-        // When the "Add Genre" button is clicked, show the genre selection modal.
+        // Handle filter button click
         $("#addGenreButton").click(function () {
-            $('#addGenreModal').modal('show');
+            // Clear all checkboxes when the modal opens
+            $(".genre-checkbox").prop('checked', false);
         });
 
-        // When a genre checkbox is clicked, update the selectedGenres array and filter games.
-        $('.genre-checkbox').change(function () {
-            var genreId = $(this).val();
-            if (this.checked) {
-                selectedGenres.push(genreId);
-            } else {
-                // Remove the genre from the array if unchecked
-                selectedGenres = selectedGenres.filter(id => id !== genreId);
-            }
+        // Handle genre filter
+        $(".genre-checkbox").change(function () {
+            var selectedGenres = [];
 
-            // Automatically filter games when checkboxes are changed
-            filterGames();
-        });
-
-        // Automatically close the modal when the user clicks outside of it
-        $(document).on('click', function (e) {
-            if (!$(e.target).closest('#addGenreModal').length && !$(e.target).is('#addGenreButton')) {
-                $('#addGenreModal').modal('hide');
-            }
-        });
-
-        // Function to filter games based on selected genres
-        function filterGames() {
-            $('.filtered-game').each(function () {
-                var gameGenres = $(this).data('genres').split(',').map(Number);
-                if (selectedGenres.length === 0 || selectedGenres.some(genre => gameGenres.includes(genre))) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
+            $(".genre-checkbox:checked").each(function () {
+                selectedGenres.push($(this).val());
             });
-        }
+
+            if (selectedGenres.length === 0) {
+                // If no genres are selected, show all games
+                $(".filtered-game").show();
+            } else {
+                // Hide all games
+                $(".filtered-game").hide();
+
+                // Show games that match the selected genres
+                selectedGenres.forEach(function (genreId) {
+                    $(".filtered-game[data-genres*='" + genreId + "']").show();
+                });
+            }
+        });
     });
 </script>
