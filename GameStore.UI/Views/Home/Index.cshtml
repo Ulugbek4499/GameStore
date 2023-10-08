@@ -26,28 +26,44 @@
         </div>
     </div>
 
-
-<div class="modal fade" id="addGenreModal" tabindex="-1" role="dialog" aria-labelledby="addGenreModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" style="width:40%;" id="addGenreModal" tabindex="-1" role="dialog" aria-labelledby="addGenreModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addGenreModalLabel">Select Genres</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
             <div class="modal-body">
-                @foreach (var genre in Genres)
-                {
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input genre-checkbox" value="@genre.Id" id="genre-@genre.Id">
-                        <label class="form-check-label" for="genre-@genre.Id">@genre.Name</label>
-                    </div>
-                }
+                <ul class="list-unstyled">
+                    @foreach (var genre in Genres)
+                    {
+                        if (genre.ParentGenreId == null)
+                        {
+                            <li>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input genre-checkbox" value="@genre.Id" id="genre-@genre.Id">
+                                    <label class="form-check-label" for="genre-@genre.Id">@genre.Name</label>
+                                </div>
+
+                                @if (genre.ChildGenres.Any())
+                                {
+                                    <ul class="list-unstyled ml-3">
+                                        @foreach (var childGenre in genre.ChildGenres)
+                                        {
+                                            <li>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input genre-checkbox" value="@childGenre.Id" id="genre-@childGenre.Id">
+                                                    <label class="form-check-label" for="genre-@childGenre.Id">@childGenre.Name</label>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                            </li>
+                        }
+                    }
+                </ul>
             </div>
         </div>
     </div>
 </div>
+
 
     <div class="row card-container">
         @foreach (var game in Games)
@@ -154,3 +170,4 @@
         });
     });
 </script>
+
