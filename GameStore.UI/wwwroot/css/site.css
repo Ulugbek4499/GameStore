@@ -188,9 +188,19 @@ html {
 }
 
 /* Game Deails */
+.image-container-view 
+{
+    width: 70%;
+    height: 30%;
+    display:flex;
+    justify-content:center;
+}
 
 .create-box {
     width: 100%;
     float: left;
     padding: 50px;
 }
+
+
+

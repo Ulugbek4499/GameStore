@@ -20,19 +20,19 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="Description" class="control-label">Description</label>
+        <label asp-for="Description" class="control-label text-white">Description</label>
         <input asp-for="Description" class="form-control" />
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="Price" class="control-label">Price</label>
+        <label asp-for="Price" class="control-label text-white">Price</label>
         <input asp-for="Price" class="form-control" />
         <span asp-validation-for="Price" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="Genres" class="control-label">Genres</label>
+        <label asp-for="Genres" class="control-label text-white">Genres</label>
         @foreach (var genre in Genres)
         {
             <div class="form-check">
@@ -45,7 +45,7 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="Picture" class="control-label">Game Picture</label>
+        <label asp-for="Picture" class="control-label text-white">Game Picture</label>
         <input type="file" name="Picture" accept=".jpg, .jpeg, .png" class="form-control-file" />
         <span asp-validation-for="Picture" class="text-danger"></span>
     </div>

@@ -13,28 +13,28 @@
 
 <form asp-controller="Game" asp-action="CreateGame" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
     <div class="create-box">
+    <h2 style="color:white; display:flex; justify-content:center; padding-bottom:10px;"> Add New Game</h2>
         <div class="form-group">
             <label asp-for="Name" class="control-label text-white"></label>
             <input asp-for="Name" class="form-control" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
+        <div class="form-group pt-3">
             <label asp-for="Description" class="control-label text-white">Description</label>
             <input asp-for="Description" class="form-control" />
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
+        <div class="form-group pt-3">
             <label asp-for="Price" class="control-label text-white">Price</label>
             <input asp-for="Price" class="form-control" />
             <span asp-validation-for="Price" class="text-danger"></span>
         </div>
 
-        <div class="form-group box">
-            <label class="control-label">Genres</label>
+        <div class="form-group box pt-3">
+            <label class="control-label text-white">Select Genres</label>
             @foreach (var genre in Genres)
             {
                 <div class="form-check">
@@ -44,17 +44,14 @@
             }
             <span asp-validation-for="GenreIds" class="text-danger"></span>
         </div>
-        <div class="clr"></div>
 
-        <h2 class="text-white">Upload Image</h2>
-
-        <div class="form-group">
-            <label for="Picture">Select Image File:</label>
+        <div class="form-group pt-3">
+            <label for="Picture" class="text-white">Select Image File:</label>
             <input type="file" name="Picture" class="form-control" required />
             <span asp-validation-for="Picture" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
+        <div class="form-group pt-3">
             <input type="submit" value="Create" class="btn btn-primary" />
         </div>
     </div>
