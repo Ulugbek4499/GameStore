@@ -8,12 +8,15 @@
 
 @model GameResponse
 
-<div class="move-margin" >
-    <div class="card text-white border-0" style="background-color: #1e1e1e;width: 100%;">
+<div class="move-margin">
+    <!-- Game Details -->
+    <div class="card text-white border-0" style="background-color: #1e1e1e; width: 100%;">
+        <!-- Game Image -->
         <div class="image-container-view">
             <img src="~/@Model.Picture" alt="@Model.Name" class="img-fluid" />
         </div>
         <div class="card-body">
+            <!-- Game Title and Price -->
             <div class="row">
                 <div class="col">
                     <p class="text-price lead card-text">@Model.Name</p>
@@ -26,6 +29,7 @@
                 </div>
             </div>
             <hr />
+            <!-- Game Genres -->
             <p>
                 @foreach (var genre in Model.Genres)
                 {
@@ -33,10 +37,12 @@
                 }
             </p>
             <br />
+            <!-- Game Description -->
             <div class="row">
                 <h6 class="thin-version">@Model.Description</h6>
             </div>
             <br />
+            <!-- Edit and Delete Buttons -->
             <div class="row">
                 <div class="col">
                     <a asp-action="UpdateGame" asp-route-id="@Model.Id" class="btn btn-primary">Edit Game</a>
@@ -46,108 +52,124 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="mt-4">
+    <!-- Comment Section -->
+    <div class="mt-4">
+        <!-- Comment Input -->
+        <div>
+            <input type="text" id="commentInput" placeholder="Write a comment..." />
+            <button id="saveCommentBtn" data-game-id="@Model.Id" data-user-id="YOUR_USER_ID">Save</button>
+        </div>
 
-            <div>
-                <input type="text" id="commentInput" placeholder="Write a comment..." />
-                <button id="saveCommentBtn" data-game-id="@Model.Id" data-user-id="YOUR_USER_ID">Save</button>
-            </div>
-
-            <div id="comments">
-                @foreach (var comment in Model.Comments)
-                {
-                    <div class="comment">
-                        <p>@comment.Text</p>
-                        <button class="replyBtn" data-parent-id="@comment.Id">Reply</button>
-                        <button class="showRepliesBtn" data-comment-id="@comment.Id">Show Replies</button>
-
-                        <div class="replyInput">
-                            <input type="text" class="replyText" placeholder="Write a reply..." />
-                            <button class="saveReplyBtn" data-game-id="@Model.Id" data-parent-id="@comment.Id" data-user-id="YOUR_USER_ID">Save Reply</button>
-                        </div>
-
-                        <div class="childComments" style="padding-left:50px;">
-                            @foreach (var reply in comment.ChildComments)
-                            {
-                                <div class="comment">
-                                    <p>@reply.Text</p>
-                                    <button class="replyBtn" data-parent-id="@reply.Id">Reply</button>
-                                    <button class="showRepliesBtn" data-comment-id="@reply.Id">Show Replies</button>
-
-                                    <div class="replyInput">
-                                        <input type="text" class="replyText" placeholder="Write a reply..." />
-                                        <button class="saveReplyBtn" data-game-id="@Model.Id" data-parent-id="@reply.Id" data-user-id="YOUR_USER_ID">Save Reply</button>
-                                    </div>
-
-                                    <div class="childComments">
-                                        @foreach (var innetReply in reply.ChildComments)
-                                        {
-                                            <div class="comment">
-                                                <p>@reply.Text</p>
-                                                <button class="replyBtn" data-parent-id="@innetReply.Id">Reply</button>
-                                                <button class="showRepliesBtn" data-comment-id="@innetReply.Id">Show Replies</button>
-
-                                                <div class="replyInput">
-                                                    <input type="text" class="replyText" placeholder="Write a reply..." />
-                                                    <button class="saveReplyBtn" data-game-id="@Model.Id" data-parent-id="@innetReply.Id" data-user-id="YOUR_USER_ID">Save Reply</button>
-                                                </div>
-
-                                                <div class="childComments">
-                                                    <!-- Repeat the same structure for nested replies -->
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                            }
-                        </div>
+        <!-- Comments -->
+        <div id="comments">
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="comment">
+                    <p>@comment.Text</p>
+                    <button class="replyBtn" data-parent-id="@comment.Id">Reply</button>
+                    <button class="showRepliesBtn" data-comment-id="@comment.Id">Show Replies</button>
+                    
+                    <!-- Reply Input -->
+                    <div class="replyInput">
+                        <input type="text" class="replyText" placeholder="Write a reply..." />
+                        <button class="saveReplyBtn" data-game-id="@Model.Id" data-parent-id="@comment.Id" data-user-id="YOUR_USER_ID">Save Reply</button>
                     </div>
-                }
-            </div>
+                    
+                    <!-- Child Comments (Replies) -->
+                    <div class="childComments">
+                        @foreach (var reply in comment.ChildComments)
+                        {
+                            <div class="comment">
+                                <p>@reply.Text</p>
+                                <button class="replyBtn" data-parent-id="@reply.Id">Reply</button>
+                                <button class="showRepliesBtn" data-comment-id="@reply.Id">Show Replies</button>
+                                
+                                <!-- Reply Input -->
+                                <div class="replyInput">
+                                    <input type="text" class="replyText" placeholder="Write a reply..." />
+                                    <button class="saveReplyBtn" data-game-id="@Model.Id" data-parent-id="@reply.Id" data-user-id="YOUR_USER_ID">Save Reply</button>
+                                </div>
+                                
+                                <!-- Child Comments (Replies) -->
+                                <div class="childComments">
+                                    <!-- Repeat the same structure for nested replies -->
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </div>
 
-    <script>
-        // JavaScript code for handling comment and reply functionality
-        $(document).ready(function () {
-            // Handle saving a new comment
-            $('#saveCommentBtn').click(function () {
-                var gameId = $(this).data('game-id');
-                var userId = $(this).data('user-id');
-                var text = $('#commentInput').val();
-
-                // Send a request to your API to save the comment
-                // Use gameId, userId, and text
-                // Handle success and update the comment section
-            });
-
-            // Handle showing/hiding replies
-            $('.showRepliesBtn').click(function () {
-                var commentId = $(this).data('comment-id');
-                var childComments = $(this).siblings('.childComments');
-
-                // Toggle visibility of childComments and update button text
-                childComments.toggle();
-                if (childComments.is(':visible')) {
-                    $(this).text('Hide Replies');
-                } else {
-                    $(this).text('Show Replies');
-                }
-            });
-
-            // Handle saving a new reply
-            $('.saveReplyBtn').click(function () {
-                var gameId = $(this).data('game-id');
-                var parentId = $(this).data('parent-id');
-                var userId = $(this).data('user-id');
-                var text = $(this).siblings('.replyInput').find('.replyText').val();
-
-                // Send a request to your API to save the reply
-                // Use gameId, parentId, userId, and text
-                // Handle success and update the reply section
-            });
+<script>
+    // JavaScript code for handling comment and reply functionality
+    $(document).ready(function () {
+        // Handle saving a new comment
+        $('#saveCommentBtn').click(function () {
+            var gameId = $(this).data('game-id');
+            var userId = $(this).data('user-id');
+            var text = $('#commentInput').val();
+            
+            // Send a request to your API to save the comment
+            // Use gameId, userId, and text
+            // Handle success and update the comment section
         });
-    </script>
 
+        // Handle showing/hiding replies
+        $('.showRepliesBtn').click(function () {
+            var commentId = $(this).data('comment-id');
+            var childComments = $(this).siblings('.childComments');
+            
+            // Toggle visibility of childComments and update button text
+            childComments.toggle();
+            if (childComments.is(':visible')) {
+                $(this).text('Hide Replies');
+            } else {
+                $(this).text('Show Replies');
+            }
+        });
+
+        // Handle saving a new reply
+        $('.saveReplyBtn').click(function () {
+            var gameId = $(this).data('game-id');
+            var parentId = $(this).data('parent-id');
+            var userId = $(this).data('user-id');
+            var text = $(this).siblings('.replyInput').find('.replyText').val();
+            
+            // Send a request to your API to save the reply
+            // Use gameId, parentId, userId, and text
+            // Handle success and update the reply section
+        });
+    });
+</script>
+
+
+
+@*
+
+<h2 style="color:white;">Comment</h2>
+<form id="comment-form" style="margin-bottom:20px;">
+    <input type="hidden" id="game-id" value="@Model.Id" />
+    <div class="form-group">
+        <textarea class="form-control" id="comment-text" placeholder="Add a comment"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Comment</button>
+</form>
+
+<div class="comment-header">
+    <strong>@comment.User.UserName</strong>
+    <span class="comment-date">@comment.Created.ToString("yyyy-MM-dd HH:mm:ss")</span>
+</div>
+<div class="comment-text">
+    @comment.Text
+    <button class="replyBtn" data-parent-id="@comment.Id">Reply</button>
+    <button class="showRepliesBtn" data-comment-id="@comment.Id">Show Replies</button>
+</div>
+<div class="replyInput">
+    <input type="text" class="replyText" placeholder="Write a reply..." />
+    <button class="saveReplyBtn" data-game-id="@Model.Id" data-parent-id="@comment.Id" data-user-id="YOUR_USER_ID">Save Reply</button>
+</div>*@
