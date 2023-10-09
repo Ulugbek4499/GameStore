@@ -1,4 +1,6 @@
-﻿@using GameStore.Application.UseCases.Games
+﻿<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+@using GameStore.Application.UseCases.Games
 
 @{
     Layout = "_Layout";
@@ -44,110 +46,149 @@
                 </div>
             </div>
         </div>
+        <!-- Comment Section -->
+        <div class="mt-4">
+            <!-- Comment Input -->
+            <div>
+                <input type="text" id="commentInput" placeholder="Write a comment..." />
+                <button id="saveCommentBtn" data-game-id="@Model.Id" data-user-id="YOUR_USER_ID">Save</button>
+            </div>
 
-        <div class="comment-section">
-            <h3>Comments</h3>
+            <!-- Comments -->
+            <div id="comments">
+                @foreach (var comment in Model.Comments)
+                {
+                    <div class="comment">
+                        <p>@comment.Text</p>
+                        <button class="replyBtn" data-parent-id="@comment.Id">Reply</button>
+                        <button class="showRepliesBtn" data-comment-id="@comment.Id">Show Replies</button>
 
-            <!-- Add a form to create a new comment -->
-            <form id="comment-form">
-                <input type="hidden" id="game-id" value="@Model.Id" />
-                <div class="form-group">
-                    <textarea class="form-control" id="comment-text" placeholder="Add a comment"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Add Comment</button>
-            </form>
-
-            @foreach (var comment in Model.Comments.Where(c => c.ParentCommentId == null))
-            {
-                <div class="comment">
-                    <div class="comment-header">
-                        <strong>@comment.User.FirstName @comment.User.LastName</strong>
-                    </div>
-                    <div class="comment-text">
-                        @comment.Text
-                    </div>
-                    <div class="comment-actions">
-                        <!-- Add a reply button for each comment -->
-                        <a href="#" class="reply-button" data-parent-comment-id="@comment.Id">Reply</a>
-                    </div>
-
-                    <!-- Recursively display child comments -->
-                    @foreach (var childComment in Model.Comments.Where(c => c.ParentCommentId == comment.Id))
-                    {
-                        <div class="child-comment">
-                            <div class="comment-header">
-                                <strong>@childComment.User.FirstName @childComment.User.LastName</strong>
-                            </div>
-                            <div class="comment-text">
-                                @childComment.Text
-                            </div>
-                            <div class="comment-actions">
-                                <!-- Add a reply button for each child comment -->
-                                <a href="#" class="reply-button" data-parent-comment-id="@childComment.Id">Reply</a>
-                            </div>
+                        <!-- Reply Input -->
+                        <div class="replyInput">
+                            <input type="text" class="replyText" placeholder="Write a reply..." />
+                            <button class="saveReplyBtn" data-game-id="@Model.Id" data-parent-id="@comment.Id" data-user-id="YOUR_USER_ID">Save Reply</button>
                         </div>
-                    }
-                </div>
-            }
+
+                        <!-- Child Comments (Replies) -->
+                        <div class="childComments" style="padding-left:50px;">
+                            @foreach (var reply in comment.ChildComments)
+                            {
+                                <div class="comment">
+                                    <p>@reply.Text</p>
+                                    <button class="replyBtn" data-parent-id="@reply.Id">Reply</button>
+                                    <button class="showRepliesBtn" data-comment-id="@reply.Id">Show Replies</button>
+
+                                    <!-- Reply Input -->
+                                    <div class="replyInput">
+                                        <input type="text" class="replyText" placeholder="Write a reply..." />
+                                        <button class="saveReplyBtn" data-game-id="@Model.Id" data-parent-id="@reply.Id" data-user-id="YOUR_USER_ID">Save Reply</button>
+                                    </div>
+
+                                    <!-- Child Comments (Replies) -->
+                                    <div class="childComments">
+                                        <!-- Repeat the same structure for nested replies -->
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
         </div>
-
-
     </div>
 </div>
 
-<div class="clr"></div>
-
-
-@section scripts {
     <script>
-        // JavaScript code for handling comment creation and replies
+        // JavaScript code for handling comment and reply functionality
         $(document).ready(function () {
-            // Handle the submit of the comment form
-            $('#comment-form').submit(function (e) {
-                e.preventDefault();
-                var gameId = $('#game-id').val();
-                var text = $('#comment-text').val();
+            // Handle saving a new comment
+            $('#saveCommentBtn').click(function () {
+                var gameId = $(this).data('game-id');
+                var userId = $(this).data('user-id');
+                var text = $('#commentInput').val();
 
-                // Send a POST request to create a new comment
-                $.ajax({
-                    url: '/Comments/CreateComment',
-                    type: 'POST',
-                    data: { gameId: gameId, text: text },
-                    success: function (commentId) {
-                        // Add the new comment to the comment section
-                        var newComment = '<div class="comment"><div class="comment-header"><strong>You</strong><span class="comment-date">Now</span></div><div class="comment-text">' + text + '</div><div class="comment-actions"><a href="#" class="reply-button" data-parent-comment-id="' + commentId + '">Reply</a></div></div>';
-                        $('.comment-section').prepend(newComment);
-                        $('#comment-text').val('');
-                    },
-                    error: function () {
-                        alert('Error creating comment.');
-                    }
-                });
+                // Send a request to your API to save the comment
+                // Use gameId, userId, and text
+                // Handle success and update the comment section
             });
 
-            // Handle clicking the reply button
-            $('.reply-button').click(function () {
-                var parentCommentId = $(this).data('parent-comment-id');
-                var replyText = prompt('Enter your reply:');
-                if (replyText) {
-                    var gameId = $('#game-id').val();
+            // Handle showing/hiding replies
+            $('.showRepliesBtn').click(function () {
+                var commentId = $(this).data('comment-id');
+                var childComments = $(this).siblings('.childComments');
 
-                    // Send a POST request to create a reply comment
-                    $.ajax({
-                        url: '/Comments/CreateComment',
-                        type: 'POST',
-                        data: { gameId: gameId, text: replyText, parentCommentId: parentCommentId },
-                        success: function (commentId) {
-                            // Add the reply comment under the parent comment
-                            var replyComment = '<div class="comment reply"><div class="comment-header"><strong>You</strong><span class="comment-date">Now</span></div><div class="comment-text">' + replyText + '</div></div>';
-                            $('.comment[data-parent-comment-id="' + parentCommentId + '"]').append(replyComment);
-                        },
-                        error: function () {
-                            alert('Error creating reply.');
-                        }
-                    });
+                // Toggle visibility of childComments and update button text
+                childComments.toggle();
+                if (childComments.is(':visible')) {
+                    $(this).text('Hide Replies');
+                } else {
+                    $(this).text('Show Replies');
                 }
+            });
+
+            // Handle saving a new reply
+            $('.saveReplyBtn').click(function () {
+                var gameId = $(this).data('game-id');
+                var parentId = $(this).data('parent-id');
+                var userId = $(this).data('user-id');
+                var text = $(this).siblings('.replyInput').find('.replyText').val();
+
+                // Send a request to your API to save the reply
+                // Use gameId, parentId, userId, and text
+                // Handle success and update the reply section
             });
         });
     </script>
-}
+
+
+@*<div class="comment-section">
+    <h3>Comments</h3>
+
+    <!-- Add a form to create a new comment -->
+    <form id="comment-form">
+        <input type="hidden" id="game-id" value="@Model.Id" />
+        <div class="form-group">
+            <textarea class="form-control" id="comment-text" placeholder="Add a comment"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Comment</button>
+    </form>
+
+    @foreach (var comment in Model.Comments.Where(c => c.ParentCommentId == null))
+    {
+        <div class="comment">
+            <div class="comment-header">
+                <strong>@comment.User.FirstName @comment.User.LastName</strong>
+                <span class="comment-date">@comment.Created.ToString("yyyy-MM-dd HH:mm")</span>
+            </div>
+            <div class="comment-text">
+                @comment.Text
+            </div>
+            <div class="comment-actions">
+                <!-- Add a reply button for each comment -->
+                <a href="#" class="reply-button" data-parent-comment-id="@comment.Id">Reply</a>
+                <a href="#" class="show-replies-button" data-comment-id="@comment.Id">Show Replies</a>
+            </div>
+            <div class="replies">
+                <!-- Container for child comments -->
+                @foreach (var childComment in comment.ChildComments)
+                {
+                    <div class="child-comment">
+                        <div class="comment-header">
+                            <strong>@childComment.User.FirstName @childComment.User.LastName</strong>
+                            <span class="comment-date">@childComment.Created.ToString("yyyy-MM-dd HH:mm")</span>
+                        </div>
+                        <div class="comment-text">
+                            @childComment.Text
+                        </div>
+                        <div class="comment-actions">
+                            <!-- Add a reply button for each child comment -->
+                            <a href="#" class="reply-button" data-parent-comment-id="@childComment.Id">Reply</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+*@

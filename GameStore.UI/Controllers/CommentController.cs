@@ -54,7 +54,7 @@ namespace GameStore.UI.Controllers
         }
 
         [HttpGet("[action]")]
-        public async ValueTask<IActionResult> ViewComment(int id)
+        public async ValueTask<IActionResult> GetCommentById(int id)
         {
             var Comment = await Mediator.Send(new GetCommentByIdQuery(id));
 
