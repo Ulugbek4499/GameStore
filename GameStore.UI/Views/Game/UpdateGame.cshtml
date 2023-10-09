@@ -7,52 +7,52 @@
     GenreResponse[] Genres = ViewData["Genres"] as GenreResponse[];
 }
 
-<h2>@ViewData["Title"]</h2>
 
 <form asp-action="UpdateGame" method="post" enctype="multipart/form-data">
     <input type="hidden" asp-for="Id" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <h2 style="color:white; display:flex; justify-content:center; padding-bottom:10px;"> Update Game</h2>
+    <h2 style="color:white; display:flex; justify-content:center; padding-bottom:10px; padding-top:10px;"> Update Game</h2>
+
     <div class="form-group">
-        <label asp-for="Name" class="control-label">Name</label>
+        <label asp-for="Name" class="control-label text-white">Name</label>
         <input asp-for="Name" class="form-control" />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
+    <div class="form-group pt-3">
         <label asp-for="Description" class="control-label text-white">Description</label>
         <input asp-for="Description" class="form-control" />
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
+    <div class="form-group pt-3">
         <label asp-for="Price" class="control-label text-white">Price</label>
         <input asp-for="Price" class="form-control" />
         <span asp-validation-for="Price" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
+    <div class="form-group pt-3">
         <label asp-for="Genres" class="control-label text-white">Genres</label>
         @foreach (var genre in Genres)
         {
             <div class="form-check">
                 <input type="checkbox" name="GenreIds" value="@genre.Id" class="form-check-input"
                 @(Model.Genres.Any(g => g.Id == genre.Id) ? "checked" : "") />
-                <label class="form-check-label">@genre.Name</label>
+                <label class="form-check-label text-white">@genre.Name</label>
             </div>
         }
         <span asp-validation-for="Genres" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
+    <div class="form-group pt-3">
         <label asp-for="Picture" class="control-label text-white">Game Picture</label>
-        <input type="file" name="Picture" accept=".jpg, .jpeg, .png" class="form-control-file" />
+        <input type="file" name="Picture" accept=".jpg, .jpeg, .png" class="form-control-file text-white pb-2" />
         <span asp-validation-for="Picture" class="text-danger"></span>
     </div>
 
     @if (!string.IsNullOrEmpty(Model.Picture))
     {
-        <div class="form-group">
+        <div class="form-group pb-3">
             <img src="@Url.Content(Model.Picture)" alt="Current Game Picture" class="img-thumbnail" />
         </div>
     }
