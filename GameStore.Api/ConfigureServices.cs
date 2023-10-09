@@ -1,6 +1,9 @@
 ﻿using System.Text.Json.Serialization;
 using GameStore.Application.Common.Interfaces;
+using GameStore.Domain.Entities.Identity;
+using GameStore.Infrastructure.Persistence;
 using GameStore.WebApi.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 
 namespace GameStore.WebApi;
@@ -15,6 +18,10 @@ public static class ConfigureServices
         {
             x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         });
+
+        services.AddIdentity<ApplicationUser, IdentityRole>()
+        .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddDefaultTokenProviders();
 
         services.AddEndpointsApiExplorer();
         services.AddHttpContextAccessor();

@@ -20,9 +20,9 @@ namespace GameStore.Application.UseCases.Comments.Queries.GetAllComments
 
         public async Task<CommentResponse[]> Handle(GetAllCommentsQuery request, CancellationToken cancellationToken)
         {
-            var Comments = await _context.Comments.ToArrayAsync();
+            var comments = await _context.Comments.ToListAsync();
 
-            return _mapper.Map<CommentResponse[]>(Comments);
+            return _mapper.Map<CommentResponse[]>(comments);
         }
     }
 }

@@ -24,12 +24,6 @@ namespace GameStore.UI.Controllers
         }
 
         [HttpGet("[action]")]
-        public async ValueTask<IActionResult> CreateCommentFromExcel()
-        {
-            return View();
-        }
-
-        [HttpGet("[action]")]
         public async ValueTask<IActionResult> GetAllComments()
         {
             var Comments = await Mediator.Send(new GetAllCommentsQuery());
