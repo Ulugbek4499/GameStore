@@ -46,15 +46,14 @@
                 </div>
             </div>
         </div>
-        <!-- Comment Section -->
+
         <div class="mt-4">
-            <!-- Comment Input -->
+
             <div>
                 <input type="text" id="commentInput" placeholder="Write a comment..." />
                 <button id="saveCommentBtn" data-game-id="@Model.Id" data-user-id="YOUR_USER_ID">Save</button>
             </div>
 
-            <!-- Comments -->
             <div id="comments">
                 @foreach (var comment in Model.Comments)
                 {
@@ -63,13 +62,11 @@
                         <button class="replyBtn" data-parent-id="@comment.Id">Reply</button>
                         <button class="showRepliesBtn" data-comment-id="@comment.Id">Show Replies</button>
 
-                        <!-- Reply Input -->
                         <div class="replyInput">
                             <input type="text" class="replyText" placeholder="Write a reply..." />
                             <button class="saveReplyBtn" data-game-id="@Model.Id" data-parent-id="@comment.Id" data-user-id="YOUR_USER_ID">Save Reply</button>
                         </div>
 
-                        <!-- Child Comments (Replies) -->
                         <div class="childComments" style="padding-left:50px;">
                             @foreach (var reply in comment.ChildComments)
                             {
@@ -78,15 +75,29 @@
                                     <button class="replyBtn" data-parent-id="@reply.Id">Reply</button>
                                     <button class="showRepliesBtn" data-comment-id="@reply.Id">Show Replies</button>
 
-                                    <!-- Reply Input -->
                                     <div class="replyInput">
                                         <input type="text" class="replyText" placeholder="Write a reply..." />
                                         <button class="saveReplyBtn" data-game-id="@Model.Id" data-parent-id="@reply.Id" data-user-id="YOUR_USER_ID">Save Reply</button>
                                     </div>
 
-                                    <!-- Child Comments (Replies) -->
                                     <div class="childComments">
-                                        <!-- Repeat the same structure for nested replies -->
+                                        @foreach (var innetReply in reply.ChildComments)
+                                        {
+                                            <div class="comment">
+                                                <p>@reply.Text</p>
+                                                <button class="replyBtn" data-parent-id="@innetReply.Id">Reply</button>
+                                                <button class="showRepliesBtn" data-comment-id="@innetReply.Id">Show Replies</button>
+
+                                                <div class="replyInput">
+                                                    <input type="text" class="replyText" placeholder="Write a reply..." />
+                                                    <button class="saveReplyBtn" data-game-id="@Model.Id" data-parent-id="@innetReply.Id" data-user-id="YOUR_USER_ID">Save Reply</button>
+                                                </div>
+
+                                                <div class="childComments">
+                                                    <!-- Repeat the same structure for nested replies -->
+                                                </div>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             }
