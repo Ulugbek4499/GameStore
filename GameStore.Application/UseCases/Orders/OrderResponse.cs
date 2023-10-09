@@ -18,8 +18,8 @@ namespace GameStore.Application.UseCases.Orders
         public Cart Cart { get; set; }
 
         public DateTime Created { get; set; }
-        public int? CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
         public DateTime? LastModified { get; set; }
-        public int? LastModifiedBy { get; set; }
+        public string? LastModifiedBy { get; set; }
     }
 }
