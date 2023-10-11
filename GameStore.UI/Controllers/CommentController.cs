@@ -4,7 +4,6 @@ using GameStore.Application.UseCases.Comments.Commands.UpdateComment;
 using GameStore.Application.UseCases.Comments.Queries.GetAllComments;
 using GameStore.Application.UseCases.Comments.Queries.GetCommentById;
 using GameStore.Application.UseCases.Games.Queries.GetGameById;
-using GameStore.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.UI.Controllers
@@ -19,9 +18,8 @@ namespace GameStore.UI.Controllers
 
             var Game = await Mediator.Send(new GetGameByIdQuery(id));
 
-            return RedirectToAction("Game", "View", Game);
+            return RedirectToAction("Game", "ViewGame", Game);
         }
-
 
         [HttpGet("[action]")]
         public async ValueTask<IActionResult> GetAllComments()
@@ -31,7 +29,6 @@ namespace GameStore.UI.Controllers
             return View(Comments);
         }
 
-
         [HttpPost("[action]")]
         public async ValueTask<IActionResult> UpdateComment([FromForm] UpdateCommentCommand Comment)
         {
@@ -40,7 +37,7 @@ namespace GameStore.UI.Controllers
             int id = Comment.GameId ?? 0;
             var Game = await Mediator.Send(new GetGameByIdQuery(id));
 
-            return RedirectToAction("Game", "View", Game);
+            return RedirectToAction("Game", "ViewGame", Game);
         }
 
         public async ValueTask<IActionResult> DeleteComment(int Id)
@@ -52,7 +49,7 @@ namespace GameStore.UI.Controllers
 
             var Game = await Mediator.Send(new GetGameByIdQuery(id));
 
-            return RedirectToAction("Game", "View", Game);
+            return RedirectToAction("Game", "ViewGame", Game);
         }
 
         [HttpGet("[action]")]
