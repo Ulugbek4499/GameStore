@@ -16,7 +16,6 @@ namespace GameStore.Application.UseCases.Games
 
         public virtual ICollection<Genre>? Genres { get; set; }
         public virtual ICollection<Comment>? Comments { get; set; }
-        public virtual ICollection<CartItem>? CartItems { get; set; }
 
         public DateTime Created { get; set; }
 

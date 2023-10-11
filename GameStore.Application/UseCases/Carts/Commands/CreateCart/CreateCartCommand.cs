@@ -7,6 +7,8 @@ namespace GameStore.Application.UseCases.Carts.Commands.CreateCart;
 
 public class CreateCartCommand : IRequest<int>
 {
+    public string UserId { get; set; }
+    public ICollection<int>? GameIds { get; set; }
 
 }
 

@@ -10,5 +10,4 @@ public class Game : BaseAuditableEntity
     public string? Picture { get; set; }
     public virtual ICollection<Genre>? Genres { get; set; }
     public virtual ICollection<Comment>? Comments { get; set; }
-    public virtual ICollection<CartItem>? CartItems { get; set; }
 }
