@@ -1,4 +1,5 @@
-﻿using GameStore.Application.UseCases.Comments.Commands.CreateComment;
+﻿using GameStore.Application.Common.Interfaces;
+using GameStore.Application.UseCases.Comments.Commands.CreateComment;
 using GameStore.Application.UseCases.Comments.Commands.DeleteComment;
 using GameStore.Application.UseCases.Comments.Commands.UpdateComment;
 using GameStore.Application.UseCases.Comments.Queries.GetAllComments;
@@ -10,15 +11,22 @@ namespace GameStore.UI.Controllers
 {
     public class CommentController : ApiBaseController
     {
+        private readonly IApplicationUser _applicationUser;
+
+        public CommentController(IApplicationUser applicationUser)
+        {
+            this._applicationUser = applicationUser;
+        }
+
         [HttpPost("[action]")]
         public async ValueTask<IActionResult> CreateComment([FromForm] CreateCommentCommand Comment)
         {
+            Comment.UserId = _applicationUser.Id;
+
             await Mediator.Send(Comment);
-            int id = Comment.GameId ?? 0; 
 
-            var Game = await Mediator.Send(new GetGameByIdQuery(id));
-
-            return RedirectToAction("Game", "ViewGame", Game);
+            // Assuming you have a "ViewGame" action in your GameController
+            return RedirectToAction("ViewGame", new { id = Comment.GameId });
         }
 
         [HttpGet("[action]")]
@@ -32,6 +40,7 @@ namespace GameStore.UI.Controllers
         [HttpPost("[action]")]
         public async ValueTask<IActionResult> UpdateComment([FromForm] UpdateCommentCommand Comment)
         {
+            Comment.UserId = _applicationUser.Id;
             await Mediator.Send(Comment);
 
             int id = Comment.GameId ?? 0;
