@@ -9,7 +9,7 @@ namespace GameStore.Application.UseCases.Carts
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
 
-        public virtual ICollection<int>? GameIds { get; set; }
+        public virtual List<int>? GameIds { get; set; }
         public virtual ICollection<Game>? Games { get; set; }
 
         public DateTime Created { get; set; }
