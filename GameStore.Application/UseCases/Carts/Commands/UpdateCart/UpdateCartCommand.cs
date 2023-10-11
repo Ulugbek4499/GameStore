@@ -10,7 +10,7 @@ namespace GameStore.Application.UseCases.Carts.Commands.UpdateCart
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-        public List<int>? GameIds { get; set; }
+        public int? GameId { get; set; }
     }
 
     public class UpdateCartCommandHandler : IRequestHandler<UpdateCartCommand>

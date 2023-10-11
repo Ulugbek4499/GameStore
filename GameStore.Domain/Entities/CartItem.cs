@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace GameStore.Domain.Entities.Identity
 {
-    internal class CartItem
+    public class CartItem
     {
+
     }
 }
