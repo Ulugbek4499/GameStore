@@ -3,25 +3,25 @@ using GameStore.Application.UseCases.Comments.Commands.DeleteComment;
 using GameStore.Application.UseCases.Comments.Commands.UpdateComment;
 using GameStore.Application.UseCases.Comments.Queries.GetAllComments;
 using GameStore.Application.UseCases.Comments.Queries.GetCommentById;
+using GameStore.Application.UseCases.Games.Queries.GetGameById;
+using GameStore.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.UI.Controllers
 {
     public class CommentController : ApiBaseController
     {
-        [HttpGet("[action]")]
-        public async ValueTask<IActionResult> CreateComment()
-        {
-            return View();
-        }
-
         [HttpPost("[action]")]
         public async ValueTask<IActionResult> CreateComment([FromForm] CreateCommentCommand Comment)
         {
             await Mediator.Send(Comment);
+            int id = Comment.GameId ?? 0; 
 
-            return RedirectToAction("GetAllComments");
+            var Game = await Mediator.Send(new GetGameByIdQuery(id));
+
+            return RedirectToAction("Game", "View", Game);
         }
+
 
         [HttpGet("[action]")]
         public async ValueTask<IActionResult> GetAllComments()
@@ -31,26 +31,28 @@ namespace GameStore.UI.Controllers
             return View(Comments);
         }
 
-        [HttpGet("[action]")]
-        public async ValueTask<IActionResult> UpdateComment(int Id)
-        {
-            var Comment = await Mediator.Send(new GetCommentByIdQuery(Id));
-
-            return View(Comment);
-        }
 
         [HttpPost("[action]")]
         public async ValueTask<IActionResult> UpdateComment([FromForm] UpdateCommentCommand Comment)
         {
             await Mediator.Send(Comment);
-            return RedirectToAction("GetAllComments");
+
+            int id = Comment.GameId ?? 0;
+            var Game = await Mediator.Send(new GetGameByIdQuery(id));
+
+            return RedirectToAction("Game", "View", Game);
         }
 
         public async ValueTask<IActionResult> DeleteComment(int Id)
         {
+            var Comment = await Mediator.Send(new GetCommentByIdQuery(Id));
+            int id = Comment.GameId;
+
             await Mediator.Send(new DeleteCommentCommand(Id));
 
-            return RedirectToAction("GetAllComments");
+            var Game = await Mediator.Send(new GetGameByIdQuery(id));
+
+            return RedirectToAction("Game", "View", Game);
         }
 
         [HttpGet("[action]")]
