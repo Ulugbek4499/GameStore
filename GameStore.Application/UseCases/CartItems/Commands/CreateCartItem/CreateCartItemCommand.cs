@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameStore.Application.UseCases.CartItems.Commands
+namespace GameStore.Application.UseCases.CartItems.Commands.CreateCartItem
 {
-    internal class CreateCartItemCommand
+    public class CreateCartItemCommand
     {
     }
 }

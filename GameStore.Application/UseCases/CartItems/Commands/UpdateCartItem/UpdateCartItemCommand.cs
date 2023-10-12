@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Application.UseCases.CartItems.Commands.UpdateCartItem
 {
-    internal class UpdateCartItemCommand
+    public class UpdateCartItemCommand
     {
     }
 }

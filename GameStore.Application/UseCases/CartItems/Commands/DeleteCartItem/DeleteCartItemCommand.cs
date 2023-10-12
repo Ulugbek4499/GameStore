@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Application.UseCases.CartItems.Commands.DeleteCartItem
 {
-    internal class DeleteCartItemCommand
+    public class DeleteCartItemCommand
     {
     }
 }

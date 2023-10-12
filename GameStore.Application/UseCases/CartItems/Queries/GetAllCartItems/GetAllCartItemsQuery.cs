@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Application.UseCases.CartItems.Queries.GetAllCartItems
 {
-    internal class GetAllCartItemsQuery
+    public class GetAllCartItemsQuery
     {
     }
 }
