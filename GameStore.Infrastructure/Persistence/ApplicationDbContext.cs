@@ -21,6 +21,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
     }
 
     public DbSet<Cart> Carts { get; set; }
+    public DbSet<CartItem> CartItems { get; set; }
     public DbSet<Comment> Comments { get; set; }
     public DbSet<Game> Games { get; set; }
     public DbSet<Genre> Genres { get; set; }
