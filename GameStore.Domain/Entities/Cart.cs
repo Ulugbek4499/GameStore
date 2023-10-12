@@ -9,5 +9,4 @@ public class Cart : BaseAuditableEntity
     public virtual ApplicationUser User { get; set; }
 
     public virtual ICollection<CartItem>? CartItems { get; set; }
-
 }

@@ -16,6 +16,5 @@ namespace GameStore.Domain.Entities.Identity
         
         public int GameId { get; set; }
         public virtual Game? Game { get; set; }
-
     }
 }
