@@ -34,9 +34,4 @@
 	  </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UseCases\CartItems\Commands\" />
-    <Folder Include="UseCases\CartItems\Queries\" />
-  </ItemGroup>
-
 </Project>
