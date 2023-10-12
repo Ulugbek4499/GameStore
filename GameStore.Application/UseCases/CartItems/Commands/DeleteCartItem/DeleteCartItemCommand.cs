@@ -1,12 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GameStore.Application.Common.Interfaces;
+using GameStore.Domain.Entities.Identity;
+using MediatR;
 
-namespace GameStore.Application.UseCases.CartItems.Commands.DeleteCartItem
+namespace CartItemStore.Application.UseCases.CartItems.Commands.DeleteCartItem
 {
-    public class DeleteCartItemCommand
+    public record DeleteCartItemCommand(int Id) : IRequest;
+    public class DeleteCartItemCommandHandler : IRequestHandler<DeleteCartItemCommand>
     {
+        private readonly IApplicationDbContext _context;
+
+        public DeleteCartItemCommandHandler(IApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task Handle(DeleteCartItemCommand request, CancellationToken cancellationToken)
+        {
+            CartItem? cartItem = await _context.CartItems.FindAsync(request.Id, cancellationToken);
+
+            if (cartItem is null)
+                throw new GameStore.Application.Common.Exceptions.NotFoundException(nameof(cartItem), request.Id);
+
+            _context.CartItems.Remove(cartItem);
+
+            await _context.SaveChangesAsync(cancellationToken);
+        }
     }
 }
