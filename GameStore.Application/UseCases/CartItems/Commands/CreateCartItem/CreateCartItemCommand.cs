@@ -26,25 +26,29 @@ namespace GameStore.Application.UseCases.CartItems.Commands.CreateCartItem
     {
         private readonly IMapper _mapper;
         private readonly IApplicationDbContext _context;
-        private readonly IApplicationUser _applicationUser;
         private readonly IMediator _mediator;
 
-        public CreateCartItemCommandHandler(IMapper mapper, IApplicationDbContext context, IApplicationUser applicationUser, IMediator mediator)
+        public CreateCartItemCommandHandler(IMapper mapper, IApplicationDbContext context, IMediator mediator)
         {
             _mapper = mapper;
             _context = context;
-            _applicationUser = applicationUser;
             _mediator = mediator;
         }
 
         public async Task<int> Handle(CreateCartItemCommand request, CancellationToken cancellationToken)
         {
-            CreateCartCommand Cart = new CreateCartCommand();
-            Cart.UserId = request.UserId;
+            var cart = _context.Carts.FirstOrDefault(x => x.UserId == request.UserId);
 
-            await _mediator.Send(Cart);
+            if (cart is null)
+            {
+                // Create a new cart and add it to the context
+                CreateCartCommand Cart = new CreateCartCommand();
+                Cart.UserId = request.UserId;
+                await _mediator.Send(Cart);
+            }
 
             CartItem cartItem = _mapper.Map<CartItem>(request);
+
             await _context.CartItems.AddAsync(cartItem);
             await _context.SaveChangesAsync(cancellationToken);
 
