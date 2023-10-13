@@ -139,7 +139,7 @@
             $.ajax({
                 type: 'POST',
                 url: '/CartItem/CreateCartItem',
-                data: { GameId: gameId, UserId: userId, Count: 5 }, // Ensure that the key names match your action parameters
+                data: { GameId: gameId, UserId: userId, Count: 1 }, // Ensure that the key names match your action parameters
                 success: function (data) {
                     // Handle the response if needed
                     console.log('CartItem created: ' + data);
@@ -151,6 +151,7 @@
                     console.error('Error creating CartItem: ' + error);
                 }
             });
+            getCartItemCount();
         });
     });
 </script>

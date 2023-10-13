@@ -2,29 +2,47 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@using Microsoft.Extensions.Configuration 
+@inject IConfiguration Configuration 
+
 
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-  <div style="display:flex; justify-content:space-around;">
+    @if (SignInManager.IsSignedIn(User))
+    {
+
+        <div style="display:flex; justify-content: space-around;">
         <li class="nav-item mr-2">
-             <img src="/Uploads/@UserManager.GetUserAsync(User).Result.Photo" style="width: 35px; height: 40px; border-radius: 50%;" />
+            <img src="/Uploads/@UserManager.GetUserAsync(User).Result.Photo" style="width: 35px; height: 40px; border-radius: 50%;" />
         </li>
         <li class="nav-item mr-4">
-                <a class="nav-link text-white-50" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@UserManager.GetUserAsync(User).Result.FirstName @UserManager.GetUserAsync(User).Result.LastName</a>
+            <a class="nav-link text-white-50" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@UserManager.GetUserAsync(User).Result.FirstName @UserManager.GetUserAsync(User).Result.LastName</a>
         </li>
         <div class="nav-item mr-5">
             <form>
-                <button type="button" class="nav-link btn btn-link text-white-50" onclick="redirectToViewCart()">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
-                        <style>
-                            svg {
-                                fill: #d7dde4;
-                            }
-                        </style>
-                        <path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z" />
-                    </svg>
-                </button>
+                <div style="position: relative;">
+                    <button type="button" class="nav-link btn btn-link text-white-50" onclick="redirectToViewCart()">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                            <style>
+                                svg {
+                                    fill: #d7dde4;
+                                }
+
+                                .count-container {
+                                    position: absolute;
+                                    top: -10px;
+                                    right: -10px;
+                                    background-color: red;
+                                    color: white;
+                                    border-radius: 50%;
+                                    padding: 4px 8px;
+                                    font-size: 12px;
+                                }
+                            </style>
+                            <path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z" />
+                        </svg>
+                        <div class="count-container" id="cartItemCount"></div>
+                    </button>
+                </div>
             </form>
         </div>
 
@@ -35,30 +53,52 @@
                         <style>
                             svg {
                                 fill: #e8eaed
-                            }</style>
-                        <path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z" />
+                            }
+                        </style>
+                        <path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z" />
                     </svg>
                 </button>
             </form>
         </li>
-  </div>
-}
-else
-{
-  <div style="display:flex; justify-content:space-around; gap:10px;">
-         <li class="nav-item mr-3">
-                <a class="nav-link text-white-50" asp-area="Identity" asp-page="/Account/Login">SignIn</a>
-         </li>
-         <li class="nav-item">
+        </div>
+    }
+    else
+    {
+        <div style="display:flex; justify-content:space-around; gap:10px;">
+        <li class="nav-item mr-3">
+            <a class="nav-link text-white-50" asp-area="Identity" asp-page="/Account/Login">SignIn</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link text-white-50" asp-area="Identity" asp-page="/Account/Register">SignUp</a>
-         </li>
-  </div>
-}
+        </li>
+        </div>
+    }
 </ul>
 
-<script>
-    function redirectToViewCart() {
-        // Use JavaScript to set the window location to the desired URL
-        window.location.href = '@Url.Action("ViewCart", "Cart", new { id = @UserManager.GetUserId(User)})';
-    }
-</script>
+
+        <script>
+            async function getCartItemCount() {
+                try {
+                    const response = await fetch('@Url.Action("GetCountOfItems", "Cart", new { userId = UserManager.GetUserId(User) })');
+
+                    if (response.ok) {
+                        const count = await response.json(); // Assumes the server returns a JSON response
+                        document.getElementById('cartItemCount').textContent = count; // Update the count
+                    } else {
+                        console.error('Failed to fetch cart item count');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+
+            function redirectToViewCart() {
+                getCartItemCount().then(() => {
+                    const userId = '@UserManager.GetUserId(User)';
+                    window.location.href = '@Url.Action("ViewCart", "Cart", new { id = "userIdPlaceholder" })'.replace("userIdPlaceholder", userId);
+                });
+            }
+
+            // Call getCartItemCount on page load to initialize the count
+            getCartItemCount();
+        </script>

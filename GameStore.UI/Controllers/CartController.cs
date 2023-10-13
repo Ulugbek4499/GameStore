@@ -1,6 +1,7 @@
 ﻿using GameStore.Application.UseCases.Carts.Commands.CreateCart;
 using GameStore.Application.UseCases.Carts.Queries.GetCartById;
 using GameStore.Application.UseCases.Carts.Queries.GetCartByUserId;
+using GameStore.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.UI.Controllers
@@ -15,5 +16,19 @@ namespace GameStore.UI.Controllers
 
              return View("ViewCart", Cart);
          }
+
+       // [HttpGet("[action]")]
+        public async ValueTask<IActionResult> GetCountOfItems(string userId)
+        {
+            var cart = await Mediator.Send(new GetCartByUserIdQuery(userId));
+            int count = 0;
+
+            if (cart != null && cart.CartItems != null)
+            {
+                count = cart.CartItems.Sum(item => item.Count ?? 0);
+            }
+
+            return Json(count);
+        }
     }
 }

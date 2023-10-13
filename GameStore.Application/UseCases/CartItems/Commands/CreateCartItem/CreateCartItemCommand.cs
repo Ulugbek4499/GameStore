@@ -17,7 +17,7 @@ namespace GameStore.Application.UseCases.CartItems.Commands.CreateCartItem
 {
     public class CreateCartItemCommand:IRequest<int>
     {
-        public int Count { get; set; }=1;
+        public int Count { get; set; }=0;
         public int? CardId { get; set; }
         public int GameId { get; set; }
         public string UserId { get; set; }

@@ -1,0 +1,47 @@
+﻿@using GameStore.Application.UseCases.Orders;
+
+@{
+    Layout = "_Layout";
+}
+
+@model OrderResponse;
+
+<h2>Order Details</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="FirstName">First Name<span class="text-danger">*</span></label>
+        <input asp-for="@Model.FirstName" class="form-control" required>
+        <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="LastName">Last Name<span class="text-danger">*</span></label>
+        <input asp-for="@Model.LastName" class="form-control" required>
+        <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="Email">E-mail<span class="text-danger">*</span></label>
+        <input asp-for="@Model.Email" class="form-control" required>
+        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="Phone">Phone<span class="text-danger">*</span></label>
+        <input asp-for="@Model.Phone" class="form-control" required>
+        <span asp-validation-for="@Model.Phone" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="PaymentType">Payment Type<span class="text-danger">*</span></label>
+        <select asp-for="@Model.PaymentType" class="form-control" required>
+            <option value="CreditCard">Credit Card</option>
+            <option value="PayPal">PayPal</option>
+            <option value="BankTransfer">Bank Transfer</option>
+        </select>
+        <span asp-validation-for="@Model.PaymentType" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="Comments">Comments (Optional)</label>
+        <textarea asp-for="@Model.Comment" class="form-control" maxlength="600"></textarea>
+        <span asp-validation-for="@Model.Comment" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Order</button>
+</form>
