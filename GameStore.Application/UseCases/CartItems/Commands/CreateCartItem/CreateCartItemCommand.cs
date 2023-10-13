@@ -56,6 +56,9 @@ namespace GameStore.Application.UseCases.CartItems.Commands.CreateCartItem
             {
                 // If the item exists, increment its count
                 existingCartItem.Count += request.Count;
+                await _context.SaveChangesAsync(cancellationToken);
+
+                return existingCartItem.Id;
             }
             else
             {
@@ -64,12 +67,10 @@ namespace GameStore.Application.UseCases.CartItems.Commands.CreateCartItem
                 cartItem.CardId = cart.Id;
                 cartItem.Cart = cart;
                 await _context.CartItems.AddAsync(cartItem);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                return cartItem.Id;
             }
-
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return cartItem.Id;
         }
     }
-
 }
