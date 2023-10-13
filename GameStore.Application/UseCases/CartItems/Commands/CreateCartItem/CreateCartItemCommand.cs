@@ -17,7 +17,7 @@ namespace GameStore.Application.UseCases.CartItems.Commands.CreateCartItem
 {
     public class CreateCartItemCommand:IRequest<int>
     {
-        public int Count { get; set; } = 1;
+        public int Count { get; set; }=1;
         public int? CardId { get; set; }
         public int GameId { get; set; }
         public string UserId { get; set; }
@@ -48,11 +48,24 @@ namespace GameStore.Application.UseCases.CartItems.Commands.CreateCartItem
                 cart = _mapper.Map<Cart>(Cart);
             }
 
-            CartItem cartItem = _mapper.Map<CartItem>(request);
-            cartItem.CardId = cart.Id;
-            cartItem.Cart = cart;// Assign the CartId from the valid cart
+            // Check if a cart item with the same GameId already exists
+            var existingCartItem = _context.CartItems
+                .FirstOrDefault(x => x.Cart.UserId == request.UserId && x.GameId == request.GameId);
 
-            await _context.CartItems.AddAsync(cartItem);
+            if (existingCartItem != null)
+            {
+                // If the item exists, increment its count
+                existingCartItem.Count += request.Count;
+            }
+            else
+            {
+                // Otherwise, create a new cart item
+                CartItem cartItem = _mapper.Map<CartItem>(request);
+                cartItem.CardId = cart.Id;
+                cartItem.Cart = cart;
+                await _context.CartItems.AddAsync(cartItem);
+            }
+
             await _context.SaveChangesAsync(cancellationToken);
 
             return cartItem.Id;
