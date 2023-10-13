@@ -1,5 +1,9 @@
-﻿@using GameStore.Application.UseCases.Games;
+﻿@using GameStore.Domain.Entities.Identity;
+@using Microsoft.AspNetCore.Identity
+@using GameStore.Application.UseCases.Games;
 @using GameStore.Application.UseCases.Genres;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Home Page";
     GameResponse[] Games = ViewData["Games"] as GameResponse[];
@@ -101,10 +105,14 @@
                                         <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white; padding-top:0px; margin-top:0px;" class="game-name">@game.Name</a>
                                         </div>
                                     </div>
+                                @if (SignInManager.IsSignedIn(User))
+                                {
                                     <div class="buy-btn-container">
-                                        <a href="#" class="btn btn-success">BUY</a>
+                                        <a href="#" class="btn btn-success buy-game" data-game-id="@game.Id" data-user-id="@UserManager.GetUserId(User)">BUY</a>
                                     </div>
-                                </div>
+                                }
+
+                            </div>
                             </a>
                         </div>
                     }
@@ -117,6 +125,39 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Handle the "BUY" button click event
+        $('.buy-game').on('click', function (e) {
+            e.preventDefault(); // Prevent the default link behavior
+
+            var gameId = $(this).data('game-id'); // Get the game ID from the data attribute
+            var userId = $(this).data('user-id'); // Get the user ID from the data attribute
+
+            // Send a POST request to the CreateCartItem action
+            $.ajax({
+                type: 'POST',
+                url: '/CartItem/CreateCartItem',
+                data: { GameId: gameId, UserId: userId, Count: 5 }, // Ensure that the key names match your action parameters
+                success: function (data) {
+                    // Handle the response if needed
+                    console.log('CartItem created: ' + data);
+                    // Optionally, you can redirect the user after the cart item is created
+                    // window.location.href = '/your-success-page';
+                },
+                error: function (error) {
+                    // Handle any errors
+                    console.error('Error creating CartItem: ' + error);
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
 
 <script>
     $(document).ready(function () {

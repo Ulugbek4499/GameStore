@@ -1,0 +1,50 @@
+﻿@using GameStore.Application.UseCases.Carts;
+
+@{
+    Layout = "_Layout";
+}
+
+@model CartResponse;
+
+<h3 class="text-center">Carts</h3>
+
+<div class="row">
+    <div class="col">
+        <div class="input-group mb-1 mt-3" style="display:flex; justify-content:space-between; gap:20px;">
+            <div style="display:flex; gap:5px">
+                <a href="@Url.Action("CreateHome")" class="btn btn-primary mr-2">
+                    <i class="fa-solid fa-plus"></i> Квартира
+                </a>
+            </div>
+            <div style="display:flex; gap:5px">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Game</th>
+            <th>Price</th>
+            <th>Count</th>
+            <th>Total Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cartItem in Model.CartItems)
+        {
+            <tr>
+                <td>
+                    <img src="@Url.Content(cartItem.Game.Picture)" alt="Game Image" width="50" height="50" />
+                    @cartItem.Game.Name
+                </td>
+                <td>@cartItem.Game.Price</td>
+                <td>@cartItem.Count</td>
+                <td>@(cartItem.Count * cartItem.Game.Price)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

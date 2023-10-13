@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using GameStore.Application.Common.Interfaces;
+using GameStore.Application.UseCases.Carts;
 using GameStore.Application.UseCases.Carts.Commands.CreateCart;
 using GameStore.Application.UseCases.Carts.Queries.GetCartById;
 using GameStore.Application.UseCases.Comments.Queries.GetCommentById;
@@ -17,7 +18,7 @@ namespace GameStore.Application.UseCases.CartItems.Commands.CreateCartItem
     public class CreateCartItemCommand:IRequest<int>
     {
         public int Count { get; set; } = 1;
-        public int CardId { get; set; }
+        public int? CardId { get; set; }
         public int GameId { get; set; }
         public string UserId { get; set; }
     }
@@ -41,13 +42,15 @@ namespace GameStore.Application.UseCases.CartItems.Commands.CreateCartItem
 
             if (cart is null)
             {
-                // Create a new cart and add it to the context
                 CreateCartCommand Cart = new CreateCartCommand();
                 Cart.UserId = request.UserId;
                 await _mediator.Send(Cart);
+                cart = _mapper.Map<Cart>(Cart);
             }
 
             CartItem cartItem = _mapper.Map<CartItem>(request);
+            cartItem.CardId = cart.Id;
+            cartItem.Cart = cart;// Assign the CartId from the valid cart
 
             await _context.CartItems.AddAsync(cartItem);
             await _context.SaveChangesAsync(cancellationToken);
@@ -55,4 +58,5 @@ namespace GameStore.Application.UseCases.CartItems.Commands.CreateCartItem
             return cartItem.Id;
         }
     }
+
 }
