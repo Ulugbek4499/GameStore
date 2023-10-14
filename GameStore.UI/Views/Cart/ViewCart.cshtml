@@ -20,12 +20,12 @@
             </div>
         </div>
 
- <div style="padding-top:35px; display:flex; justify-content:space-between;">
-    <table class="table text-white ">
+ <div style="padding-top:35px;">
+        <table class="table  text-white " style: "table">
       <tbody>
         @foreach (var cartItem in Model.CartItems)
         {
-                    <tr class="">
+                    <tr class="table-section">
 
                 <td>
                    <img src="~/@cartItem.Game.Picture" alt="@cartItem.Game.Name" class="img-fluid w-25 h-25" />
