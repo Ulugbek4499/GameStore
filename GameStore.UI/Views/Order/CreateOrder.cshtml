@@ -6,9 +6,9 @@
 
 @model OrderResponse;
 
-<h2>Order Details</h2>
 
-<form method="post">
+<form method="post" class="text-white">
+    <h2 style="color:white"; padding-top:15px;>Order Details</h2>
     <div class="form-group">
         <label for="FirstName">First Name<span class="text-danger">*</span></label>
         <input asp-for="@Model.FirstName" class="form-control" required>
