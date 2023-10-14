@@ -3,6 +3,8 @@ using CartItemStore.Application.UseCases.CartItems.Queries.GetCartItemById;
 using GameStore.Application.UseCases.CartItems.Commands.CreateCartItem;
 using GameStore.Application.UseCases.CartItems.Commands.UpdateCartItem;
 using GameStore.Application.UseCases.CartItems.Queries.GetAllCartItems;
+using GameStore.Application.UseCases.Carts.Queries.GetCartByUserId;
+using GameStore.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.UI.Controllers
@@ -45,9 +47,9 @@ namespace GameStore.UI.Controllers
         {
             await Mediator.Send(new DeleteCartItemCommand(Id));
 
-            return RedirectToAction("GetAllCartItems");
+            var cart = await Mediator.Send(new GetCartByCartItemIdQuery(Id));
+
+            return RedirectToAction("ViewCart", cart);
         }
-
-
     }
 }
