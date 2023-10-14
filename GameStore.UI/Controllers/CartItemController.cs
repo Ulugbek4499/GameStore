@@ -49,7 +49,7 @@ namespace GameStore.UI.Controllers
 
             var cart = await Mediator.Send(new GetCartByCartItemIdQuery(Id));
 
-            return RedirectToAction("ViewCart", cart);
+            return RedirectToAction("Cart/ViewCart", cart);
         }
     }
 }
