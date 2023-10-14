@@ -27,13 +27,13 @@
         {
                     <tr class="table-section">
 
-                <td>
-                   <img src="~/@cartItem.Game.Picture" alt="@cartItem.Game.Name" class="img-fluid w-25 h-25" />
-                    @cartItem.Game.Name
+                <td colspan="2">
+                   <img src="~/@cartItem.Game.Picture" alt="@cartItem.Game.Name" class="img-fluid "/>
                 </td>
-                <td>@cartItem.Game.Price</td>
+
+                        <td class="" style="text-align:left"> @cartItem.Game.Name <br> @cartItem.Game.Price </td>
                 <td>@cartItem.Count</td>
-                <td>@(cartItem.Count * cartItem.Game.Price)</td>
+                <td >@(cartItem.Count * cartItem.Game.Price)</td>
                         <td class="action-links">
                             <div style="display:flex; gap:5px">
                                 <a href="@Url.Action("DeleteCartItem", "CartItem", new { id = cartItem.Id })">

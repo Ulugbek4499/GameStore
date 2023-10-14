@@ -257,6 +257,7 @@ html {
 }
 tbody, td, tfoot, th, thead, tr{
     border-style:none;
+    place-content:center;
 }
 .table-section {
     border: 3px solid black;
@@ -264,4 +265,18 @@ tbody, td, tfoot, th, thead, tr{
     gap: 25px;
     margin-top: 25px;
     padding: 10px;
+    vertical-align:middle;
+    text-align:left;
+}
+
+tr{
+    width: 100%;
+}
+td{
+
+    width: 20%;
+}
+.img-fluid {
+    width:250px;
+    height: 200px;
 }
