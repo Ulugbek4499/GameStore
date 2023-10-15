@@ -5,7 +5,6 @@ using MediatR;
 
 namespace GameStore.Application.UseCases.CartItems.Commands.UpdateCartItem
 {
-
     public class UpdateCartItemUpCommand : IRequest
     {
         public int Id { get; set; }
