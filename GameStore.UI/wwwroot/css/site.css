@@ -280,3 +280,13 @@ td{
     width:250px;
     height: 200px;
 }
+
+.rounded-left {
+    border-top-left-radius: 2.2rem;
+    border-bottom-left-radius: 2.2rem;
+}
+
+.rounded-right {
+    border-top-right-radius: 2.2rem;
+    border-bottom-right-radius: 2.2rem;
+}
