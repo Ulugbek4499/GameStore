@@ -5,11 +5,7 @@ using MediatR;
 
 namespace GameStore.Application.UseCases.CartItems.Commands.UpdateCartItem
 {
-    public class UpdateCartItemUpCommand : IRequest
-    {
-        public int Id { get; set; }
-        public int Count { get; set; }=1;
-    }
+    public record UpdateCartItemUpCommand(int Id) : IRequest;
 
     public class UpdateCartItemUpCommandHandler : IRequestHandler<UpdateCartItemUpCommand>
     {
@@ -25,7 +21,7 @@ namespace GameStore.Application.UseCases.CartItems.Commands.UpdateCartItem
         public async Task Handle(UpdateCartItemUpCommand request, CancellationToken cancellationToken)
         {
             CartItem? cartItem = await _context.CartItems.FindAsync(request.Id);
-            cartItem.Count += request.Count;
+            cartItem.Count = cartItem.Count+1;
 
             await _context.SaveChangesAsync(cancellationToken);
         }
