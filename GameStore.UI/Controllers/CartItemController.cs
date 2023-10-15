@@ -28,29 +28,32 @@ namespace GameStore.UI.Controllers
             return View(CartItems);
         }
 
+        [HttpGet("[action]")]
         public async ValueTask<IActionResult> UpdateCartItemUp(int Id)
         {
-            await Mediator.Send(new UpdateCartItemUpCommand(Id));
-
             var cart = await Mediator.Send(new GetCartByCartItemIdQuery(Id));
+
+            await Mediator.Send(new UpdateCartItemUpCommand(Id));
 
             return RedirectToAction("Cart/ViewCart", cart);
         }
 
+        [HttpGet("[action]")]
         public async ValueTask<IActionResult> UpdateCartItemDown(int Id)
         {
-            await Mediator.Send(new UpdateCartItemDownCommand(Id));
-
             var cart = await Mediator.Send(new GetCartByCartItemIdQuery(Id));
+
+            await Mediator.Send(new UpdateCartItemDownCommand(Id));
 
             return RedirectToAction("Cart/ViewCart", cart);
         }
 
         public async ValueTask<IActionResult> DeleteCartItem(int Id)
         {
+            var cart = await Mediator.Send(new GetCartByCartItemIdQuery(Id));
+
             await Mediator.Send(new DeleteCartItemCommand(Id));
 
-            var cart = await Mediator.Send(new GetCartByCartItemIdQuery(Id));
 
             return RedirectToAction("Cart/ViewCart", cart);
         }

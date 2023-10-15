@@ -290,3 +290,16 @@ td{
     border-top-right-radius: 2.2rem;
     border-bottom-right-radius: 2.2rem;
 }
+
+.order-form-container-father {
+    display: flex;
+    justify-content: center;
+}
+
+.order-form-container {
+    width: 100%;
+    padding: 20px 50px 0 20px;
+    right: 0px;
+    left: 0px;
+    background-color: #1e1e1e;
+}
