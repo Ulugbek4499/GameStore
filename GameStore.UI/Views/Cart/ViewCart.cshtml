@@ -41,9 +41,13 @@
 
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                <button type="button" class="btn btn-success rounded-left" style="width: 80px; height: 80px; font-size: 50px;">-</button>
+                                <a href="@Url.Action("UpdateCartItemDown", "CartItem", new { id = cartItem.Id })">
+                                    <button type="button" class="btn btn-success rounded-left" style="width: 80px; height: 80px; font-size: 50px;">-</button>
+                                </a>
                                 <button type="button" class="btn btn-success" style="width: 80px; height: 80px; font-size: 50px;">@cartItem.Count</button>
-                                <button type="button" class="btn btn-success rounded-right" style="width: 80px; height: 80px; font-size: 50px;">+</button>
+                                <a href="@Url.Action("UpdateCartItemUp", "CartItem", new { id = cartItem.Id })">
+                                    <button type="button" class="btn btn-success rounded-right" style="width: 80px; height: 80px; font-size: 50px;">+</button>
+                                </a>
                             </div>
                         </td>
 
