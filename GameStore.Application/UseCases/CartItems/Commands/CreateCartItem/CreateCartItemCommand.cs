@@ -11,6 +11,7 @@ using GameStore.Application.UseCases.Carts.Queries.GetCartById;
 using GameStore.Application.UseCases.Comments.Queries.GetCommentById;
 using GameStore.Domain.Entities;
 using GameStore.Domain.Entities.Identity;
+using GameStore.Domain.States;
 using MediatR;
 
 namespace GameStore.Application.UseCases.CartItems.Commands.CreateCartItem
@@ -38,7 +39,7 @@ namespace GameStore.Application.UseCases.CartItems.Commands.CreateCartItem
 
         public async Task<int> Handle(CreateCartItemCommand request, CancellationToken cancellationToken)
         {
-            var cart = _context.Carts.FirstOrDefault(x => x.UserId == request.UserId);
+            var cart = _context.Carts.FirstOrDefault(x => x.UserId == request.UserId && x.CartStatus != CartStatus.Sold);
 
             if (cart is null)
             {
@@ -50,7 +51,7 @@ namespace GameStore.Application.UseCases.CartItems.Commands.CreateCartItem
 
             // Check if a cart item with the same GameId already exists
             var existingCartItem = _context.CartItems
-                .FirstOrDefault(x => x.Cart.UserId == request.UserId && x.GameId == request.GameId);
+                .FirstOrDefault(x => x.Cart.UserId == request.UserId && x.GameId == request.GameId && x.CardId==cart.Id);
 
             if (existingCartItem != null)
             {
