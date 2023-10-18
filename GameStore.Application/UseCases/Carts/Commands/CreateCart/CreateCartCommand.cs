@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GameStore.Application.Common.Interfaces;
 using GameStore.Domain.Entities;
+using GameStore.Domain.States;
 using MediatR;
 
 namespace GameStore.Application.UseCases.Carts.Commands.CreateCart;
@@ -8,6 +9,7 @@ namespace GameStore.Application.UseCases.Carts.Commands.CreateCart;
 public class CreateCartCommand : IRequest<int>
 {
     public string UserId { get; set; }
+    public CartStatus CartStatus { get; set; } = CartStatus.OnSale;
 }
 
 public class CreateCartCommandHandler : IRequestHandler<CreateCartCommand, int>

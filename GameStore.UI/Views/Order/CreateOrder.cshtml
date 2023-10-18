@@ -1,12 +1,14 @@
-﻿@using GameStore.Application.UseCases.Orders;
+﻿@using GameStore.Domain.Entities.Identity;
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@using GameStore.Application.UseCases.Orders;
 
 @{
     Layout = "_Layout";
 }
 
 @model OrderResponse;
-
-
 
 <div class="order-form-container">
 
@@ -46,6 +48,6 @@
         <textarea asp-for="@Model.Comment" class="form-control" maxlength="600"></textarea>
         <span asp-validation-for="@Model.Comment" class="text-danger"></span>
     </div>
-        <button type="submit" class="btn btn-primary">Order</button>
+        <button type="submit" class="btn btn-success" data-user-id="@UserManager.GetUserId(User)">Order</button>
 </form>
 </div>

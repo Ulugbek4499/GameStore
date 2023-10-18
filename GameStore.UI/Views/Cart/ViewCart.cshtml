@@ -9,7 +9,7 @@
 <div>
         <div class="header-price text-white">
               <div style="display:flex; gap:5px">
-                 <h3>Your Cart</h3>
+                 <h3>Your cart</h3>
             </div>
         <div style="display:flex; align-items:center; gap:25px">
             <h2>Total: $@string.Format("{0:0.00}", Model.CartItems.Sum(item => item.Game.Price * item.Count)) </h2>
@@ -43,12 +43,12 @@
                             <div class="btn-group" role="group" aria-label="Basic outlined example">
                                 <a href="@Url.Action("UpdateCartItemDown", "CartItem", new { id = cartItem.Id })">
                                     <!-- Ensure the action name matches -->
-                                    <button type="button" class="btn btn-success rounded-left" style="width: 80px; height: 80px; font-size: 50px;">-</button>
+                                    <button type="button" class="btn rounded-left text-white" style="background-color: forestgreen;width: 80px; height: 80px; font-size: 50px;">-</button>
                                 </a>
 
-                                <button type="button" class="btn btn-success" style="width: 80px; height: 80px; font-size: 50px;">@cartItem.Count</button>
+                                <button type="button" class="btn text-white" style="background-color: forestgreen; width: 80px; height: 80px; font-size: 50px;">@cartItem.Count</button>
                                 <a href="@Url.Action("UpdateCartItemUp", "CartItem", new { id = cartItem.Id })">
-                                    <button type="button" class="btn btn-success rounded-right" style="width: 80px; height: 80px; font-size: 50px;">+</button>
+                                    <button type="button" class="btn rounded-right text-white" style="background-color: forestgreen;width: 80px; height: 80px; font-size: 50px;">+</button>
                                 </a>
                             </div>
                         </td>

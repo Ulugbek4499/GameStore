@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GameStore.Application.Common.Interfaces;
 using GameStore.Domain.Entities.Identity;
+using GameStore.Domain.States;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -22,7 +23,7 @@ namespace GameStore.Application.UseCases.Carts.Queries.GetCartByUserId
         public async Task<CartResponse> Handle(GetCartByUserIdQuery request, CancellationToken cancellationToken)
         {
             // Fetch the single cart entity based on the provided userId
-            var cart = _dbContext.Carts.FirstOrDefault(x => x.UserId == request.Id);
+            var cart = _dbContext.Carts.FirstOrDefault(x => x.UserId == request.Id && x.CartStatus==CartStatus.OnSale);
 
             if (cart == null)
             {

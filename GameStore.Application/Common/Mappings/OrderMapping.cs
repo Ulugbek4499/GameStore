@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using GameStore.Application.UseCases.Orders;
 using GameStore.Application.UseCases.Orders.Commands.CreateOrder;
-using GameStore.Application.UseCases.Orders.Commands.DeleteOrder;
-using GameStore.Application.UseCases.Orders.Commands.UpdateOrder;
 using GameStore.Domain.Entities;
 
 namespace GameStore.Application.Common.Mappings
@@ -12,8 +10,6 @@ namespace GameStore.Application.Common.Mappings
         public OrderMapping()
         {
             CreateMap<CreateOrderCommand, Order>().ReverseMap();
-            CreateMap<DeleteOrderCommand, Order>().ReverseMap();
-            CreateMap<UpdateOrderCommand, Order>().ReverseMap();
             CreateMap<OrderResponse, Order>().ReverseMap();
         }
     }
