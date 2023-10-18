@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using GameStore.Application.Common.Interfaces;
-using GameStore.Application.UseCases.Carts;
 using GameStore.Application.UseCases.Carts.Commands.CreateCart;
-using GameStore.Application.UseCases.Carts.Queries.GetCartById;
-using GameStore.Application.UseCases.Comments.Queries.GetCommentById;
 using GameStore.Domain.Entities;
 using GameStore.Domain.Entities.Identity;
 using GameStore.Domain.States;
@@ -16,9 +8,9 @@ using MediatR;
 
 namespace GameStore.Application.UseCases.CartItems.Commands.CreateCartItem
 {
-    public class CreateCartItemCommand:IRequest<int>
+    public class CreateCartItemCommand : IRequest<int>
     {
-        public int Count { get; set; }=0;
+        public int Count { get; set; } = 0;
         public int? CardId { get; set; }
         public int GameId { get; set; }
         public string UserId { get; set; }
@@ -51,7 +43,7 @@ namespace GameStore.Application.UseCases.CartItems.Commands.CreateCartItem
 
             // Check if a cart item with the same GameId already exists
             var existingCartItem = _context.CartItems
-                .FirstOrDefault(x => x.Cart.UserId == request.UserId && x.GameId == request.GameId && x.CardId==cart.Id);
+                .FirstOrDefault(x => x.Cart.UserId == request.UserId && x.GameId == request.GameId && x.CardId == cart.Id);
 
             if (existingCartItem != null)
             {

@@ -1,9 +1,7 @@
 using GameStore.Application;
 using GameStore.Infrastructure;
-using GameStore.UI.Services;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using GameStore.Infrastructure.Persistence;
+using GameStore.UI.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +10,7 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddWebUIServices(builder.Configuration);  
+builder.Services.AddWebUIServices(builder.Configuration);
 
 var app = builder.Build();
 

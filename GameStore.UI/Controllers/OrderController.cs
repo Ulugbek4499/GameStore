@@ -1,6 +1,5 @@
 ﻿using GameStore.Application.Common.Interfaces;
 using GameStore.Application.UseCases.Orders.Commands.CreateOrder;
-using GameStore.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.UI.Controllers

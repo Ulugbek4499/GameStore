@@ -1,19 +1,17 @@
 ﻿using CartItemStore.Application.UseCases.CartItems.Commands.DeleteCartItem;
-using CartItemStore.Application.UseCases.CartItems.Queries.GetCartItemById;
 using GameStore.Application.UseCases.CartItems.Commands.CreateCartItem;
 using GameStore.Application.UseCases.CartItems.Commands.UpdateCartItem;
 using GameStore.Application.UseCases.CartItems.Queries.GetAllCartItems;
 using GameStore.Application.UseCases.Carts.Queries.GetCartByUserId;
-using GameStore.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.UI.Controllers
 {
-    public class CartItemController: ApiBaseController
+    public class CartItemController : ApiBaseController
     {
 
         [HttpPost("[action]")]
-        public async ValueTask<IActionResult> CreateCartItem([FromForm]  CreateCartItemCommand CartItem)
+        public async ValueTask<IActionResult> CreateCartItem([FromForm] CreateCartItemCommand CartItem)
         {
             await Mediator.Send(CartItem);
 

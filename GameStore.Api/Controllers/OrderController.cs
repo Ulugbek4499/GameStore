@@ -1,5 +1,4 @@
-﻿using GameStore.Application.UseCases.Orders;
-using GameStore.Application.UseCases.Orders.Commands.CreateOrder;
+﻿using GameStore.Application.UseCases.Orders.Commands.CreateOrder;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.WebApi.Controllers

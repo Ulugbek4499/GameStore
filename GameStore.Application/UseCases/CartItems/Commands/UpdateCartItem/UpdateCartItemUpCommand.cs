@@ -21,7 +21,7 @@ namespace GameStore.Application.UseCases.CartItems.Commands.UpdateCartItem
         public async Task Handle(UpdateCartItemUpCommand request, CancellationToken cancellationToken)
         {
             CartItem? cartItem = await _context.CartItems.FindAsync(request.Id);
-            cartItem.Count = cartItem.Count+1;
+            cartItem.Count = cartItem.Count + 1;
 
             await _context.SaveChangesAsync(cancellationToken);
         }

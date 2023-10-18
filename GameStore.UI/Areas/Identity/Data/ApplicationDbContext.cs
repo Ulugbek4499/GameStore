@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-
-namespace GameStore.Infrastructure.Persistence;
+﻿namespace GameStore.Infrastructure.Persistence;
 
 /*public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 {

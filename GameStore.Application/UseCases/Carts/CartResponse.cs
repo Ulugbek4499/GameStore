@@ -1,5 +1,4 @@
 ﻿using GameStore.Domain.Entities.Identity;
-using GameStore.Domain.Entities;
 
 namespace GameStore.Application.UseCases.Carts
 {

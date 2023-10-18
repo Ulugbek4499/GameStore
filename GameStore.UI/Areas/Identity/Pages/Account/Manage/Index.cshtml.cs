@@ -2,10 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 using GameStore.Domain.Entities.Identity;
 using GameStore.UI.Services;
 using Microsoft.AspNetCore.Identity;
@@ -63,7 +60,7 @@ namespace GameStore.UI.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
-            public string  FirstName { get; set; }
+            public string FirstName { get; set; }
             public string LastName { get; set; }
             public string Photo { get; set; }
             public IFormFile ImageFile { get; set; }
@@ -79,9 +76,9 @@ namespace GameStore.UI.Areas.Identity.Pages.Account.Manage
             Input = new InputModel
             {
                 PhoneNumber = phoneNumber,
-                FirstName=user.FirstName,
-                LastName=user.LastName,
-                Photo=user.Photo
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Photo = user.Photo
             };
         }
 
@@ -122,8 +119,8 @@ namespace GameStore.UI.Areas.Identity.Pages.Account.Manage
                 }
             }
             if (Input.FirstName != user.FirstName)
-            { 
-                user.FirstName= Input.FirstName;
+            {
+                user.FirstName = Input.FirstName;
                 await _userManager.UpdateAsync(user);
             }
             if (Input.LastName != user.LastName)

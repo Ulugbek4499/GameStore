@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using GameStore.Application.Common.Exceptions;
 using GameStore.Application.Common.Interfaces;
 using GameStore.Domain.Entities.Identity;
-using GameStore.Domain.States;
 using MediatR;
 
 namespace GameStore.Application.UseCases.CartItems.Commands.UpdateCartItem

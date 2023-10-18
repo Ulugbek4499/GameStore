@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GameStore.Domain.Entities.Identity;
+﻿using GameStore.Domain.Entities.Identity;
 using GameStore.Domain.States;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,22 +16,40 @@ namespace GameStore.Infrastructure.Persistence
             await roleManager.CreateAsync(new IdentityRole(Roles.Manager.ToString()));
             await roleManager.CreateAsync(new IdentityRole(Roles.Admin.ToString()));
 
-            // creating admin
-
             var user = new ApplicationUser
             {
                 UserName = "admin@gmail.com",
                 Email = "admin@gmail.com",
-                FirstName = "Ulugbek",
-                LastName =  "Toshtemirov",
+                FirstName = "AdminFirstName",
+                LastName = "AdminLastName",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true
             };
+
             var userInDb = await userManager.FindByEmailAsync(user.Email);
+
             if (userInDb == null)
             {
                 await userManager.CreateAsync(user, "Admin@123");
                 await userManager.AddToRoleAsync(user, Roles.Admin.ToString());
+            }
+
+            var manager = new ApplicationUser
+            {
+                UserName = "manager@gmail.com",
+                Email = "manager@gmail.com",
+                FirstName = "ManagerFirstName",
+                LastName = "ManagerLastName",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true
+            };
+
+            var managerInDb = await userManager.FindByEmailAsync(manager.Email);
+
+            if (managerInDb == null)
+            {
+                await userManager.CreateAsync(manager, "Manager@123");
+                await userManager.AddToRoleAsync(manager, Roles.Manager.ToString());
             }
         }
 

@@ -1,7 +1,4 @@
-﻿using GameStore.Application.UseCases.Carts.Commands.CreateCart;
-using GameStore.Application.UseCases.Carts.Queries.GetCartById;
-using GameStore.Application.UseCases.Carts.Queries.GetCartByUserId;
-using GameStore.Domain.Entities;
+﻿using GameStore.Application.UseCases.Carts.Queries.GetCartByUserId;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.UI.Controllers
@@ -9,15 +6,15 @@ namespace GameStore.UI.Controllers
     public class CartController : ApiBaseController
     {
 
-         [HttpGet("[action]")]
-         public async ValueTask<IActionResult> ViewCart(string id)
-         {
-             var Cart = await Mediator.Send(new GetCartByUserIdQuery(id));
+        [HttpGet("[action]")]
+        public async ValueTask<IActionResult> ViewCart(string id)
+        {
+            var Cart = await Mediator.Send(new GetCartByUserIdQuery(id));
 
-             return View("ViewCart", Cart);
-         }
+            return View("ViewCart", Cart);
+        }
 
-       // [HttpGet("[action]")]
+        // [HttpGet("[action]")]
         public async ValueTask<IActionResult> GetCountOfItems(string userId)
         {
             var cart = await Mediator.Send(new GetCartByUserIdQuery(userId));

@@ -23,8 +23,8 @@ public static class ConfigureServices
 
         services.AddDatabaseDeveloperPageExceptionFilter();
 
-/*        services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            .AddEntityFrameworkStores<ApplicationDbContext>();*/
+        /*        services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddEntityFrameworkStores<ApplicationDbContext>();*/
 
         services.AddRazorPages();
 
