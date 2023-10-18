@@ -46,10 +46,10 @@
             <!-- Edit and Delete Buttons -->
             <div class="row">
                 <div class="col-3">
-                    <a asp-action="UpdateGame" asp-route-id="@Model.Id" class="btn btn-info">Edit Game</a>
+                    <a href="@Url.Action("UpdateGame", new { id = @Model.Id })" class="btn btn-info">Edit Game</a>
                 </div>
                 <div class="col-3">
-                    <a asp-action="DeleteGame" asp-route-id="@Model.Id" class="btn btn-danger">Delete Game</a>
+                    <a href="@Url.Action("DeleteGame", new { id = @Model.Id })" class="btn btn-danger">Delete Game</a>
                 </div>
             </div>
         </div>
