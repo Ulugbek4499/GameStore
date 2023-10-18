@@ -44,7 +44,6 @@ namespace GameStore.UI.Controllers
             GenreResponse[] genres = await Mediator.Send(new GetAllGenresQuery());
             ViewData["Genres"] = genres;
 
-
             return View(Game);
         }
 
