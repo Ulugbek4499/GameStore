@@ -169,6 +169,7 @@ html {
     padding-left: 50px;
 }
 
+
 .text-price {
     color: white;
     font-size: 30px;
@@ -226,10 +227,33 @@ html {
 
 .img-fluids {
     padding-top:25px;
-    width: 1400px;
+    width: 1200px;
     height: 600px;
     position:center;
 }
+
+.info-box-body {
+    width: 100%;
+    padding: 2% 8% 2% 8%;
+}
+
+.hidden-corners-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 0px 20px;
+    border-radius: 50px;
+    margin-bottom: 0px;
+}
+
+.game-comment-container{
+
+}
+
+
+
+
+
 
 .game-actions {
     display: none;

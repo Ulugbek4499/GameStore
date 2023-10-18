@@ -4,17 +4,30 @@
 @using GameStore.Application.UseCases.Genres;
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+
+
 @{
     ViewData["Title"] = "Home Page";
     GameResponse[] Games = ViewData["Games"] as GameResponse[];
     GenreResponse[] Genres = ViewData["Genres"] as GenreResponse[];
+    List<string> SelectedGenres = new List<string>(); // Create a list to store selected genre names
 }
     <div class="input-group-father">
-        <div class="add-genre-btn">
-            <button class="btn btn-transparent ps-5 text-white" id="addGenreButton" data-toggle="modal" data-target="#addGenreModal">
-                + Add Genre
-            </button>
+    <div class="add-genre-btn">
+        <button class="btn btn-transparent ps-5 text-white" id="addGenreButton" data-toggle="modal" data-target="#addGenreModal">
+            + Add Genre
+        </button>
+        <div id="selectedGenres">
+            @foreach (var genreName in SelectedGenres)
+            {
+                <label class="hidden-corners-button">
+                        @genreName
+                </label>
+            }
         </div>
+    </div>
+
+
         <div class="input-group">
         <div class="search-father">
             <form onsubmit="return validateSearchInput()">
@@ -98,7 +111,7 @@
                                         }
                                         else
                                         {
-                                            <p class="text-price">$@game.Price</p>
+                                        <p class="text-price">$@string.Format("{0:0.00}", game.Price)</p>
                                         }
                                         <div style="line-height: 1.2">
                                         <p class="text-genres mb-0 pb-0 ">@string.Join("/ ", game.Genres.Select(genre => genre.Name))</p>
@@ -205,17 +218,24 @@
 
 <script>
     $(document).ready(function () {
-        $("#addGenreButton").click(function () {
-            // Clear all checkboxes when the modal opens
-            $(".genre-checkbox").prop('checked', false);
-        });
+        // ... your existing code ...
 
         // Handle genre filter
         $(".genre-checkbox").change(function () {
             var selectedGenres = [];
 
             $(".genre-checkbox:checked").each(function () {
-                selectedGenres.push($(this).val());
+                var genreName = $(this).next('label').text(); // Get the text of the label
+                selectedGenres.push(genreName);
+            });
+
+            // Update the list of selected genre names
+            SelectedGenres = selectedGenres;
+
+            // Display the selected genre names
+            $("#selectedGenres").empty(); // Clear previous selection
+            $.each(selectedGenres, function (index, genreName) {
+                $("#selectedGenres").append('<label>' + genreName + '</label>');
             });
 
             if (selectedGenres.length === 0) {
@@ -226,8 +246,8 @@
                 $(".filtered-game").hide();
 
                 // Show games that match the selected genres
-                selectedGenres.forEach(function (genreId) {
-                    $(".filtered-game[data-genres*='" + genreId + "']").show();
+                selectedGenres.forEach(function (genreName) {
+                    $(".filtered-game:contains('" + genreName + "')").show();
                 });
             }
         });
