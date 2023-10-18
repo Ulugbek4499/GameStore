@@ -217,8 +217,19 @@ html {
     padding: 50px;
 }
 
+.image-container-views {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+}
 
-
+.img-fluids {
+    padding-top:25px;
+    width: 1400px;
+    height: 600px;
+    position:center;
+}
 
 .game-actions {
     display: none;

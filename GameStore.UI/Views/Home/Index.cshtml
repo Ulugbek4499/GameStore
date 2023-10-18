@@ -16,23 +16,23 @@
             </button>
         </div>
         <div class="input-group">
-            <div class="search-father">
-                <form>
-                    <button id="searchButton" class="search-btn">
-                        <i class="fas fa-search"></i>
-                    </button>
-                    <input id="searchInput" type="text" placeholder="Search" class="search-input">
-                </form>
-            </div>
+        <div class="search-father">
+            <form onsubmit="return validateSearchInput()">
+                <button id="searchButton" class="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+                <input id="searchInput" type="text" placeholder="Search" class="search-input">
+            </form>
+        </div>
             <div class="add-game-btn">
                 <a href="@Url.Action("CreateGame", "Game")" class="btn btn-success">Add Game</a>
             </div>
         </div>
     </div>
 
-<div class="modal fade" style="width:30%;" id="addGenreModal" tabindex="-1" role="dialog" aria-labelledby="addGenreModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
+<div class="modal fade" style="width:25%;" id="addGenreModal" tabindex="-1" role="dialog" aria-labelledby="addGenreModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document" style="padding-left:100px; padding-top:90px;">
+        <div class="modal-content" >
             <div class="modal-body">
                 <ul class="list-unstyled">
                     @foreach (var genre in Genres)
@@ -157,9 +157,6 @@
 </script>
 
 
-
-
-
 <script>
     $(document).ready(function () {
         // When the "Search" button is clicked, perform the search.
@@ -172,6 +169,12 @@
         function searchGames() {
             var searchTerm = $("#searchInput").val().toLowerCase();
 
+            // Check if the search term is at least 3 characters long
+            if (searchTerm.length < 3) {
+                alert("Search input must be at least 3 characters long.");
+                return;
+            }
+
             $('.filtered-game').each(function () {
                 var gameName = $(this).find('.game-name').text().toLowerCase();
 
@@ -183,7 +186,25 @@
             });
         }
 
-        // Handle filter button click
+        // Function to validate the search input
+        function validateSearchInput() {
+            var searchTerm = $("#searchInput").val().trim(); // Remove leading and trailing white spaces
+
+            if (searchTerm.length < 3) {
+                alert("Search input must be at least 3 characters long.");
+                return false; // Prevent the form submission
+            }
+
+            // If the input is valid, the form will be submitted
+            return true;
+        }
+    });
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
         $("#addGenreButton").click(function () {
             // Clear all checkboxes when the modal opens
             $(".genre-checkbox").prop('checked', false);
