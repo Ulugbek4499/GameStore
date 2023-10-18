@@ -1,10 +1,19 @@
-﻿using GameStore.Application.UseCases.Orders.Commands.CreateOrder;
+﻿using GameStore.Application.Common.Interfaces;
+using GameStore.Application.UseCases.Orders.Commands.CreateOrder;
+using GameStore.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.UI.Controllers
 {
     public class OrderController : ApiBaseController
     {
+        private readonly IApplicationUser _applicationUser;
+
+        public OrderController(IApplicationUser applicationUser)
+        {
+            _applicationUser = applicationUser;
+        }
+
         [HttpGet("[action]")]
         public async ValueTask<IActionResult> CreateOrder()
         {
@@ -14,15 +23,11 @@ namespace GameStore.UI.Controllers
         [HttpPost("[action]")]
         public async ValueTask<IActionResult> CreateOrder([FromForm] CreateOrderCommand Order)
         {
+            Order.UserId = _applicationUser.Id;
             await Mediator.Send(Order);
 
-            return RedirectToAction("GetAllOrders");
+            return RedirectToAction("Index", "Home");
         }
 
-        [HttpGet("[action]")]
-        public async ValueTask<IActionResult> CreateOrderFromExcel()
-        {
-            return View();
-        }
     }
 }

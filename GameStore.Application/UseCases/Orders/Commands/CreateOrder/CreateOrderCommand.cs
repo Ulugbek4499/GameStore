@@ -31,7 +31,8 @@ namespace GameStore.Application.UseCases.Orders.Commands.CreateOrder
         public async Task<int> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
             Order order = _mapper.Map<Order>(request);
-            var cart = _context.Carts.FirstOrDefault(x => x.UserId == request.UserId && x.CartStatus== CartStatus.OnSale);
+            var cart = _context.Carts.FirstOrDefault(x => x.UserId == request.UserId && x.CartStatus!= CartStatus.Sold);
+
             order.Cart = cart;
             order.CartId = cart.Id;
 

@@ -1,4 +1,5 @@
 ﻿@using GameStore.Domain.Entities.Identity;
+@using GameStore.Domain.States;
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -35,15 +36,17 @@
         <span asp-validation-for="@Model.Phone" class="text-danger"></span>
     </div>
         <div class="form-group pt-3">
-        <label for="PaymentType">Payment Type<span class="text-danger">*</span></label>
-        <select asp-for="@Model.PaymentType" class="form-control" required>
-            <option value="CreditCard">Credit Card</option>
-            <option value="PayPal">PayPal</option>
-            <option value="BankTransfer">Bank Transfer</option>
-        </select>
-        <span asp-validation-for="@Model.PaymentType" class="text-danger"></span>
-    </div>
-        <div class="form-group pt-3 pb-3">
+            <label asp-for="PaymentType">Payment Type:</label>
+            <select asp-for="PaymentType" class="form-control" required>
+                <option value="">Choose PaymentType</option>
+                @foreach (var status in Enum.GetValues(typeof(PaymentType)))
+                {
+                    <option value="@status">@status</option>
+                }
+            </select>
+            <span asp-validation-for="PaymentType" class="text-danger"></span>
+        </div>
+   <div class="form-group pt-3 pb-3">
         <label for="Comments">Comments (Optional)</label>
         <textarea asp-for="@Model.Comment" class="form-control" maxlength="600"></textarea>
         <span asp-validation-for="@Model.Comment" class="text-danger"></span>
