@@ -124,6 +124,12 @@
                                         <a href="#" class="btn btn-success buy-game" data-game-id="@game.Id" data-user-id="@UserManager.GetUserId(User)">BUY</a>
                                     </div>
                                 }
+                                else
+                                {
+                                    <div class="buy-btn-container">
+                                        <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-success buy-game">BUY</a>
+                                    </div>
+                                }
 
                             </div>
                             </a>

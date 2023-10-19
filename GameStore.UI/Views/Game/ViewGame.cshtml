@@ -5,6 +5,11 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
 
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
 @{
     Layout = "_Layout";
 }
@@ -57,290 +62,200 @@
         <div class="row mt-5 text-white bg-dark">
             <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="game-comment-container">
-               
-                        <button class="btn btn-outline-primary add-comment-btn">Comment</button>
-                        <form class="comment-form" asp-controller="Games" asp-action="AddComment" method="post">
-                            <input asp-for="Id" readonly hidden />
-                            <div class="form-group">
-                                <textarea asp-for="Comments" class="form-control" rows="3" required maxlength="600"></textarea>
-                                <button type="submit" class="btn btn-outline-primary post-btn">Save</button>
-                                <button type="button" class="btn btn-outline-secondary cancel-btn">Cancel</button>
-                            </div>
-                        </form>
-                </div>
+                    <input type="text" class="form-control" id="commentInput" placeholder="Write a comment..." />
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" id="saveCommentBtn" data-game-id="@Model.Id">Save</button>
+                    </div>
 
                 <ul class="comment-list  comment-top" list="@Model.Comments" count="0">
                     @foreach (var comment in Model.Comments.Where(comment => comment.ParentComment is null))
                     {
-                        <div class="comment" style="margin-top: 30px;">
-                            <div class="d-flex flex-start mt-4">
-                                <a class="me-3" href="#!">
-                                    @if (@comment.User.Photo is not null)
+                            <div class="comment" style="margin-top: 30px;">
+                                <div class="d-flex flex-start mt-4">
+                                    <a class="me-3" href="#!">
+                                    @if (comment.User.Photo is not null)
                                     {
-                                        <img class="rounded-circle shadow-1-strong"
-                                             src="~/Images/@comment.User.Photo" alt="avatar"
-                                             width="40" height="40" />
+                                            <img class="rounded-circle shadow-1-strong"
+                                                 src="~/Images/@comment.User.Photo" alt="avatar"
+                                                 width="40" height="40" />
                                     }
                                     else
                                     {
-                                        <img class="rounded-circle shadow-1-strong"
-                                             src="~/static-images/default.jpg" alt="avatar"
-                                             width="40" height="40" />
+                                            <img class="rounded-circle shadow-1-strong"
+                                                 src="~/static-images/default.jpg" alt="avatar"
+                                                 width="40" height="40" />
                                     }
-                                </a>
-                                <div class="flex-grow-1 flex-shrink-1">
-                                    <div>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <p class="mb-1">
+                                    </a>
+                                    <div class="flex-grow-1 flex-shrink-1">
+                                        <div>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <p class="mb-1">
                                                 @comment.User.FirstName @comment.User.LastName
-                                                <span class="small">- @GetTimeElapsed(comment.Created)</span>
-                                            </p>
+                                                    <span>@comment.Created</span>
+                                                </p>
+                                            </div>
+                                            <p class="small mb-0">@comment.Text</p>
                                         </div>
-                                        <p class="small mb-0">@comment.Text</p>
-                                      @*  @if (HttpContextHelper.UserId is null)
-                                        {
-                                            <a class="reply-btn btn text-primary" asp-controller="Accounts" asp-action="Login"
-                                               asp-route-ReturnUrl="~/Post/@Model.Game.Id">Login to reply</a>
-                                        }*@
-                                   
-                                            <a aria-expanded="false" href="@($"#replyComment{comment.Id}")" data-toggle="collapse" class="reply-btn btn text-primary">Reply</a>
-                                            <a aria-expanded="false" href="@($"#editComment{comment.Id}")" data-toggle="collapse" class="reply-btn btn text-primary">Edit</a>
-                                            <a aria-expanded="false" href="@($"#deleteComment{comment.Id}")" data-toggle="collapse" class="reply-btn btn text-danger">Delete</a>
-                                        
-                                      @*  @if (HttpContextHelper.UserId is not null)
-                                        {*@
-                                            <div class="collapse" id="@($"replyComment{comment.Id}")">
-                                                <form asp-controller="Games" asp-action="AddComment">
-                                                    <input asp-for="Id" readonly hidden />
-                                                    <input asp-for="@Model.Comments" value="@comment.Id" readonly hidden />
-                                                    <div class="form-group">
-                                                        <label for="comment">Write a reply</label>
-                                                        <textarea asp-for="Comments" class="form-control" rows="3"></textarea>
-                                                        <button type="submit" class="btn btn-outline-primary post-btn">Save</button>
-                                                    </div>
-                                                </form>
+                                        <div>
+                                            <!-- Reply button -->
+                                            <a aria-expanded="false" href="#" class="reply-btn btn text-primary" data-toggle="collapse" data-target="#replyComment@(comment.Id)">Reply</a>
+                                            <!-- Edit button -->
+                                            <a aria-expanded="false" href="#" class="edit-btn btn text-primary" data-toggle="collapse" data-target="#editComment@(comment.Id)">Edit</a>
+                                            <!-- Delete button -->
+                                            <a aria-expanded="false" href="#" class="delete-btn btn text-danger" data-comment-id="@comment.Id">Delete</a>
+
+                                            <!-- Reply form -->
+                                            <div class="collapse" id="replyComment@(comment.Id)">
+                                                <input type="text" class="form-control replyInput" placeholder="Write a reply..." />
+                                                <button class="saveReplyBtn btn btn-primary" data-parent-id="@comment.Id">Save Reply</button>
                                             </div>
-                                            <div class="collapse" id="@($"editComment{comment.Id}")">
-                                                <form asp-controller="Games" asp-action="EditComment" asp-route-commentId="@comment.Id"
-                                                      asp-route-gameId="@Model.Id" method="post">
-                                                    <div class="form-group">
-                                                        <label asp-for="Comments" class="control-label text-white">Edit Comment</label>
-                                                        <input asp-for="Comments" name="text" class="form-control" />
-                                                        <span asp-validation-for="Comments" class="text-danger"></span>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-outline-primary border-0">Edit</button>
-                                                </form>
+
+                                            <!-- Edit form -->
+                                            <div class="collapse" id="editComment@(comment.Id)">
+                                                <input type="text" class="form-control editInput" value="@comment.Text" />
+                                                <button class="saveEditBtn btn btn-success" data-comment-id="@comment.Id">Save Edit</button>
                                             </div>
-                                            <div class="collapse" id="@($"deleteComment{comment.Id}")">
-                                                <form asp-controller="Games" asp-action="DeleteComment" asp-route-commentId="@comment.Id"
-                                                      asp-route-gameId="@Model.Id" method="post">
-                                                    <button type="submit" class="btn btn-outline-danger border-0">Delete</button>
-                                                </form>
-                                            </div>
-                                       @* }*@
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <ul class="comment-list" list="@comment.ChildComments" count="0" style="margin-left: 30px; margin-top:0;">
+                                <ul class="comment-list" list="@comment.ChildComments" count="0" style="margin-left: 30px; margin-top:0;">
                                 @foreach (var reply in comment.ChildComments)
                                 {
-                                    <div class="d-flex flex-start mt-4">
-                                        <a class="me-3" href="#!">
-                                            @if (@reply.User.Photo is not null)
+                                        <div class="d-flex flex-start mt-4">
+                                            <a class="me-3" href="#!">
+                                            @if (reply.User.Photo is not null)
                                             {
-                                                <img class="rounded-circle shadow-1-strong"
-                                                     src="~/Images/@reply.User.Photo" alt="avatar"
-                                                     width="40" height="40" />
+                                                    <img class="rounded-circle shadow-1-strong"
+                                                         src="~/Images/@reply.User.Photo" alt="avatar"
+                                                         width="40" height="40" />
                                             }
                                             else
                                             {
-                                                <img class="rounded-circle shadow-1-strong"
-                                                     src="~/static-images/default.jpg" alt="avatar"
-                                                     width="40" height="40" />
+                                                    <img class="rounded-circle shadow-1-strong"
+                                                         src="~/static-images/default.jpg" alt="avatar"
+                                                         width="40" height="40" />
                                             }
-                                        </a>
-                                        <div class="flex-grow-1 flex-shrink-1">
-                                            <div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <p class="mb-1">
+                                            </a>
+                                            <div class="flex-grow-1 flex-shrink-1">
+                                                <div>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <p class="mb-1">
                                                         @reply.User.FirstName @reply.User.LastName
-                                                        <span class="small">- @GetTimeElapsed(reply.Created)</span>
-                                                    </p>
+                                                            <span>@reply.Created</span>
+                                                        </p>
+                                                    </div>
+                                                    <p class="small mb-0">@reply.Text</p>
                                                 </div>
-                                                <p class="small mb-0">@reply.Text</p>
                                             </div>
                                         </div>
-                                    </div>
                                 }
-                            </ul>
-                        </div>
+                                </ul>
+                            </div>
                     }
+
+
                 </ul>
+
+                </div>
+
             </div>
         </div>
     </div>
 
 
-    @section Scripts{
+@section Scripts {
         <script>
-            $('[data-toggle="collapse"]').on('click', function () {
-                var $this = $(this),
-                    $parent = typeof $this.data('parent') !== 'undefined' ? $($this.data('parent')) : undefined;
-                if ($parent === undefined) {
-                    $this.find('.glyphicon').toggleClass('glyphicon-plus glyphicon-minus');
-                    return true;
-                }
-
-                var currentIcon = $this.find('.glyphicon');
-                currentIcon.toggleClass('glyphicon-plus glyphicon-minus');
-                $parent.find('.glyphicon').not(currentIcon).removeClass('glyphicon-minus').addClass('glyphicon-plus');
-
-            });
-
             $(document).ready(function () {
-                $('.add-comment-btn').click(function () {
-                    var $container = $(this).closest('.game-comment-container');
-                    $container.find('.comment-form').show();
-                    $container.find('.comment-text').hide();
+                // Handle saving a new comment
+                $('#saveCommentBtn').click(function () {
+                    console.log('Save Comment button clicked');
+                    var gameId = $(this).data('game-id');
+                    var text = $('#commentInput').val();
+                    var commentContainer = $('#comments');
+
+                    $.post('/Comment/CreateComment', { GameId: gameId, Text: text }, function (response) {
+                        // Handle the response, and if successful, append the new comment to the container
+                        if (response.success) {
+                            var newCommentHtml = '<div class="comment" data-comment-id="' + response.commentId + '"><p>' + text + '</p>...'; // Add the rest of your comment HTML
+                            commentContainer.append(newCommentHtml);
+                            $('#commentInput').val(''); // Clear the input field
+                        } else {
+                            alert('Failed to save the comment. Please try again.');
+                        }
+                    });
                 });
 
-                $('.cancel-btn').click(function () {
-                    var $container = $(this).closest('.game-comment-container');
-                    $container.find('.comment-form').hide();
-                    $container.find('.comment-form textarea').val('');
-                    $container.find('.comment-text').hide();
+                // Handle saving a new reply
+                $('.saveReplyBtn').click(function () {
+                    var parentId = $(this).data('parent-id');
+                    var text = $(this).siblings('.replyInput').val();
+
+                    // Send the data to the server for saving the reply...
+                    $.post('/Comment/CreateComment', { GameId: gameId, Text: text, ParentCommentId: parentId }, function (response) {
+                        // Handle the response and append the new reply...
+                        if (response.success) {
+                            var newCommentHtml = '<div class="comment" data-comment-id="' + response.commentId + '"><p>' + text + '</p>...</div>';
+                            $(this).closest('.comment').find('.comment-list').append(newCommentHtml);
+                            $(this).siblings('.replyInput').val(''); // Clear the input field
+                        } else {
+                            alert('Failed to save the reply. Please try again.');
+                        }
+                    });
                 });
 
-                $('.post-btn').click(function () {
-                    var $container = $(this).closest('.game-comment-container');
-                    var $form = $container.find('.comment-form');
-                    $form.submit();
+                // Handle editing a comment
+                $('.edit-btn').click(function () {
+                    var commentId = $(this).data('comment-id');
+                    var editInput = $(`#editComment${commentId}`).find('.editInput');
+                    var saveEditBtn = $(`#editComment${commentId}`).find('.saveEditBtn');
+
+                    // Show the edit input and button
+                    editInput.show();
+                    saveEditBtn.show();
+
+                    // Hide the comment text
+                    $(this).closest('.comment').find('p').hide();
                 });
 
-                $('textarea[asp-for="Comment.Text"]').on('input', function () {
-                    var maxLength = 600;
-                    var currentLength = $(this).val().length;
-                    var remaining = maxLength - currentLength;
+                $('.saveEditBtn').click(function () {
+                    var commentId = $(this).data('comment-id');
+                    var text = $(`#editComment${commentId}`).find('.editInput').val();
 
-                    var $counter = $(this).closest('.form-group').find('.character-counter span');
-                    $counter.text(remaining);
+                    // Send the data to the server for saving the edited comment...
+                    $.post('/Comment/UpdateComment', { CommentId: commentId, Text: text }, function (response) {
+                        // Handle the response and update the comment text...
+                        if (response.success) {
+                            $(`#editComment${commentId}`).find('p').text(text).show();
+                            $(`#editComment${commentId}`).find('.editInput').hide();
+                            $(this).hide();
+                        } else {
+                            alert('Failed to save the edited comment. Please try again.');
+                        }
+                    });
+                });
 
-                    if (remaining < 0) {
-                        $counter.addClass('text-danger');
-                    } else {
-                        $counter.removeClass('text-danger');
-                    }
+                // Handle deleting a comment
+                $('.delete-btn').click(function () {
+                    var commentId = $(this).data('comment-id');
+
+                    // Send the request to the server to delete the comment...
+                    $.post('/Comment/DeleteComment', { CommentId: commentId }, function (response) {
+                        if (response.success) {
+                            // Remove the comment from the UI
+                            $(this).closest('.comment').remove();
+                        } else {
+                            alert('Failed to delete the comment. Please try again.');
+                        }
+                    });
                 });
             });
-
-
         </script>
     }
 
 
-    <!--Code for to display time left-->
-    @functions
-    {
-        public string GetTimeElapsed(DateTime createdAt)
-        {
-            var currentTime = DateTime.UtcNow;
-            var timeElapsed = currentTime - createdAt;
 
-            if (timeElapsed.TotalMinutes < 1)
-            {
-                // Less than a minute
-                return "Just now";
-            }
-            else if (timeElapsed.TotalHours < 1)
-            {
-                // Minutes
-                var minutes = (int)timeElapsed.TotalMinutes;
-                return $"{minutes} minute{(minutes != 1 ? "s" : "")} left";
-            }
-            else if (timeElapsed.TotalDays < 1)
-            {
-                // Hours
-                var hours = (int)timeElapsed.TotalHours;
-                return $"{hours} hour{(hours != 1 ? "s" : "")} left";
-            }
-            else if (timeElapsed.TotalDays < 30)
-            {
-                // Days
-                var days = (int)timeElapsed.TotalDays;
-                return $"{days} day{(days != 1 ? "s" : "")} left";
-            }
-            else if (timeElapsed.TotalDays < 365)
-            {
-                // Months
-                var months = (int)(timeElapsed.TotalDays / 30);
-                return $"{months} month{(months != 1 ? "s" : "")} left";
-            }
-            else
-            {
-                // Years
-                var years = (int)(timeElapsed.TotalDays / 365);
-                return $"{years} year{(years != 1 ? "s" : "")} left";
-            }
-        }
-    }
-
-    <script>
-        $(document).ready(function () {
-            // Handle saving a new comment
-            $('#saveCommentBtn').click(function () {
-                console.log('Save Comment button clicked');
-                var gameId = $(this).data('game-id');
-                var text = $('#commentInput').val();
-                var commentContainer = $('#comments');
-
-                $.post('/Comment/CreateComment', { GameId: gameId, Text: text }, function (response) {
-                    // Handle the response, and if successful, append the new comment to the container
-                    if (response.success) {
-                        var newCommentHtml = '<div class="comment" data-comment-id="' + response.commentId + '"><p>' + text + '</p>...'; // Add the rest of your comment HTML
-                        commentContainer.append(newCommentHtml);
-                        $('#commentInput').val(''); // Clear the input field
-                    } else {
-                        alert('Failed to save the comment. Please try again.');
-                    }
-                });
-            });
-
-            // Handle showing/hiding replies
-            $('.showRepliesBtn').click(function () {
-                var commentId = $(this).closest('.comment').data('comment-id');
-                var childComments = $(this).siblings('.childComments');
-
-                // Toggle visibility of childComments and update button text
-                childComments.toggle();
-                if (childComments.is(':visible')) {
-                    $(this).text('Hide Replies');
-                } else {
-                    $(this).text('Show Replies');
-                }
-            });
-
-            // Handle saving a new reply
-            $('.saveReplyBtn').click(function () {
-                var text = $('#replyCommentInput').val();
-                var parentId = $(this).data('parent-id');
-                var commentContainer = $(this).closest('.comment').find('.childComments');
-
-                $.post('/Comment/CreateComment', { Text: text, ParentCommentId: parentId }, function (response) {
-                    if (response.success) {
-                        var newCommentHtml = '<div class="comment" data-comment-id="' + response.commentId + '"><p>' + text + '</p>...'; // Add the rest of your comment HTML
-                        commentContainer.append(newCommentHtml);
-                        $(this).siblings('.replyInput').find('.replyText').val(''); // Clear the input field
-                    } else {
-                        alert('Failed to save the reply. Please try again.');
-                    }
-                });
-            });
-
-        });
-
-    </script>
-
+@*
 <script>
     $(document).ready(function () {
         // Handle the "BUY" button click event
@@ -370,3 +285,4 @@
         });
     });
 </script>
+*@

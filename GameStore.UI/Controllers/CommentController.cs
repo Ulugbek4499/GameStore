@@ -25,7 +25,6 @@ namespace GameStore.UI.Controllers
 
             await Mediator.Send(Comment);
 
-            // Assuming you have a "ViewGame" action in your GameController
             return RedirectToAction("ViewGame", new { id = Comment.GameId });
         }
 
