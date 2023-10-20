@@ -95,10 +95,10 @@
                                 <div class="game-actions">
                                     <div class="row">
                                         <div class="col">
-                                            <a asp-action="UpdateGame" asp-route-id="@game.Id" class="btn btn-primary btn-sm game-action edit-game">Edit Game</a>
+                                             <a href="@Url.Action("UpdateGame", "Game", new { id = @game.Id })" class="btn btn-primary btn-sm game-action edit-game">Edit Game</a>
                                         </div>
                                         <div class="col">
-                                            <a asp-action="DeleteGame" asp-route-id="@game.Id" class="btn btn-danger btn-sm game-action delete-game">Delete Game</a>
+                                             <a href="@Url.Action("DeleteGame", "Game", new { id = @game.Id })" class="btn btn-danger btn-sm game-action delete-game">Delete Game</a>
                                         </div>
                                     </div>
                                 </div>

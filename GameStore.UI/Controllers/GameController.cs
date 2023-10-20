@@ -37,7 +37,7 @@ namespace GameStore.UI.Controllers
             return View(Games);
         }
 
-        [HttpGet("[action]")]
+        [HttpGet("[action]/{id}")]
         public async ValueTask<IActionResult> UpdateGame(int Id)
         {
             var Game = await Mediator.Send(new GetGameByIdQuery(Id));
