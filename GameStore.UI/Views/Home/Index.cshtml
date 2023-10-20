@@ -17,12 +17,10 @@
         <button class="btn btn-transparent ps-5 text-white" id="addGenreButton" data-toggle="modal" data-target="#addGenreModal">
             + Add Genre
         </button>
-        <div id="selectedGenres">
+        <div id="selectedGenres" style="color:white">
             @foreach (var genreName in SelectedGenres)
             {
-                <label class="hidden-corners-button">
-                        @genreName
-                </label>
+                <button class="btn btn-primary btn-sm rounded-pill m-1">"@genreName/ "</button>
             }
         </div>
     </div>
