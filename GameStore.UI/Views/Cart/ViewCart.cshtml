@@ -20,6 +20,7 @@
         </div>
 
     <div style="padding-top:35px; font-size: 28px;">
+        <!-- Increase the font size here -->
         <table class="table text-white">
             <tbody>
                 @foreach (var cartItem in Model.CartItems)
@@ -41,10 +42,12 @@
                         <td style="padding-left:100px;">
                             <div class="btn-group" role="group" aria-label="Basic outlined example">
                                 <a href="@Url.Action("UpdateCartItemDown", "CartItem", new { id = cartItem.Id })">
+                                    <!-- Ensure the action name matches -->
                                     <button type="button" class="btn rounded-left text-white" style="background-color: forestgreen;width: 80px; height: 80px; font-size: 50px;">-</button>
                                 </a>
 
                                 <button type="button" class="btn text-white" style="background-color: forestgreen; width: 80px; height: 80px; font-size: 50px;">@cartItem.Count</button>
+                                <a href="@Url.Action("UpdateCartItemUp", "CartItem", new { id = cartItem.Id })">
                                     <button type="button" class="btn rounded-right text-white" style="background-color: forestgreen;width: 80px; height: 80px; font-size: 50px;">+</button>
                                 </a>
                             </div>
