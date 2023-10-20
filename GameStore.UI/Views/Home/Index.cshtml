@@ -10,7 +10,7 @@
     ViewData["Title"] = "Home Page";
     GameResponse[] Games = ViewData["Games"] as GameResponse[];
     GenreResponse[] Genres = ViewData["Genres"] as GenreResponse[];
-    List<string> SelectedGenres = new List<string>(); // Create a list to store selected genre names
+    List<string> SelectedGenres = new List<string>(); 
 }
     <div class="input-group-father">
     <div class="add-genre-btn">
@@ -18,9 +18,9 @@
             + Add Genre
         </button>
         <div id="selectedGenres" style="color:white">
-            @foreach (var genreName in SelectedGenres)
+            @foreach (string genreName in SelectedGenres)
             {
-                <button class="btn btn-primary btn-sm rounded-pill m-1">"@genreName/ "</button>
+                <button class="btn btn-primary btn-sm rounded-pill m-1">@genreName </button>
             }
         </div>
     </div>
@@ -145,26 +145,20 @@
 
 <script>
     $(document).ready(function () {
-        // Handle the "BUY" button click event
         $('.buy-game').on('click', function (e) {
-            e.preventDefault(); // Prevent the default link behavior
+            e.preventDefault(); 
 
-            var gameId = $(this).data('game-id'); // Get the game ID from the data attribute
-            var userId = $(this).data('user-id'); // Get the user ID from the data attribute
+            var gameId = $(this).data('game-id'); 
+            var userId = $(this).data('user-id'); 
 
-            // Send a POST request to the CreateCartItem action
             $.ajax({
                 type: 'POST',
                 url: '/CartItem/CreateCartItem',
-                data: { GameId: gameId, UserId: userId, Count: 1 }, // Ensure that the key names match your action parameters
+                data: { GameId: gameId, UserId: userId, Count: 1 }, 
                 success: function (data) {
-                    // Handle the response if needed
                     console.log('CartItem created: ' + data);
-                    // Optionally, you can redirect the user after the cart item is created
-                    // window.location.href = '/your-success-page';
                 },
                 error: function (error) {
-                    // Handle any errors
                     console.error('Error creating CartItem: ' + error);
                 }
             });
@@ -176,17 +170,14 @@
 
 <script>
     $(document).ready(function () {
-        // When the "Search" button is clicked, perform the search.
         $("#searchButton").click(function (e) {
-            e.preventDefault(); // Prevent the default form submission.
+            e.preventDefault(); 
             searchGames();
         });
 
-        // Function to perform the search
         function searchGames() {
             var searchTerm = $("#searchInput").val().toLowerCase();
 
-            // Check if the search term is at least 3 characters long
             if (searchTerm.length < 3) {
                 alert("Search input must be at least 3 characters long.");
                 return;
@@ -203,16 +194,14 @@
             });
         }
 
-        // Function to validate the search input
         function validateSearchInput() {
-            var searchTerm = $("#searchInput").val().trim(); // Remove leading and trailing white spaces
+            var searchTerm = $("#searchInput").val().trim();
 
             if (searchTerm.length < 3) {
                 alert("Search input must be at least 3 characters long.");
-                return false; // Prevent the form submission
+                return false; 
             }
 
-            // If the input is valid, the form will be submitted
             return true;
         }
     });
@@ -222,34 +211,26 @@
 
 <script>
     $(document).ready(function () {
-        // ... your existing code ...
-
-        // Handle genre filter
         $(".genre-checkbox").change(function () {
             var selectedGenres = [];
 
             $(".genre-checkbox:checked").each(function () {
-                var genreName = $(this).next('label').text(); // Get the text of the label
+                var genreName = $(this).next('label').text();
                 selectedGenres.push(genreName);
             });
 
-            // Update the list of selected genre names
             SelectedGenres = selectedGenres;
 
-            // Display the selected genre names
-            $("#selectedGenres").empty(); // Clear previous selection
+            $("#selectedGenres").empty();
             $.each(selectedGenres, function (index, genreName) {
                 $("#selectedGenres").append('<label>' + genreName + '</label>');
             });
 
             if (selectedGenres.length === 0) {
-                // If no genres are selected, show all games
                 $(".filtered-game").show();
             } else {
-                // Hide all games
                 $(".filtered-game").hide();
 
-                // Show games that match the selected genres
                 selectedGenres.forEach(function (genreName) {
                     $(".filtered-game:contains('" + genreName + "')").show();
                 });

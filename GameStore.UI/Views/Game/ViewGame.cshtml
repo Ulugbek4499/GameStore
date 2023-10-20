@@ -17,14 +17,11 @@
 @model GameResponse
 
 <div class="move-margin">
-    <!-- Game Details -->
     <div class="card text-white border-0" style="background-color: #1e1e1e; width: 100%;">
-        <!-- Game Image -->
         <div class="image-container-views">
             <img src="~/@Model.Picture" alt="@Model.Name" class="img-fluids" />
         </div>
         <div class="info-box-body">
-            <!-- Game Title and Price -->
             <div class="row">
                 <div class="col-9">
                     <p class="text-price lead card-text" style="font-weight:bold;">@Model.Name</p>
@@ -35,7 +32,6 @@
                 </div>
             </div>
             <hr />
-            <!-- Game Genres -->
             <p>
                 @foreach (var genre in Model.Genres)
                 {
@@ -43,12 +39,10 @@
                 }
             </p>
             <br />
-            <!-- Game Description -->
             <div class="row">
                 <h6 class="thin-version">@Model.Description</h6>
             </div>
             <br />
-            <!-- Edit and Delete Buttons -->
             <div class="row">
                 <div class="col-3">
                     <a href="@Url.Action("UpdateGame", new { id = @Model.Id })" class="btn btn-info">Edit Game</a>
@@ -97,21 +91,16 @@
                                             <p class="small mb-0">@comment.Text</p>
                                         </div>
                                         <div>
-                                            <!-- Reply button -->
                                             <a aria-expanded="false" href="#" class="reply-btn btn text-primary" data-toggle="collapse" data-target="#replyComment@(comment.Id)">Reply</a>
-                                            <!-- Edit button -->
                                             <a aria-expanded="false" href="#" class="edit-btn btn text-primary" data-toggle="collapse" data-target="#editComment@(comment.Id)">Edit</a>
-                                            <!-- Delete button -->
                                             <a aria-expanded="false" href="#" class="delete-btn btn btn-danger" data-delete-comment-id="@comment.Id">Delete</a>
 
 
-                                            <!-- Reply form -->
                                             <div class="collapse" id="replyComment@(comment.Id)">
                                                 <input type="text" class="form-control replyInput" placeholder="Write a reply..." />
                                                 <button class="saveReplyBtn btn btn-primary" data-parent-id="@comment.Id" data-game-id="@Model.Id">Save Reply</button>
                                             </div>
 
-                                            <!-- Edit form -->
                                             <div class="collapse" id="editComment@(comment.Id)">
                                                 <input type="text" class="form-control editInput" value="@comment.Text" />
                                                 <button class="saveEditBtn btn btn-success" data-comment-id="@comment.Id">Save Edit</button>
@@ -166,7 +155,6 @@
 @section Scripts {
         <script>
             $(document).ready(function () {
-                // Handle saving a new comment
                 $('#saveCommentBtn').click(function () {
                     console.log('Save Comment button clicked');
                     var gameId = $(this).data('game-id');
@@ -174,47 +162,40 @@
                     var commentContainer = $('#comments');
 
                     $.post('/Comment/CreateComment', { GameId: gameId, Text: text }, function (response) {
-                        // Handle the response, and if successful, append the new comment to the container
                         if (response.success) {
                             var newCommentHtml = '<div class="comment" data-comment-id="' + response.commentId + '"><p>' + text + '</p>...'; // Add the rest of your comment HTML
                             commentContainer.append(newCommentHtml);
-                            $('#commentInput').val(''); // Clear the input field
+                            $('#commentInput').val('');
                         } else {
                             alert('Failed to save the comment. Please try again.');
                         }
                     });
                 });
 
-                // Handle saving a new reply
                 $('.saveReplyBtn').click(function () {
                     console.log('Save Comment button clicked');
                     var parentId = $(this).data('parent-id');
                     var text = $(this).siblings('.replyInput').val();
 
-                    // Send the data to the server for saving the reply...
                     $.post('/Comment/CreateComment', { GameId: gameId, Text: text, ParentCommentId: parentId }, function (response) {
-                        // Handle the response and append the new reply...
                         if (response.success) {
                             var newCommentHtml = '<div class="comment" data-comment-id="' + response.commentId + '"><p>' + text + '</p>...</div>';
                             $(this).closest('.comment').find('.comment-list').append(newCommentHtml);
-                            $(this).siblings('.replyInput').val(''); // Clear the input field
+                            $(this).siblings('.replyInput').val(''); 
                         } else {
                             alert('Failed to save the reply. Please try again.');
                         }
                     });
                 });
 
-                // Handle editing a comment
                 $('.edit-btn').click(function () {
                     var commentId = $(this).data('comment-id');
                     var editInput = $(`#editComment${commentId}`).find('.editInput');
                     var saveEditBtn = $(`#editComment${commentId}`).find('.saveEditBtn');
 
-                    // Show the edit input and button
                     editInput.show();
                     saveEditBtn.show();
 
-                    // Hide the comment text
                     $(this).closest('.comment').find('p').hide();
                 });
 
@@ -222,9 +203,7 @@
                     var commentId = $(this).data('comment-id');
                     var text = $(`#editComment${commentId}`).find('.editInput').val();
 
-                    // Send the data to the server for saving the edited comment...
                     $.post('/Comment/UpdateComment', { CommentId: commentId, Text: text }, function (response) {
-                        // Handle the response and update the comment text...
                         if (response.success) {
                             $(`#editComment${commentId}`).find('p').text(text).show();
                             $(`#editComment${commentId}`).find('.editInput').hide();
@@ -235,7 +214,6 @@
                     });
                 });
 
-                // Handle deleting a comment
                 $('.delete-btn').click(function () {
 
                     var button = $(this);
@@ -257,34 +235,3 @@
 
 
 
-@*
-<script>
-    $(document).ready(function () {
-        // Handle the "BUY" button click event
-        $('.buy-game').on('click', function (e) {
-            e.preventDefault(); // Prevent the default link behavior
-
-            var gameId = $(this).data('game-id'); // Get the game ID from the data attribute
-            var userId = $(this).data('user-id'); // Get the user ID from the data attribute
-
-            // Send a POST request to the CreateCartItem action
-            $.ajax({
-                type: 'POST',
-                url: '/CartItem/CreateCartItem',
-                data: { GameId: gameId, UserId: userId, Count: 1 }, // Ensure that the key names match your action parameters
-                success: function (data) {
-                    // Handle the response if needed
-                    console.log('CartItem created: ' + data);
-                    // Optionally, you can redirect the user after the cart item is created
-                    // window.location.href = '/your-success-page';
-                },
-                error: function (error) {
-                    // Handle any errors
-                    console.error('Error creating CartItem: ' + error);
-                }
-            });
-            getCartItemCount();
-        });
-    });
-</script>
-*@
