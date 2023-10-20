@@ -21,15 +21,11 @@ namespace GameStore.Application.UseCases.Comments.Queries.GetCommentById
 
         public async Task<CommentResponse> Handle(GetCommentByIdQuery request, CancellationToken cancellationToken)
         {
-            var Comment = FilterIfCommentExsists(request.Id);
+            var Comment = _dbContext.Comments.Find(request.Id);
 
             var result = _mapper.Map<CommentResponse>(Comment);
             return await Task.FromResult(result);
         }
 
-        private Comment FilterIfCommentExsists(int id)
-            => _dbContext.Comments
-                .Find(id) ?? throw new NotFoundException(
-                    " There is no Comment with this Id. ");
     }
 }

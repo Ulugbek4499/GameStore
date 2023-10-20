@@ -48,7 +48,8 @@ namespace GameStore.UI.Controllers
             return RedirectToAction("Game", "ViewGame", Game);
         }
 
-        public async ValueTask<IActionResult> DeleteComment(int Id)
+        [HttpPost("[action]")]
+        public async Task<IActionResult> DeleteComment(int Id)
         {
             var Comment = await Mediator.Send(new GetCommentByIdQuery(Id));
             int id = Comment.GameId;
@@ -59,6 +60,7 @@ namespace GameStore.UI.Controllers
 
             return RedirectToAction("Game", "ViewGame", Game);
         }
+
 
         [HttpGet("[action]")]
         public async ValueTask<IActionResult> GetCommentById(int id)

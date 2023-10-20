@@ -102,12 +102,13 @@
                                             <!-- Edit button -->
                                             <a aria-expanded="false" href="#" class="edit-btn btn text-primary" data-toggle="collapse" data-target="#editComment@(comment.Id)">Edit</a>
                                             <!-- Delete button -->
-                                            <a aria-expanded="false" href="#" class="delete-btn btn text-danger" data-comment-id="@comment.Id">Delete</a>
+                                            <a aria-expanded="false" href="#" class="delete-btn btn btn-danger" data-delete-comment-id="@comment.Id">Delete</a>
+
 
                                             <!-- Reply form -->
                                             <div class="collapse" id="replyComment@(comment.Id)">
                                                 <input type="text" class="form-control replyInput" placeholder="Write a reply..." />
-                                                <button class="saveReplyBtn btn btn-primary" data-parent-id="@comment.Id">Save Reply</button>
+                                                <button class="saveReplyBtn btn btn-primary" data-parent-id="@comment.Id" data-game-id="@Model.Id">Save Reply</button>
                                             </div>
 
                                             <!-- Edit form -->
@@ -153,8 +154,6 @@
                                 </ul>
                             </div>
                     }
-
-
                 </ul>
 
                 </div>
@@ -188,6 +187,7 @@
 
                 // Handle saving a new reply
                 $('.saveReplyBtn').click(function () {
+                    console.log('Save Comment button clicked');
                     var parentId = $(this).data('parent-id');
                     var text = $(this).siblings('.replyInput').val();
 
@@ -237,18 +237,20 @@
 
                 // Handle deleting a comment
                 $('.delete-btn').click(function () {
-                    var commentId = $(this).data('comment-id');
 
-                    // Send the request to the server to delete the comment...
-                    $.post('/Comment/DeleteComment', { CommentId: commentId }, function (response) {
+                    var button = $(this);
+                    var commentId = button.data('delete-comment-id');
+                    var comment = button.closest('.comment');
+
+                    $.post('/Comment/DeleteComment', { Id: commentId }, function (response) {
                         if (response.success) {
-                            // Remove the comment from the UI
-                            $(this).closest('.comment').remove();
+                            comment.remove();
                         } else {
                             alert('Failed to delete the comment. Please try again.');
                         }
                     });
                 });
+
             });
         </script>
     }
