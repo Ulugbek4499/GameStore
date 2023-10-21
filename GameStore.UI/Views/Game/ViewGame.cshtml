@@ -93,9 +93,7 @@
                                         <div>
                                             <a aria-expanded="false" href="#" class="reply-btn btn text-primary" data-toggle="collapse" data-target="#replyComment@(comment.Id)">Reply</a>
                                             <a aria-expanded="false" href="#" class="edit-btn btn text-primary" data-toggle="collapse" data-target="#editComment@(comment.Id)">Edit</a>
-                                            <a href="#" class="btn btn-danger delete-comment" data-comment-id="@comment.Id">Delete</a>
-
-
+                                            <a href="@Url.Action("DeleteComment", new { id = @comment.Id })">Delete </a>
 
 
                                             <div class="collapse" id="replyComment@(comment.Id)">
@@ -216,39 +214,10 @@
                     });
                 });
 
-                // Handle deleting a comment
-                $('.delete-btn').click(function () {
-                    var button = $(this);
-                    var commentId = button.data('delete-comment-id');
-                    var comment = button.closest('.comment');
-
-                    $.post('/Comment/DeleteComment', { CommentId: commentId }, function (response) {
-                        if (response.success) {
-                            // Remove the comment from the UI
-                            comment.remove();
-                        } else {
-                            alert('Failed to delete the comment. Please try again.');
-                        }
-                    });
-                });
 
 
             });
         </script>
-
- <script>
-    $(document).ready(function () {
-        $(".delete-comment").on("click", function (e) {
-            e.preventDefault();
-            var commentId = $(this).data("comment-id");
-            if (confirm("Are you sure you want to delete this comment?")) {
-                $.post("/Game/DeleteComment", { id: commentId }, function (data) {
-                    location.reload(); 
-                });
-            }
-        });
-    });
-</script>
     }
 
 
