@@ -1,4 +1,5 @@
 ﻿using GameStore.Application.Common.Interfaces;
+using GameStore.Application.UseCases.Comments.Commands.CreateComment;
 using GameStore.Application.UseCases.Comments.Commands.DeleteComment;
 using GameStore.Application.UseCases.Comments.Queries.GetCommentById;
 using GameStore.Application.UseCases.Games.Commands.CreateGame;
@@ -78,6 +79,20 @@ namespace GameStore.UI.Controllers
             var Game = await Mediator.Send(new GetGameByIdQuery(id));
 
             return View("ViewGame", Game);
+        }
+
+
+
+        //COMMENT
+
+        [HttpPost("[action]")]
+        public async ValueTask<IActionResult> CreateComment([FromForm] CreateCommentCommand Comment)
+        {
+            Comment.UserId = _applicationUser.Id;
+
+            await Mediator.Send(Comment);
+
+            return RedirectToAction("ViewGame", new { id = Comment.GameId });
         }
 
         [HttpGet("[action]")]

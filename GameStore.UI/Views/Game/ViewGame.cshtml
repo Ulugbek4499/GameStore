@@ -56,6 +56,7 @@
         <div class="row mt-5 text-white bg-dark">
             <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="game-comment-container">
+
                     <input type="text" class="form-control" id="commentInput" placeholder="Write a comment..." />
                     <div class="input-group-append">
                         <button class="btn btn-primary" id="saveCommentBtn" data-game-id="@Model.Id">Save</button>
@@ -161,7 +162,7 @@
                     var text = $('#commentInput').val();
                     var commentContainer = $('#comments');
 
-                    $.post('/Comment/CreateComment', { GameId: gameId, Text: text }, function (response) {
+                    $.post('/Game/CreateComment', { GameId: gameId, Text: text }, function (response) {
                         if (response.success) {
                             var newCommentHtml = '<div class="comment" data-comment-id="' + response.commentId + '"><p>' + text + '</p>...'; // Add the rest of your comment HTML
                             commentContainer.append(newCommentHtml);
