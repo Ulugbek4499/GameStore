@@ -1,4 +1,7 @@
-﻿using GameStore.Application.UseCases.Games.Commands.CreateGame;
+﻿using GameStore.Application.Common.Interfaces;
+using GameStore.Application.UseCases.Comments.Commands.DeleteComment;
+using GameStore.Application.UseCases.Comments.Queries.GetCommentById;
+using GameStore.Application.UseCases.Games.Commands.CreateGame;
 using GameStore.Application.UseCases.Games.Commands.DeleteGame;
 using GameStore.Application.UseCases.Games.Commands.UpdateGame;
 using GameStore.Application.UseCases.Games.Queries.GetAllGames;
@@ -11,6 +14,13 @@ namespace GameStore.UI.Controllers
 {
     public class GameController : ApiBaseController
     {
+        private readonly IApplicationUser _applicationUser;
+
+        public GameController(IApplicationUser applicationUser)
+        {
+            _applicationUser = applicationUser;
+        }
+
         [HttpGet("[action]")]
         public async ValueTask<IActionResult> CreateGame()
         {
@@ -54,6 +64,7 @@ namespace GameStore.UI.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpPost("[action]")]
         public async ValueTask<IActionResult> DeleteGame(int Id)
         {
             await Mediator.Send(new DeleteGameCommand(Id));
@@ -68,5 +79,29 @@ namespace GameStore.UI.Controllers
 
             return View("ViewGame", Game);
         }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> DeleteComment(int Id)
+        {
+            var Comment = await Mediator.Send(new GetCommentByIdQuery(Id));
+
+            if (Comment == null)
+            {
+                // Handle the case where the comment does not exist
+                return NotFound(); // Or return an appropriate response
+            }
+
+            int id = Comment.GameId;
+
+            if (id <= 0)
+            {
+                // Handle the case where the game ID is invalid
+                return BadRequest(); // Or return an appropriate response
+            }
+
+            // Perform the deletion and redirection
+        }
+
+
     }
 }

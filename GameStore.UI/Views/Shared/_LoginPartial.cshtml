@@ -87,8 +87,8 @@
                     const response = await fetch('@Url.Action("GetCountOfItems", "Cart", new { userId = UserManager.GetUserId(User) })');
 
                     if (response.ok) {
-                        const count = await response.json(); // Assumes the server returns a JSON response
-                        document.getElementById('cartItemCount').textContent = count; // Update the count
+                        const count = await response.json();
+                        document.getElementById('cartItemCount').textContent = count; 
                     } else {
                         console.error('Failed to fetch cart item count');
                     }
@@ -104,6 +104,5 @@
                 });
             }
 
-            // Call getCartItemCount on page load to initialize the count
             getCartItemCount();
         </script>

@@ -48,7 +48,7 @@ namespace GameStore.UI.Controllers
             return RedirectToAction("Game", "ViewGame", Game);
         }
 
-        [HttpPost("[action]")]
+
         public async Task<IActionResult> DeleteComment(int Id)
         {
             var Comment = await Mediator.Send(new GetCommentByIdQuery(Id));
