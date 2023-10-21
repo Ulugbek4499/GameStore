@@ -64,13 +64,12 @@ namespace GameStore.UI.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpPost("[action]")]
-        public async ValueTask<IActionResult> DeleteGame(int Id)
+/*        public async ValueTask<IActionResult> DeleteGame(int Id)
         {
             await Mediator.Send(new DeleteGameCommand(Id));
 
             return RedirectToAction("Index", "Home");
-        }
+        }*/
 
         [HttpGet("[action]")]
         public async ValueTask<IActionResult> ViewGame(int id)
@@ -80,28 +79,16 @@ namespace GameStore.UI.Controllers
             return View("ViewGame", Game);
         }
 
-        [HttpPost("[action]")]
         public async Task<IActionResult> DeleteComment(int Id)
         {
             var Comment = await Mediator.Send(new GetCommentByIdQuery(Id));
-
-            if (Comment == null)
-            {
-                // Handle the case where the comment does not exist
-                return NotFound(); // Or return an appropriate response
-            }
-
             int id = Comment.GameId;
 
-            if (id <= 0)
-            {
-                // Handle the case where the game ID is invalid
-                return BadRequest(); // Or return an appropriate response
-            }
+            await Mediator.Send(new DeleteCommentCommand(Id));
 
-            // Perform the deletion and redirection
+            var Game = await Mediator.Send(new GetGameByIdQuery(id));
+
+            return View("ViewGame", Game);
         }
-
-
     }
 }
