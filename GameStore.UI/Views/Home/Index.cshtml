@@ -4,6 +4,8 @@
 @using GameStore.Application.UseCases.Genres;
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject IConfiguration Configuration
+
 
 
 @{
@@ -116,6 +118,7 @@
                                         <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white; padding-top:0px; margin-top:0px;" class="game-name">@game.Name</a>
                                         </div>
                                     </div>
+                              
                                 @if (SignInManager.IsSignedIn(User))
                                 {
                                     <div class="buy-btn-container">
@@ -125,7 +128,7 @@
                                 else
                                 {
                                     <div class="buy-btn-container">
-                                        <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-success buy-game">BUY</a>
+                                        <a class="btn btn-success" asp-area="Identity" asp-page="/Account/Login">BUY</a>
                                     </div>
                                 }
 
@@ -153,7 +156,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/CartItem/CreateCartItem',
+                url: '/Cart/CreateCartItem',
                 data: { GameId: gameId, UserId: userId, Count: 1 }, 
                 success: function (data) {
                     console.log('CartItem created: ' + data);
