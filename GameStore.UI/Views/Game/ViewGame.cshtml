@@ -55,11 +55,20 @@
 
         <div class="row mt-5 text-white bg-dark">
             <div class="col-lg-8 col-md-10 mx-auto">
-                <div class="game-comment-container">
+                <div class="game-comment-container" id="comment-container">
+                    <input type="text" class="form-control" id="commentInput" placeholder="Write a comment..." />
+                    <button class="btn btn-primary" id="saveCommentBtn" data-game-id="@Model.Id">Save</button>
+
+                    @foreach (var comment in Model.Comments)
+                    {
+                        @Html.Partial("_PartialComment", comment)
+                    }
+               @*
+                    <div class="game-comment-container" id="comment-container">
                     <input type="text" class="form-control" id="commentInput" placeholder="Write a comment..." />
                     <div class="input-group-append">
                         <button class="btn btn-primary" id="saveCommentBtn" data-game-id="@Model.Id">Save</button>
-                    </div>
+                    </div>*@
 
                 <ul class="comment-list  comment-top" list="@Model.Comments" count="0">
                     @foreach (var comment in Model.Comments.Where(comment => comment.ParentComment is null))
@@ -93,7 +102,7 @@
                                         <div>
                                             <a aria-expanded="false" href="#" class="reply-btn btn text-primary" data-toggle="collapse" data-target="#replyComment@(comment.Id)">Reply</a>
                                             <a aria-expanded="false" href="#" class="edit-btn btn text-primary" data-toggle="collapse" data-target="#editComment@(comment.Id)">Edit</a>
-                                            <a href="@Url.Action("DeleteComment", "Comment", new { id = @comment.Id })">Delete </a>
+                                            <a href="@Url.Action("DeleteComment", new { id = @comment.Id })">Delete </a>
 
 
                                             <div class="collapse" id="replyComment@(comment.Id)">
@@ -155,21 +164,20 @@
 @section Scripts {
         <script>
             $(document).ready(function () {
-                $('#saveCommentBtn').click(function () {
-                    console.log('Save Comment button clicked');
-                    var gameId = $(this).data('game-id');
-                    var text = $('#commentInput').val();
-                    var commentContainer = $('#comments');
+               $('#saveCommentBtn').click(function () {
+                var gameId = $(this).data('game-id');
+                var text = $('#commentInput').val();
 
-                    $.post('/Comment/CreateComment', { GameId: gameId, Text: text }, function (response) {
-                        if (response.success) {
-                            var newCommentHtml = '<div class="comment" data-comment-id="' + response.commentId + '"><p>' + text + '</p>...'; // Add the rest of your comment HTML
-                            commentContainer.append(newCommentHtml);
-                            $('#commentInput').val('');
-                        } else {
-                            alert('Failed to save the comment. Please try again.');
-                        }
-                    });
+                var data = {
+                    GameId: gameId,
+                    Text: text
+                };
+
+                $.post('/Game/CreateComment', data, function (response) {
+                    $('#commentInput').val('');
+                    $('#comment-container').append(response);
+                });
+            });
                 });
 
                 $('.saveReplyBtn').click(function () {
@@ -177,7 +185,7 @@
                     var parentId = $(this).data('parent-id');
                     var text = $(this).siblings('.replyInput').val();
 
-                    $.post('/Comment/CreateComment', { GameId: gameId, Text: text, ParentCommentId: parentId }, function (response) {
+                    $.post('/Game/CreateComment', { GameId: gameId, Text: text, ParentCommentId: parentId }, function (response) {
                         if (response.success) {
                             var newCommentHtml = '<div class="comment" data-comment-id="' + response.commentId + '"><p>' + text + '</p>...</div>';
                             $(this).closest('.comment').find('.comment-list').append(newCommentHtml);
@@ -203,7 +211,7 @@
                     var commentId = $(this).data('comment-id');
                     var text = $(`#editComment${commentId}`).find('.editInput').val();
 
-                    $.post('/Comment/UpdateComment', { CommentId: commentId, Text: text }, function (response) {
+                    $.post('/Game/UpdateComment', { CommentId: commentId, Text: text }, function (response) {
                         if (response.success) {
                             $(`#editComment${commentId}`).find('p').text(text).show();
                             $(`#editComment${commentId}`).find('.editInput').hide();

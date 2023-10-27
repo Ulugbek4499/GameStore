@@ -1,5 +1,8 @@
 ﻿using GameStore.Application.Common.Interfaces;
+using GameStore.Application.UseCases.Comments.Commands.CreateComment;
 using GameStore.Application.UseCases.Comments.Commands.DeleteComment;
+using GameStore.Application.UseCases.Comments.Commands.UpdateComment;
+using GameStore.Application.UseCases.Comments.Queries.GetAllComments;
 using GameStore.Application.UseCases.Comments.Queries.GetCommentById;
 using GameStore.Application.UseCases.Games.Commands.CreateGame;
 using GameStore.Application.UseCases.Games.Commands.DeleteGame;
@@ -8,6 +11,7 @@ using GameStore.Application.UseCases.Games.Queries.GetAllGames;
 using GameStore.Application.UseCases.Games.Queries.GetGameById;
 using GameStore.Application.UseCases.Genres;
 using GameStore.Application.UseCases.Genres.Queries.GetAllGenres;
+using GameStore.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.UI.Controllers
@@ -82,7 +86,22 @@ namespace GameStore.UI.Controllers
 
 
 
-        //COMMENT
+
+        //COMMENT Section
+
+
+        [HttpPost("[action]")]
+        public async ValueTask<IActionResult> CreateComment([FromForm] CreateCommentCommand Comment)
+        {
+            Comment.UserId = _applicationUser.Id;
+            int id = Comment.GameId ?? 0;
+
+            await Mediator.Send(Comment);
+
+            var Game = await Mediator.Send(new GetGameByIdQuery(id));
+
+            return View("ViewGame", Game);
+        }
 
 
         [HttpGet("[action]")]
@@ -96,6 +115,35 @@ namespace GameStore.UI.Controllers
             var Game = await Mediator.Send(new GetGameByIdQuery(id));
 
             return View("ViewGame", Game);
+        }
+
+        [HttpGet("[action]")]
+        public async ValueTask<IActionResult> GetAllComments()
+        {
+            var Comments = await Mediator.Send(new GetAllCommentsQuery());
+
+            return View(Comments);
+        }
+
+        [HttpPost("[action]")]
+        public async ValueTask<IActionResult> UpdateComment([FromForm] UpdateCommentCommand Comment)
+        {
+            Comment.UserId = _applicationUser.Id;
+            await Mediator.Send(Comment);
+
+            int id = Comment.GameId ?? 0;
+            var Game = await Mediator.Send(new GetGameByIdQuery(id));
+
+            return RedirectToAction("Game", "ViewGame", Game);
+        }
+
+
+        [HttpGet("[action]")]
+        public async ValueTask<IActionResult> GetCommentById(int id)
+        {
+            var Comment = await Mediator.Send(new GetCommentByIdQuery(id));
+
+            return View("ViewComment", Comment);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using GameStore.Application.Common.Interfaces;
+﻿/*using GameStore.Application.Common.Interfaces;
 using GameStore.Application.UseCases.Comments.Commands.CreateComment;
 using GameStore.Application.UseCases.Comments.Commands.DeleteComment;
 using GameStore.Application.UseCases.Comments.Commands.UpdateComment;
@@ -71,3 +71,4 @@ namespace GameStore.UI.Controllers
         }
     }
 }
+*/
