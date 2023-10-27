@@ -33,6 +33,7 @@ namespace GameStore.UI.Controllers
         }
 
         //Cart Item
+
         [HttpPost("[action]")]
         public async ValueTask<IActionResult> CreateCartItem([FromForm] CreateCartItemCommand CartItem)
         {
@@ -72,10 +73,10 @@ namespace GameStore.UI.Controllers
         [HttpGet("[action]")]
         public async ValueTask<IActionResult> DeleteCartItem(int Id)
         {
+
             var cart = await Mediator.Send(new GetCartByCartItemIdQuery(Id));
 
             await Mediator.Send(new DeleteCartItemCommand(Id));
-
 
             return View("ViewCart", cart);
         }
