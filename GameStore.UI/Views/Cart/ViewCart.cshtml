@@ -40,12 +40,12 @@
 
                         <td style="padding-left:100px;">
                             <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                <a href="@Url.Action("UpdateCartItemDown", "CartItem", new { id = cartItem.Id })">
+                                <a href="@Url.Action("UpdateCartItemDown", new { id = cartItem.Id })">
                                     <button type="button" class="btn rounded-left text-white" style="background-color: forestgreen;width: 80px; height: 80px; font-size: 50px;">-</button>
                                 </a>
 
                                 <button type="button" class="btn text-white" style="background-color: forestgreen; width: 80px; height: 80px; font-size: 50px;">@cartItem.Count</button>
-                                <a href="@Url.Action("UpdateCartItemUp", "CartItem", new { id = cartItem.Id })">
+                                <a href="@Url.Action("UpdateCartItemUp", new { id = cartItem.Id })">
                                     <button type="button" class="btn rounded-right text-white" style="background-color: forestgreen;width: 80px; height: 80px; font-size: 50px;">+</button>
                                 </a>
                             </div>
@@ -62,7 +62,7 @@
 
                         <td class="action-links">
                             <div style="display:flex; padding-left:100px;">
-                                <a href="@Url.Action("DeleteCartItem", "CartItem", new { id = cartItem.Id })">
+                                <a href="@Url.Action("DeleteCartItem", new { id = cartItem.Id })">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="3em" viewBox="0 0 384 512">
                                         <style>
                                             svg {
