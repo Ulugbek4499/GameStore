@@ -11,7 +11,6 @@ using GameStore.Application.UseCases.Games.Queries.GetAllGames;
 using GameStore.Application.UseCases.Games.Queries.GetGameById;
 using GameStore.Application.UseCases.Genres;
 using GameStore.Application.UseCases.Genres.Queries.GetAllGenres;
-using GameStore.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.UI.Controllers
