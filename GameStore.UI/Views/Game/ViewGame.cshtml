@@ -100,7 +100,9 @@
                                             <div class="collapse" id="replyComment@(comment.Id)">
                                                 <input type="text" class="form-control replyInput" placeholder="Write a reply..." />
                                                 <button class="saveReplyBtn btn btn-primary" data-parent-id="@comment.Id" data-game-id="@Model.Id">Save Reply</button>
+                                                <button class="btn btn-secondary cancel-reply-btn">Cancel</button> 
                                             </div>
+
 
                                             <div class="collapse" id="editComment@(comment.Id)">
                                                 <input type="text" class="form-control editInput" value="@comment.Text" />
@@ -255,6 +257,13 @@
                         location.reload();
                     });
                 });
+
+                $('.cancel-reply-btn').click(function () {
+                    var container = $(this).closest('.collapse');
+                     container.find('.replyInput').val(''); // Clear the input field
+                     container.collapse('hide'); // Hide the reply input form
+                    });
+
 
                  $('.comment-button').click(function () {
         var container = $(this).closest('.move-margin').find('.comment-input-container');

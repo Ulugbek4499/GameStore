@@ -247,7 +247,9 @@ html {
 }
 
 .game-comment-container{
-
+    left:0px;
+    padding-left:0px;
+    margin-left:0px;
 }
 
 
