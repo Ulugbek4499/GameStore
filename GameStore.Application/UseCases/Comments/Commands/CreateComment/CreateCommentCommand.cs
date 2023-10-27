@@ -34,8 +34,6 @@ namespace GameStore.Application.UseCases.Comments.Commands.CreateComment
             if (user == null)
             {
                 throw new Exception("User Id needed for giving the comment");
-                // Handle the case where the user doesn't exist.
-                // You can throw an exception or return an appropriate response.
             }
 
             Comment comment = _mapper.Map<Comment>(request);
