@@ -35,33 +35,34 @@ namespace GameStore.Application.UseCases.Games.Commands.UpdateGame
             _environment = environment;
         }
 
-        async Task IRequestHandler<UpdateGameCommand>.Handle(UpdateGameCommand request, CancellationToken cancellationToken)
+        public async Task Handle(UpdateGameCommand request, CancellationToken cancellationToken)
         {
-            var game = await _context.Games.FirstOrDefaultAsync(g => g.Id == request.Id);
+            var game = await _context.Games
+                .Include(g => g.Genres) // Ensure genres are loaded for this game
+                .FirstOrDefaultAsync(g => g.Id == request.Id);
 
             if (game == null)
             {
                 throw new NotFoundException(nameof(Game), request.Id);
             }
 
-            // Update game properties from the request
+            // Update game properties
             _mapper.Map(request, game);
 
-            // Update genres as needed based on GenreIds in the request
-            if (request.GenreIds != null)
-            {
-                var selectedGenres = await _context.Genres.Where(g => request.GenreIds.Contains(g.Id)).ToListAsync();
+            // Clear existing genre associations
+            game.Genres.Clear();
 
-                // Update the game's genres
+            if (request.GenreIds != null && request.GenreIds.Any())
+            {
+                // Retrieve selected genres
+                var selectedGenres = await _context.Genres
+                    .Where(g => request.GenreIds.Contains(g.Id))
+                    .ToListAsync();
+
+                // Associate selected genres with the game
                 game.Genres = selectedGenres;
             }
-            else
-            {
-                // If no genres are selected, you can handle it here (e.g., remove all genres from the game)
-                game.Genres.Clear();
-            }
 
-            // Update the game's photo if a new one is provided
             if (request.Picture is not null && request.Picture.Length > 0)
             {
                 var gamePhotoFolder = Path.Combine("GamePictures");
@@ -70,14 +71,13 @@ namespace GameStore.Application.UseCases.Games.Commands.UpdateGame
                     Directory.CreateDirectory(gamePhotoFolder);
                 }
 
-                // Generate a unique filename based on the game's name or ID
                 string uniqueFileName = $"{Guid.NewGuid()}{Path.GetExtension(request.Picture.FileName)}";
                 string gamePhotoImagePath = Path.Combine(_environment.WebRootPath, gamePhotoFolder, uniqueFileName);
 
                 using (var fs = new FileStream(gamePhotoImagePath, FileMode.Create))
                 {
                     await request.Picture.CopyToAsync(fs);
-                    game.Picture = Path.Combine(gamePhotoFolder, uniqueFileName); // Store the relative path in the database
+                    game.Picture = Path.Combine(gamePhotoFolder, uniqueFileName);
                 }
             }
 
