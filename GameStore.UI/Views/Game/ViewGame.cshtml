@@ -53,7 +53,7 @@
             </div>
         </div>
 
-        <div class="row mt-5 text-white bg-dark">
+        <div class="row mt-5 text-white" style="background-color: #1e1e1e;">
             <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="game-comment-container" id="comment-container">
                     <input type="text" class="form-control" id="commentInput" placeholder="Write a comment..." />
@@ -69,9 +69,7 @@
                                     <a class="me-3" href="#!">
                                     @if (comment.User.Photo is not null)
                                     {
-                                            <img class="rounded-circle shadow-1-strong"
-                                                 src="~/Images/@comment.User.Photo" alt="avatar"
-                                                 width="40" height="40" />
+                                         <img src="/Uploads/@comment.User.Photo" style="width: 42px; height: 48px; border-radius: 50%;" />
                                     }
                                     else
                                     {
@@ -118,9 +116,7 @@
                                             <a class="me-3" href="#!">
                                             @if (reply.User.Photo is not null)
                                             {
-                                                    <img class="rounded-circle shadow-1-strong"
-                                                         src="~/Images/@reply.User.Photo" alt="avatar"
-                                                         width="40" height="40" />
+                                                   <img src="/Uploads/@reply.User.Photo" style="width: 42px; height: 48px; border-radius: 50%;" />
                                             }
                                             else
                                             {
