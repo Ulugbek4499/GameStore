@@ -43,67 +43,80 @@
                 <h6 class="thin-version">@Model.Description</h6>
             </div>
             <br />
-            <div class="row">
-                <div class="col-3">
-                    <a href="@Url.Action("UpdateGame", new { id = @Model.Id })" class="btn btn-info">Edit Game</a>
+            @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Manager")))
+            {
+                <div class="row">
+                    <div class="col-3">
+                        <a href="@Url.Action("UpdateGame", new { id = @Model.Id })" class="btn btn-info">Edit Game</a>
+                    </div>
+                    <div class="col-3">
+                        <a href="@Url.Action("DeleteGame", new { id = @Model.Id })" class="btn btn-danger">Delete Game</a>
+                    </div>
                 </div>
-                <div class="col-3">
-                    <a href="@Url.Action("DeleteGame", new { id = @Model.Id })" class="btn btn-danger">Delete Game</a>
-                </div>
-            </div>
+            }
         </div>
-
         <div class="row mt-5 text-white" style="background-color: #1e1e1e;">
             <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="game-comment-container" id="comment-container">
-                
-                    <button class="btn btn-primary comment-button" data-game-id="@Model.Id">Comment</button>
-                    <div class="comment-input-container" style="display: none;">
-                        <input type="text" class="form-control mt-2 mb-2" id="commentInput" placeholder="Write a comment..." />
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" id="saveCommentBtn" data-game-id="@Model.Id" style="margin-right:5px;">Save</button>
-                            <button class="btn btn-secondary cancel-comment-btn">Cancel</button>
-                        </div>
-                    </div>
-    
-                <ul class="comment-list  comment-top" list="@Model.Comments" count="0">
-                    @foreach (var comment in Model.Comments.Where(comment => comment.ParentComment is null))
+                    @if (SignInManager.IsSignedIn(User))
                     {
+                        <button class="btn btn-primary comment-button" data-game-id="@Model.Id">Comment</button>
+                        <div class="comment-input-container" style="display: none;">
+                            <input type="text" class="form-control mt-2 mb-2" id="commentInput" placeholder="Write a comment..." />
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" id="saveCommentBtn" data-game-id="@Model.Id" style="margin-right:5px;">Save</button>
+                                <button class="btn btn-secondary cancel-comment-btn">Cancel</button>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Login">Comment</a>
+                    }
+                    <ul class="comment-list  comment-top" list="@Model.Comments" count="0">
+                        @foreach (var comment in Model.Comments.Where(comment => comment.ParentComment is null))
+                        {
                             <div class="comment" style="margin-top: 30px;">
                                 <div class="d-flex flex-start mt-4">
                                     <a class="me-3" href="#!">
-                                    @if (comment.User.Photo is not null)
-                                    {
-                                         <img src="/Uploads/@comment.User.Photo" style="width: 42px; height: 48px; border-radius: 50%;" />
-                                    }
-                                    else
-                                    {
-                                         <img src="/static-images/default.jpg style="width: 42px; height: 48px; border-radius: 50%;" />
-                                    }
+                                        @if (comment.User.Photo is not null)
+                                        {
+                                            <img src="/Uploads/@comment.User.Photo" style="width: 42px; height: 48px; border-radius: 50%;" />
+                                        }
+                                        else
+                                        {
+                                            <img src="/static-images/default.jpg style="width: 42px; height: 48px; border-radius: 50%;" />
+                                        }
                                     </a>
                                     <div class="flex-grow-1 flex-shrink-1">
                                         <div>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <p class="mb-1">
-                                                @comment.User.FirstName @comment.User.LastName
+                                                    @comment.User.FirstName @comment.User.LastName
                                                     <span>@comment.Created</span>
                                                 </p>
                                             </div>
                                             <p class="small mb-0">@comment.Text</p>
                                         </div>
                                         <div>
-
-                                            <a aria-expanded="false" href="#" class="reply-btn btn text-primary" data-toggle="collapse" data-target="#replyComment@(comment.Id)">Reply</a>
-                                            <a aria-expanded="false" href="#" class="edit-btn btn text-primary" data-toggle="collapse" data-target="#editComment@(comment.Id)">Edit</a>
-                                            <a href="@Url.Action("DeleteComment", new { id = @comment.Id })">Delete </a>
-
+                                             @if (SignInManager.IsSignedIn(User))
+                                             {
+                                                   <a aria-expanded="false" href="#" class="reply-btn btn text-primary" data-toggle="collapse" data-target="#replyComment@(comment.Id)">Reply</a>
+                                                @if (comment.User.Id == UserManager.GetUserId(User))
+                                                {
+                                                <a aria-expanded="false" href="#" class="edit-btn btn text-primary" data-toggle="collapse" data-target="#editComment@(comment.Id)">Edit</a>
+                                                    
+                                                }
+                                                   @if (comment.User.Id == UserManager.GetUserId(User) || User.IsInRole("Manager"))
+                                                   {
+                                                     <a href="@Url.Action("DeleteComment", new { id = @comment.Id })">Delete </a>
+                                                   }
+                                             }
                                             <div class="collapse" id="replyComment@(comment.Id)">
                                                 <input type="text" class="form-control replyInput" placeholder="Write a reply..." />
                                                 <button class="saveReplyBtn btn btn-primary" data-parent-id="@comment.Id" data-game-id="@Model.Id">Save Reply</button>
-                                                <button class="btn btn-secondary cancel-reply-btn">Cancel</button> 
+                                                <button class="btn btn-secondary cancel-reply-btn">Cancel</button>
                                             </div>
-
-
                                             <div class="collapse" id="editComment@(comment.Id)">
                                                 <input type="text" class="form-control editInput" value="@comment.Text" />
                                                 <button class="saveEditBtn btn btn-success" data-comment-id="@comment.Id">Save Edit</button>
@@ -111,122 +124,123 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <ul class="comment-list" list="@comment.ChildComments" count="0" style="margin-left: 30px; margin-top:0;">
-                                @if (comment.ChildComments is not null)
-                            {
-                                 @foreach (var reply in comment.ChildComments)
-                                {
-                                        <div class="d-flex flex-start mt-4">
-                                            <a class="me-3" href="#!">
-                                            @if (reply.User.Photo is not null)
-                                            {
-                                                   <img src="/Uploads/@reply.User.Photo" style="width: 42px; height: 48px; border-radius: 50%;" />
-                                            }
-                                            else
-                                            {
-                                                  <img src="/static-images/default.jpg style="width: 42px; height: 48px; border-radius: 50%;" />
-                                            }
-                                            </a>
-                                            <div class="flex-grow-1 flex-shrink-1">
-                                                <div>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <p class="mb-1">
-                                                        @reply.User.FirstName @reply.User.LastName
-                                                            <span>@reply.Created</span>
-                                                        </p>
+                                    @if (comment.ChildComments is not null)
+                                    {
+                                        @foreach (var reply in comment.ChildComments)
+                                        {
+                                            <div class="d-flex flex-start mt-4">
+                                                <a class="me-3" href="#!">
+                                                    @if (reply.User.Photo is not null)
+                                                    {
+                                                        <img src="/Uploads/@reply.User.Photo" style="width: 42px; height: 48px; border-radius: 50%;" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="/static-images/default.jpg style="width: 42px; height: 48px; border-radius: 50%;" />
+                                                    }
+                                                </a>
+                                                <div class="flex-grow-1 flex-shrink-1">
+                                                    <div>
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <p class="mb-1">
+                                                                @reply.User.FirstName @reply.User.LastName
+                                                                <span>@reply.Created</span>
+                                                            </p>
+                                                        </div>
+                                                        <p class="small mb-0">@reply.Text</p>
                                                     </div>
-                                                    <p class="small mb-0">@reply.Text</p>
-                                                </div>
+                                                      @if (SignInManager.IsSignedIn(User))
+                                                      {
+                                                          <a aria-expanded="false" href="#" class="reply-btn btn text-primary" data-toggle="collapse" data-target="#replyComment@(reply.Id)">Reply</a>
+                                                        
+                                                            @if (reply.User.Id == UserManager.GetUserId(User))
+                                                            {
+                                                            <a aria-expanded="false" href="#" class="edit-btn btn text-primary" data-toggle="collapse" data-target="#editComment@(reply.Id)">Edit</a>
+                                                                
+                                                            }
+                                                           @if (reply.User.Id == UserManager.GetUserId(User) || User.IsInRole("Manager"))
+                                                            {
+                                                            <a href="@Url.Action("DeleteComment", new { id = @reply.Id })">Delete </a>
+                                                            }
+                                                      }
 
-                                            <a aria-expanded="false" href="#" class="reply-btn btn text-primary" data-toggle="collapse" data-target="#replyComment@(reply.Id)">Reply</a>
-                                                    <a aria-expanded="false" href="#" class="edit-btn btn text-primary" data-toggle="collapse" data-target="#editComment@(reply.Id)">Edit</a>
-                                            <a href="@Url.Action("DeleteComment", new { id = @reply.Id })">Delete </a>
-
-                                            <div class="collapse" id="replyComment@(reply.Id)">
-                                                <input type="text" class="form-control replyInput" placeholder="Write a reply..." />
-                                                <button class="saveReplyBtn btn btn-primary" data-parent-id="@reply.Id" data-game-id="@Model.Id">Save Reply</button>
-                                            </div>
-
-                                            <div class="collapse" id="editComment@(reply.Id)">
-                                                <input type="text" class="form-control editInput" value="@reply.Text" />
-                                                <button class="saveEditBtn btn btn-success" data-comment-id="@reply.Id">Save Edit</button>
-                                            </div>
-
-                                            </div>
-                                        </div>
-
-                                            
-
-
-                           <ul class="comment-list" list="@comment.ChildComments" count="0" style="margin-left: 30px; margin-top:0;">
-                                @if (reply.ChildComments is not null)
-                            {
-                                 @foreach (var replySecond in reply.ChildComments)
-                                {
-                                        <div class="d-flex flex-start mt-4">
-                                            <a class="me-3" href="#!">
-                                            @if (replySecond.User.Photo is not null)
-                                            {
-                                                   <img src="/Uploads/@replySecond.User.Photo" style="width: 42px; height: 48px; border-radius: 50%;" />
-                                            }
-                                            else
-                                            {
-                                                  <img src="/static-images/default.jpg style="width: 42px; height: 48px; border-radius: 50%;" />
-                                            }
-                                            </a>
-                                            <div class="flex-grow-1 flex-shrink-1">
-                                                <div>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <p class="mb-1">
-                                                        @replySecond.User.FirstName @replySecond.User.LastName
-                                                            <span>@replySecond.Created</span>
-                                                        </p>
+                                                    <div class="collapse" id="replyComment@(reply.Id)">
+                                                        <input type="text" class="form-control replyInput" placeholder="Write a reply..." />
+                                                        <button class="saveReplyBtn btn btn-primary" data-parent-id="@reply.Id" data-game-id="@Model.Id">Save Reply</button>
                                                     </div>
-                                                    <p class="small mb-0">@replySecond.Text</p>
+                                                    <div class="collapse" id="editComment@(reply.Id)">
+                                                        <input type="text" class="form-control editInput" value="@reply.Text" />
+                                                        <button class="saveEditBtn btn btn-success" data-comment-id="@reply.Id">Save Edit</button>
+                                                    </div>
                                                 </div>
-
-                                            <a aria-expanded="false" href="#" class="reply-btn btn text-primary" data-toggle="collapse" data-target="#replyComment@(replySecond.Id)">Reply</a>
-                                                    <a aria-expanded="false" href="#" class="edit-btn btn text-primary" data-toggle="collapse" data-target="#editComment@(replySecond.Id)">Edit</a>
-                                            <a href="@Url.Action("DeleteComment", new { id = @replySecond.Id })">Delete </a>
-
-                                            <div class="collapse" id="replyComment@(replySecond.Id)">
-                                                <input type="text" class="form-control replyInput" placeholder="Write a reply..." />
-                                                <button class="saveReplyBtn btn btn-primary" data-parent-id="@replySecond.Id" data-game-id="@Model.Id">Save Reply</button>
                                             </div>
+                                            <ul class="comment-list" list="@comment.ChildComments" count="0" style="margin-left: 30px; margin-top:0;">
+                                                @if (reply.ChildComments is not null)
+                                                {
+                                                    @foreach (var replySecond in reply.ChildComments)
+                                                    {
+                                                        <div class="d-flex flex-start mt-4">
+                                                            <a class="me-3" href="#!">
+                                                                @if (replySecond.User.Photo is not null)
+                                                                {
+                                                                    <img src="/Uploads/@replySecond.User.Photo" style="width: 42px; height: 48px; border-radius: 50%;" />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <img src="/static-images/default.jpg style="width: 42px; height: 48px; border-radius: 50%;" />
+                                                                }
+                                                            </a>
+                                                            <div class="flex-grow-1 flex-shrink-1">
+                                                                <div>
+                                                                    <div class="d-flex justify-content-between align-items-center">
+                                                                        <p class="mb-1">
+                                                                            @replySecond.User.FirstName @replySecond.User.LastName
+                                                                            <span>@replySecond.Created</span>
+                                                                        </p>
+                                                                    </div>
+                                                                    <p class="small mb-0">@replySecond.Text</p>
+                                                                </div>
+                                                                @if (SignInManager.IsSignedIn(User))
+                                                                {
+                                                                    <a aria-expanded="false" href="#" class="reply-btn btn text-primary" data-toggle="collapse" data-target="#replyComment@(replySecond.Id)">Reply</a>
 
-                                            <div class="collapse" id="editComment@(replySecond.Id)">
-                                                <input type="text" class="form-control editInput" value="@replySecond.Text" />
-                                                <button class="saveEditBtn btn btn-success" data-comment-id="@replySecond.Id">Save Edit</button>
-                                            </div>
+                                                                    @if (replySecond.User.Id == UserManager.GetUserId(User))
+                                                                    {
+                                                                        <a aria-expanded="false" href="#" class="edit-btn btn text-primary" data-toggle="collapse" data-target="#editComment@(replySecond.Id)">Edit</a>
 
-                                            </div>
-                                        </div>
-
-
-                                }
-                             }
-                             
-                                </ul>
-
-
-
-                                }
-                             }
-                             
+                                                                    }
+                                                                    @if (replySecond.User.Id == UserManager.GetUserId(User) || User.IsInRole("Manager"))
+                                                                    {
+                                                                        <a href="@Url.Action("DeleteComment", new { id = @replySecond.Id })">Delete </a>
+                                                                    }
+                                                                }
+                                                            
+                                                                <div class="collapse" id="replyComment@(replySecond.Id)">
+                                                                    <input type="text" class="form-control replyInput" placeholder="Write a reply..." />
+                                                                    <button class="saveReplyBtn btn btn-primary" data-parent-id="@replySecond.Id" data-game-id="@Model.Id">Save Reply</button>
+                                                                </div>
+                                                                <div class="collapse" id="editComment@(replySecond.Id)">
+                                                                    <input type="text" class="form-control editInput" value="@replySecond.Text" />
+                                                                    <button class="saveEditBtn btn btn-success" data-comment-id="@replySecond.Id">Save Edit</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                }
+                                            </ul>
+                                        }
+                                    }
                                 </ul>
                             </div>
-                    }
-                </ul>
-
+                        }
+                    </ul>
                 </div>
-
             </div>
         </div>
     </div>
 
-
-@section Scripts {
+    @section Scripts {
         <script>
             $(document).ready(function () {
                 $('#saveCommentBtn').click(function () {
@@ -260,22 +274,22 @@
 
                 $('.cancel-reply-btn').click(function () {
                     var container = $(this).closest('.collapse');
-                     container.find('.replyInput').val(''); // Clear the input field
-                     container.collapse('hide'); // Hide the reply input form
-                    });
+                    container.find('.replyInput').val(''); // Clear the input field
+                    container.collapse('hide'); // Hide the reply input form
+                });
 
 
-                 $('.comment-button').click(function () {
-        var container = $(this).closest('.move-margin').find('.comment-input-container');
-        container.show();
-        container.find('.comment-input').focus();
-    });
+                $('.comment-button').click(function () {
+                    var container = $(this).closest('.move-margin').find('.comment-input-container');
+                    container.show();
+                    container.find('.comment-input').focus();
+                });
 
-    $('.cancel-comment-btn').click(function () {
-        var container = $(this).closest('.comment-input-container');
-        container.hide();
-        container.find('.comment-input').val('');
-    });
+                $('.cancel-comment-btn').click(function () {
+                    var container = $(this).closest('.comment-input-container');
+                    container.hide();
+                    container.find('.comment-input').val('');
+                });
 
 
 
@@ -338,9 +352,6 @@
             });
         </script>
     }
-
-
-
     <script>
         $(document).ready(function () {
             $('.buy-game').on('click', function (e) {

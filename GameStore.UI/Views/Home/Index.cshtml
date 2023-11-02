@@ -37,9 +37,12 @@
                 <input id="searchInput" type="text" placeholder="Search" class="search-input">
             </form>
         </div>
+        @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
+          {
             <div class="add-game-btn">
                 <a href="@Url.Action("CreateGame", "Game")" class="btn btn-success">Add Game</a>
             </div>
+          }
         </div>
     </div>
 
@@ -92,17 +95,20 @@
                         <div class="image-container">
                             <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white">
                                 <img class="card-img-top" src="@Url.Content(game.Picture)" alt="Game image cap" />
+                            @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Manager")))
+                            {
                                 <div class="game-actions">
                                     <div class="row">
                                         <div class="col">
-                                             <a href="@Url.Action("UpdateGame", "Game", new { id = @game.Id })" class="btn btn-primary btn-sm game-action edit-game">Edit Game</a>
+                                            <a href="@Url.Action("UpdateGame", "Game", new { id = @game.Id })" class="btn btn-primary btn-sm game-action edit-game">Edit Game</a>
                                         </div>
                                         <div class="col">
-                                             <a href="@Url.Action("DeleteGame", "Game", new { id = @game.Id })" class="btn btn-danger btn-sm game-action delete-game">Delete Game</a>
+                                            <a href="@Url.Action("DeleteGame", "Game", new { id = @game.Id })" class="btn btn-danger btn-sm game-action delete-game">Delete Game</a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="info-box-container">
+                            }
+                            <div class="info-box-container">
 
                                     <div class="price-name-box">
                                         @if (game.Price == 0 || game.Price == null)
