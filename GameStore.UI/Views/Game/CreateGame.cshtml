@@ -1,21 +1,16 @@
 ﻿@using GameStore.Application.UseCases.Games.Commands.CreateGame;
 @using GameStore.Application.UseCases.Genres;
 @using GameStore.Domain.Entities;
-
 @{
     ViewData["Title"] = "CreateGame";
     Layout = "_Layout";
-
     GenreResponse[] Genres = ViewData["Genres"] as GenreResponse[];
 }
-
 @model CreateGameCommand
-
 <form asp-controller="Game" asp-action="CreateGame" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="create-box">
-    <h2 style="color:white; display:flex; justify-content:center; padding-bottom:10px;"> Add New Game</h2>
-
+        <h2 style="color:white; display:flex; justify-content:center; padding-bottom:10px;"> Add New Game</h2>
         <div class="form-group">
             <div class="row">
                 <div class="col-6">
@@ -30,19 +25,16 @@
                 </div>
             </div>
         </div>
-
         <div class="form-group pt-3" style="width:75%;">
             <label asp-for="Description" class="control-label text-white">Description</label>
             <textarea asp-for="Description" class="form-control" rows="2" style="min-height: 50px;" maxlength="5000"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
-
         <div class="form-group pt-3" style="width:250px;">
             <label for="Picture" class="text-white">Select Image File:</label>
             <input type="file" name="Picture" class="form-control" required />
             <span asp-validation-for="Picture" class="text-danger"></span>
         </div>
-
         <div class="form-group box pt-3">
             <label class="control-label text-white">Select Genres</label>
             <div class="row">
@@ -58,10 +50,8 @@
             </div>
             <span asp-validation-for="GenreIds" class="text-danger"></span>
         </div>
-
         <div class="form-group pt-3">
             <input type="submit" value="Create" class="btn btn-primary" />
         </div>
     </div>
-
 </form>

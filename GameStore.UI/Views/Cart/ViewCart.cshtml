@@ -1,25 +1,20 @@
 ﻿@using GameStore.Application.UseCases.Carts;
-
 @{
     Layout = "_Layout";
 }
-
 @model CartResponse;
-
 <div>
-        <div class="header-price text-white">
-              <div style="display:flex; gap:5px">
-                 <h3>Your cart</h3>
-            </div>
+    <div class="header-price text-white">
+        <div style="display:flex; gap:5px">
+            <h3>Your cart</h3>
+        </div>
         <div style="display:flex; align-items:center; gap:25px">
             <h2>Total: $@string.Format("{0:0.00}", Model.CartItems?.Sum(item => item.Game?.Price * item.Count)) </h2>
-
-                <a href="@Url.Action("CreateOrder","Order")" class="proceed-btn btn text-white">
-                  Proceed
-                </a>
-            </div>
+            <a href="@Url.Action("CreateOrder","Order")" class="proceed-btn btn text-white">
+                Proceed
+            </a>
         </div>
-
+    </div>
     <div style="padding-top:35px; font-size: 28px;">
         <table class="table text-white">
             <tbody>
@@ -27,65 +22,55 @@
                 {
                     @if (cartItem.Game is not null)
                     {
-                        
-              
-                    <tr class="table-section">
-                        <td colspan="2">
-                            <img src="~/@cartItem.Game?.Picture" alt="@cartItem.Game?.Name" class="img-fluid" />
-                        </td>
-
-                        <td class="" style="text-align: left; ">
-                            <div>
-                                <span style="font-size: 20px;">@cartItem.Game?.Name</span>
-                            </div>
-                            <div>
-                                <span style="font-size: 45px;">$@string.Format("{0:0.00}", cartItem.Game?.Price)</span>
-                            </div>
-                        </td>
-
-                        <td style="padding-left:100px;">
-                            <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                <a href="@Url.Action("UpdateCartItemDown", new { id = cartItem.Id })">
-                                    <button type="button" class="btn rounded-left text-white" style="background-color: forestgreen;width: 80px; height: 80px; font-size: 50px;">-</button>
-                                </a>
-
-                                <button type="button" class="btn text-white" style="background-color: forestgreen; width: 80px; height: 80px; font-size: 50px;">@cartItem.Count</button>
-                                <a href="@Url.Action("UpdateCartItemUp", new { id = cartItem.Id })">
-                                    <button type="button" class="btn rounded-right text-white" style="background-color: forestgreen;width: 80px; height: 80px; font-size: 50px;">+</button>
-                                </a>
-                            </div>
-                        </td>
-
-                        <td  style="text-align: left;  padding-left:100px;">
-                            <div>
-                                <span style="font-size: 20px;">Total:</span>
-                            </div>
-                            <div>
-                                <span style="font-size: 45px;">$@string.Format("{0:0.00}", cartItem.Count * cartItem.Game?.Price)</span>
-                            </div>
-                        </td>
-
-                        <td class="action-links">
-                            <div style="display:flex; padding-left:100px;">
-                                <a href="@Url.Action("DeleteCartItem", new { id = cartItem.Id })">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="3em" viewBox="0 0 384 512">
-                                        <style>
-                                            svg {
-                                                fill: #e4e7ec;
-                                            }
-                                        </style>
-                                        <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s-32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
-                                    </svg>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
+                        <tr class="table-section">
+                            <td colspan="2">
+                                <img src="~/@cartItem.Game?.Picture" alt="@cartItem.Game?.Name" class="img-fluid" />
+                            </td>
+                            <td class="" style="text-align: left; ">
+                                <div>
+                                    <span style="font-size: 20px;">@cartItem.Game?.Name</span>
+                                </div>
+                                <div>
+                                    <span style="font-size: 45px;">$@string.Format("{0:0.00}", cartItem.Game?.Price)</span>
+                                </div>
+                            </td>
+                            <td style="padding-left:100px;">
+                                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                    <a href="@Url.Action("UpdateCartItemDown", new { id = cartItem.Id })">
+                                        <button type="button" class="btn rounded-left text-white" style="background-color: forestgreen;width: 80px; height: 80px; font-size: 50px;">-</button>
+                                    </a>
+                                    <button type="button" class="btn text-white" style="background-color: forestgreen; width: 80px; height: 80px; font-size: 50px;">@cartItem.Count</button>
+                                    <a href="@Url.Action("UpdateCartItemUp", new { id = cartItem.Id })">
+                                        <button type="button" class="btn rounded-right text-white" style="background-color: forestgreen;width: 80px; height: 80px; font-size: 50px;">+</button>
+                                    </a>
+                                </div>
+                            </td>
+                            <td style="text-align: left;  padding-left:100px;">
+                                <div>
+                                    <span style="font-size: 20px;">Total:</span>
+                                </div>
+                                <div>
+                                    <span style="font-size: 45px;">$@string.Format("{0:0.00}", cartItem.Count * cartItem.Game?.Price)</span>
+                                </div>
+                            </td>
+                            <td class="action-links">
+                                <div style="display:flex; padding-left:100px;">
+                                    <a href="@Url.Action("DeleteCartItem", new { id = cartItem.Id })">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="3em" viewBox="0 0 384 512">
+                                            <style>
+                                                svg {
+                                                    fill: #e4e7ec;
+                                                }
+                                            </style>
+                                            <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s-32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
                     }
                 }
             </tbody>
         </table>
     </div>
-
-
 </div>
-

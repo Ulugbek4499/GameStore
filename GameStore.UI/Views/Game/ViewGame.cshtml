@@ -13,9 +13,7 @@
 @{
     Layout = "_Layout";
 }
-
 @model GameResponse
-
 <div class="move-margin">
     <div class="card text-white border-0" style="background-color: #1e1e1e; width: 100%;">
         <div class="image-container-views">
@@ -99,19 +97,18 @@
                                             <p class="small mb-0">@comment.Text</p>
                                         </div>
                                         <div>
-                                             @if (SignInManager.IsSignedIn(User))
-                                             {
+                                            @if (SignInManager.IsSignedIn(User))
+                                            {
                                                 <a aria-expanded="false" href="#" class="reply-btn btn text-primary" data-toggle="collapse" data-target="#replyComment@(comment.Id)">Reply</a>
                                                 @if (comment.User.Id == UserManager.GetUserId(User))
                                                 {
-                                                <a aria-expanded="false" href="#" class="edit-btn btn text-primary" data-toggle="collapse" data-target="#editComment@(comment.Id)">Edit</a>
-                                                    
+                                                    <a aria-expanded="false" href="#" class="edit-btn btn text-primary" data-toggle="collapse" data-target="#editComment@(comment.Id)">Edit</a>
                                                 }
-                                                   @if (comment.User.Id == UserManager.GetUserId(User) || User.IsInRole("Manager"))
-                                                   {
-                                                     <a href="@Url.Action("DeleteComment", new { id = @comment.Id })">Delete </a>
-                                                   }
-                                             }
+                                                @if (comment.User.Id == UserManager.GetUserId(User) || User.IsInRole("Manager"))
+                                                {
+                                                    <a href="@Url.Action("DeleteComment", new { id = @comment.Id })">Delete </a>
+                                                }
+                                            }
                                             <div class="collapse" id="replyComment@(comment.Id)">
                                                 <input type="text" class="form-control replyInput" placeholder="Write a reply..." />
                                                 <button class="saveReplyBtn btn btn-primary" data-parent-id="@comment.Id" data-game-id="@Model.Id">Save Reply</button>
@@ -150,21 +147,18 @@
                                                         </div>
                                                         <p class="small mb-0">@reply.Text</p>
                                                     </div>
-                                                      @if (SignInManager.IsSignedIn(User))
-                                                      {
-                                                          <a aria-expanded="false" href="#" class="reply-btn btn text-primary" data-toggle="collapse" data-target="#replyComment@(reply.Id)">Reply</a>
-                                                        
-                                                            @if (reply.User.Id == UserManager.GetUserId(User))
-                                                            {
+                                                    @if (SignInManager.IsSignedIn(User))
+                                                    {
+                                                        <a aria-expanded="false" href="#" class="reply-btn btn text-primary" data-toggle="collapse" data-target="#replyComment@(reply.Id)">Reply</a>
+                                                        @if (reply.User.Id == UserManager.GetUserId(User))
+                                                        {
                                                             <a aria-expanded="false" href="#" class="edit-btn btn text-primary" data-toggle="collapse" data-target="#editComment@(reply.Id)">Edit</a>
-                                                                
-                                                            }
-                                                           @if (reply.User.Id == UserManager.GetUserId(User) || User.IsInRole("Manager"))
-                                                            {
+                                                        }
+                                                        @if (reply.User.Id == UserManager.GetUserId(User) || User.IsInRole("Manager"))
+                                                        {
                                                             <a href="@Url.Action("DeleteComment", new { id = @reply.Id })">Delete </a>
-                                                            }
-                                                      }
-
+                                                        }
+                                                    }
                                                     <div class="collapse" id="replyComment@(reply.Id)">
                                                         <input type="text" class="form-control replyInput" placeholder="Write a reply..." />
                                                         <button class="saveReplyBtn btn btn-primary" data-parent-id="@reply.Id" data-game-id="@Model.Id">Save Reply</button>
@@ -204,18 +198,15 @@
                                                                 @if (SignInManager.IsSignedIn(User))
                                                                 {
                                                                     <a aria-expanded="false" href="#" class="reply-btn btn text-primary" data-toggle="collapse" data-target="#replyComment@(replySecond.Id)">Reply</a>
-
                                                                     @if (replySecond.User.Id == UserManager.GetUserId(User))
                                                                     {
                                                                         <a aria-expanded="false" href="#" class="edit-btn btn text-primary" data-toggle="collapse" data-target="#editComment@(replySecond.Id)">Edit</a>
-
                                                                     }
                                                                     @if (replySecond.User.Id == UserManager.GetUserId(User) || User.IsInRole("Manager"))
                                                                     {
                                                                         <a href="@Url.Action("DeleteComment", new { id = @replySecond.Id })">Delete </a>
                                                                     }
                                                                 }
-                                                            
                                                                 <div class="collapse" id="replyComment@(replySecond.Id)">
                                                                     <input type="text" class="form-control replyInput" placeholder="Write a reply..." />
                                                                     <button class="saveReplyBtn btn btn-primary" data-parent-id="@replySecond.Id" data-game-id="@Model.Id">Save Reply</button>
@@ -239,7 +230,6 @@
             </div>
         </div>
     </div>
-
     @section Scripts {
         <script>
             $(document).ready(function () {
@@ -309,12 +299,12 @@
                         var replyButton = $(this); // Reference to the clicked button for later use
 
                         $.post('/Game/CreateComment', data, function (response) {
-                           
-                                var newCommentHtml = '<div class="comment" data-comment-id="' + response.commentId + '"><p>' + text + '</p>...</div>';
-                                replyButton.closest('.comment').find('.comment-list').append(newCommentHtml);
-                                replyButton.siblings('.replyInput').val('');
+
+                            var newCommentHtml = '<div class="comment" data-comment-id="' + response.commentId + '"><p>' + text + '</p>...</div>';
+                            replyButton.closest('.comment').find('.comment-list').append(newCommentHtml);
+                            replyButton.siblings('.replyInput').val('');
                             location.reload();
-                 
+
                         });
                     });
 

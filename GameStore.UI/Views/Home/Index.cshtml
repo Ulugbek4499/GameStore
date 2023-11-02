@@ -14,7 +14,7 @@
     GenreResponse[] Genres = ViewData["Genres"] as GenreResponse[];
     List<string> SelectedGenres = new List<string>(); 
 }
-    <div class="input-group-father">
+<div class="input-group-father">
     <div class="add-genre-btn">
         <button class="btn btn-transparent ps-5 text-white" id="addGenreButton" data-toggle="modal" data-target="#addGenreModal">
             + Add Genre
@@ -26,9 +26,7 @@
             }
         </div>
     </div>
-
-
-        <div class="input-group">
+    <div class="input-group">
         <div class="search-father">
             <form onsubmit="return validateSearchInput()">
                 <button id="searchButton" class="search-btn">
@@ -38,17 +36,16 @@
             </form>
         </div>
         @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
-          {
+        {
             <div class="add-game-btn">
                 <a href="@Url.Action("CreateGame", "Game")" class="btn btn-success">Add Game</a>
             </div>
-          }
-        </div>
+        }
     </div>
-
+</div>
 <div class="modal fade" style="width:25%;" id="addGenreModal" tabindex="-1" role="dialog" aria-labelledby="addGenreModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document" style="padding-left:100px; padding-top:90px;">
-        <div class="modal-content" >
+        <div class="modal-content">
             <div class="modal-body">
                 <ul class="list-unstyled">
                     @foreach (var genre in Genres)
@@ -60,7 +57,6 @@
                                     <input type="checkbox" class="form-check-input genre-checkbox" value="@genre.Id" id="genre-@genre.Id">
                                     <label class="form-check-label" for="genre-@genre.Id">@genre.Name</label>
                                 </div>
-
                                 @if (genre.ChildGenres.Any())
                                 {
                                     <ul class="list-unstyled ml-3">
@@ -83,18 +79,16 @@
         </div>
     </div>
 </div>
-
-
-    <div class="row card-container">
-        @foreach (var game in Games)
-        {
-            <div class="col-4 mb-4  filtered-game" data-genres="@string.Join(",", game.Genres.Select(genre => genre.Id))">
-                <div class="text-white border-0 card-content">
-                    @if (!string.IsNullOrWhiteSpace(game.Picture))
-                    {
-                        <div class="image-container">
-                            <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white">
-                                <img class="card-img-top" src="@Url.Content(game.Picture)" alt="Game image cap" />
+<div class="row card-container">
+    @foreach (var game in Games)
+    {
+        <div class="col-4 mb-4  filtered-game" data-genres="@string.Join(",", game.Genres.Select(genre => genre.Id))">
+            <div class="text-white border-0 card-content">
+                @if (!string.IsNullOrWhiteSpace(game.Picture))
+                {
+                    <div class="image-container">
+                        <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white">
+                            <img class="card-img-top" src="@Url.Content(game.Picture)" alt="Game image cap" />
                             @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Manager")))
                             {
                                 <div class="game-actions">
@@ -109,22 +103,20 @@
                                 </div>
                             }
                             <div class="info-box-container">
-
-                                    <div class="price-name-box">
-                                        @if (game.Price == 0 || game.Price == null)
-                                        {
-                                            <p class="text-price">Free</p>
-                                        }
-                                        else
-                                        {
+                                <div class="price-name-box">
+                                    @if (game.Price == 0 || game.Price == null)
+                                    {
+                                        <p class="text-price">Free</p>
+                                    }
+                                    else
+                                    {
                                         <p class="text-price">$@string.Format("{0:0.00}", game.Price)</p>
-                                        }
-                                        <div style="line-height: 1.2">
+                                    }
+                                    <div style="line-height: 1.2">
                                         <p class="text-genres mb-0 pb-0 ">@string.Join("/ ", game.Genres.Select(genre => genre.Name))</p>
                                         <a href="@Url.Action("ViewGame", "Game", new { id = game.Id })" style="color:white; padding-top:0px; margin-top:0px;" class="game-name">@game.Name</a>
-                                        </div>
                                     </div>
-                              
+                                </div>
                                 @if (SignInManager.IsSignedIn(User))
                                 {
                                     <div class="buy-btn-container">
@@ -137,16 +129,14 @@
                                         <a class="btn btn-success" asp-area="Identity" asp-page="/Account/Login">BUY</a>
                                     </div>
                                 }
-
                             </div>
-                            </a>
-                        </div>
-                    }
-                </div>
+                        </a>
+                    </div>
+                }
             </div>
-        }
-    </div>
-
+        </div>
+    }
+</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -155,15 +145,15 @@
 <script>
     $(document).ready(function () {
         $('.buy-game').on('click', function (e) {
-            e.preventDefault(); 
+            e.preventDefault();
 
-            var gameId = $(this).data('game-id'); 
-            var userId = $(this).data('user-id'); 
+            var gameId = $(this).data('game-id');
+            var userId = $(this).data('user-id');
 
             $.ajax({
                 type: 'POST',
                 url: '/Cart/CreateCartItem',
-                data: { GameId: gameId, UserId: userId, Count: 1 }, 
+                data: { GameId: gameId, UserId: userId, Count: 1 },
                 success: function (data) {
                     console.log('CartItem created: ' + data);
                 },
@@ -175,12 +165,10 @@
         });
     });
 </script>
-
-
 <script>
     $(document).ready(function () {
         $("#searchButton").click(function (e) {
-            e.preventDefault(); 
+            e.preventDefault();
             searchGames();
         });
 
@@ -208,16 +196,13 @@
 
             if (searchTerm.length < 3) {
                 alert("Search input must be at least 3 characters long.");
-                return false; 
+                return false;
             }
 
             return true;
         }
     });
 </script>
-
-
-
 <script>
     $(document).ready(function () {
         $(".genre-checkbox").change(function () {
