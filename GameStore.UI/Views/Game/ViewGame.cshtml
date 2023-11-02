@@ -101,7 +101,7 @@
                                         <div>
                                              @if (SignInManager.IsSignedIn(User))
                                              {
-                                                   <a aria-expanded="false" href="#" class="reply-btn btn text-primary" data-toggle="collapse" data-target="#replyComment@(comment.Id)">Reply</a>
+                                                <a aria-expanded="false" href="#" class="reply-btn btn text-primary" data-toggle="collapse" data-target="#replyComment@(comment.Id)">Reply</a>
                                                 @if (comment.User.Id == UserManager.GetUserId(User))
                                                 {
                                                 <a aria-expanded="false" href="#" class="edit-btn btn text-primary" data-toggle="collapse" data-target="#editComment@(comment.Id)">Edit</a>
@@ -309,13 +309,12 @@
                         var replyButton = $(this); // Reference to the clicked button for later use
 
                         $.post('/Game/CreateComment', data, function (response) {
-                            if (response.success) {
+                           
                                 var newCommentHtml = '<div class="comment" data-comment-id="' + response.commentId + '"><p>' + text + '</p>...</div>';
                                 replyButton.closest('.comment').find('.comment-list').append(newCommentHtml);
                                 replyButton.siblings('.replyInput').val('');
-                            } else {
-                                alert('Failed to save the reply. Please try again.');
-                            }
+                            location.reload();
+                 
                         });
                     });
 
