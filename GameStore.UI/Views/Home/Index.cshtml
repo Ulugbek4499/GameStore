@@ -26,6 +26,21 @@
             }
         </div>
     </div>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div id="successMessage" class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+
+        <script>
+            // Wait for 3 seconds and then hide the success message
+            setTimeout(function () {
+                $("#successMessage").fadeOut("slow", function () {
+                    $(this).remove();
+                });
+            }, 3000);
+        </script>
+    }
     <div class="input-group">
         <div class="search-father">
             <form onsubmit="return validateSearchInput()">
@@ -42,6 +57,7 @@
             </div>
         }
     </div>
+
 </div>
 <div class="modal fade" style="width:25%;" id="addGenreModal" tabindex="-1" role="dialog" aria-labelledby="addGenreModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document" style="padding-left:100px; padding-top:90px;">
