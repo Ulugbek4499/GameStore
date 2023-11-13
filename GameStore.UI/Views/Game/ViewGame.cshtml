@@ -239,34 +239,29 @@
                     var gameId = $(this).data('game-id');
                     var text = $('#commentInput').val();
 
-                    // Create a data object to send to the server
                     var data = {
                         GameId: gameId,
                         Text: text
                     };
 
                     $.post('/Game/CreateComment', data, function (response) {
-                        // Clear the comment input
                         $('#commentInput').val('');
 
-                        // Append the new comment to the comments container
                         $('#comment-container').append(response);
 
-                        // Optionally, you can scroll to the newly added comment
                         var newComment = $('#comment-container .comment:last');
                         $('html, body').animate({
                             scrollTop: newComment.offset().top
                         }, 500);
 
-                        // Reload the page
                         location.reload();
                     });
                 });
 
                 $('.cancel-reply-btn').click(function () {
                     var container = $(this).closest('.collapse');
-                    container.find('.replyInput').val(''); // Clear the input field
-                    container.collapse('hide'); // Hide the reply input form
+                    container.find('.replyInput').val('');
+                    container.collapse('hide');
                 });
 
 
@@ -297,7 +292,7 @@
                             ParentCommentId: parentId
                         };
 
-                        var replyButton = $(this); // Reference to the clicked button for later use
+                        var replyButton = $(this);
 
                         $.post('/Game/CreateComment', data, function (response) {
 
