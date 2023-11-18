@@ -84,7 +84,7 @@
                                         }
                                         else
                                         {
-                                            <img src="/static-images/default.jpg style="width: 42px; height: 48px; border-radius: 50%;" />
+                                            <img src="/static-images/default.jpg" style="width: 42px; height: 48px; border-radius: 50%;" />
                                         }
                                     </a>
                                     <div class="flex-grow-1 flex-shrink-1">
@@ -107,7 +107,7 @@
                                                 }
                                                 @if (comment.User.Id == UserManager.GetUserId(User) || User.IsInRole("Manager"))
                                                 {
-                                                    <a href="@Url.Action("DeleteComment", new { id = @comment.Id })">Delete </a>
+                                                    <a href="#" class="delete-btn btn text-primary" data-toggle="collapse" data-target="#deleteComment@(comment.Id)">Delete</a>
                                                 }
                                             }
                                             <div class="collapse" id="replyComment@(comment.Id)">
@@ -118,6 +118,10 @@
                                             <div class="collapse" id="editComment@(comment.Id)">
                                                 <input type="text" class="form-control editInput" value="@comment.Text" />
                                                 <button class="saveEditBtn btn btn-success" data-comment-id="@comment.Id" data-game-id="@Model.Id">Save Edit</button>
+                                            </div>
+                                            <div class="collapse" id="deleteComment@(comment.Id)">
+                                                <button class="deleteBtn btn btn-danger" data-comment-id="@comment.Id">Save Delete</button>
+                                                <button class="restoreBtn btn btn-success" data-comment-id="@comment.Id">Restore</button>
                                             </div>
                                         </div>
                                     </div>
@@ -135,7 +139,7 @@
                                                     }
                                                     else
                                                     {
-                                                        <img src="/static-images/default.jpg style="width: 42px; height: 48px; border-radius: 50%;" />
+                                                        <img src="/static-images/default.jpg" style="width: 42px; height: 48px; border-radius: 50%;" />
                                                     }
                                                 </a>
                                                 <div class="flex-grow-1 flex-shrink-1">
@@ -183,7 +187,7 @@
                                                                 }
                                                                 else
                                                                 {
-                                                                    <img src="/static-images/default.jpg style="width: 42px; height: 48px; border-radius: 50%;" />
+                                                                    <img src="/static-images/default.jpg" style="width: 42px; height: 48px; border-radius: 50%;" />
                                                                 }
                                                             </a>
                                                             <div class="flex-grow-1 flex-shrink-1">
@@ -336,6 +340,32 @@
                             location.reload();
                         } else {
                             location.reload();
+                        }
+                    });
+                });
+
+                $('.delete-btn').click(function () {
+                    var commentId = $(this).data('comment-id');
+                    var deleteBtn = $(`#deleteComment${commentId}`);
+                    var restoreBtn = deleteBtn.find('.restoreBtn');
+
+                    deleteBtn.find('.deleteBtn').hide();
+                    restoreBtn.show();
+                });
+
+                $('.restoreBtn').click(function () {
+                    var commentId = $(this).data('comment-id');
+                    var restoreBtn = $(this);
+
+                    // Implement the logic to restore the deleted comment using AJAX
+                    $.post('/Game/RestoreComment', { commentId: commentId }, function (response) {
+                        if (response.success) {
+                            // Handle success, e.g., show the restored comment
+                            // You may need to reload the page or update the comment list
+                            location.reload();
+                        } else {
+                            // Handle failure
+                            alert('Failed to restore the deleted comment. Please try again.');
                         }
                     });
                 });
