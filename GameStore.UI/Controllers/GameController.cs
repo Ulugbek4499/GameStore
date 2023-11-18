@@ -133,7 +133,7 @@ namespace GameStore.UI.Controllers
             int id = Comment.GameId ?? 0;
             var Game = await Mediator.Send(new GetGameByIdQuery(id));
 
-            return RedirectToAction("Game", "ViewGame", Game);
+            return View("ViewGame", Game);
         }
 
 

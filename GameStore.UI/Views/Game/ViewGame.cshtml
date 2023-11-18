@@ -13,6 +13,7 @@
 @{
     Layout = "_Layout";
 }
+
 @model GameResponse
 <div class="move-margin">
     <div class="card text-white border-0" style="background-color: #1e1e1e; width: 100%;">
@@ -116,7 +117,7 @@
                                             </div>
                                             <div class="collapse" id="editComment@(comment.Id)">
                                                 <input type="text" class="form-control editInput" value="@comment.Text" />
-                                                <button class="saveEditBtn btn btn-success" data-comment-id="@comment.Id">Save Edit</button>
+                                                <button class="saveEditBtn btn btn-success" data-comment-id="@comment.Id" data-game-id="@Model.Id">Save Edit</button>
                                             </div>
                                         </div>
                                     </div>
@@ -165,7 +166,7 @@
                                                     </div>
                                                     <div class="collapse" id="editComment@(reply.Id)">
                                                         <input type="text" class="form-control editInput" value="@reply.Text" />
-                                                        <button class="saveEditBtn btn btn-success" data-comment-id="@reply.Id">Save Edit</button>
+                                                        <button class="saveEditBtn btn btn-success" data-comment-id="@reply.Id" data-game-id="@Model.Id">Save Edit</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -210,10 +211,11 @@
                                                                 <div class="collapse" id="replyComment@(replySecond.Id)">
                                                                     <input type="text" class="form-control replyInput" placeholder="Write a reply..." />
                                                                     <button class="saveReplyBtn btn btn-primary" data-parent-id="@replySecond.Id" data-game-id="@Model.Id">Save Reply</button>
+
                                                                 </div>
                                                                 <div class="collapse" id="editComment@(replySecond.Id)">
                                                                     <input type="text" class="form-control editInput" value="@replySecond.Text" />
-                                                                    <button class="saveEditBtn btn btn-success" data-comment-id="@replySecond.Id">Save Edit</button>
+                                                                    <button class="saveEditBtn btn btn-success" data-comment-id="@replySecond.Id" data-game-id="@Model.Id">Save Edit</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -320,14 +322,20 @@
                 $('.saveEditBtn').click(function () {
                     var commentId = $(this).data('comment-id');
                     var text = $(`#editComment${commentId}`).find('.editInput').val();
+                    var gameId = $(this).data('game-id'); // Add this line to get the gameId
 
-                    $.post('/Game/UpdateComment', { CommentId: commentId, Text: text }, function (response) {
+                    // Capture the correct reference to $(this) before the $.post
+                    var saveEditBtn = $(this);
+
+                    $.post('/Game/UpdateComment', { Id: commentId, Text: text, GameId: gameId }, function (response) {
                         if (response.success) {
                             $(`#editComment${commentId}`).find('p').text(text).show();
                             $(`#editComment${commentId}`).find('.editInput').hide();
-                            $(this).hide();
+                            // Use the correct reference to saveEditBtn
+                            saveEditBtn.hide();
+                            location.reload();
                         } else {
-                            alert('Failed to save the edited comment. Please try again.');
+                            location.reload();
                         }
                     });
                 });

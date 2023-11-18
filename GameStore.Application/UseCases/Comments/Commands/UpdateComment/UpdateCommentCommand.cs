@@ -29,6 +29,13 @@ namespace GameStore.Application.UseCases.Comments.Commands.UpdateComment
         public async Task Handle(UpdateCommentCommand request, CancellationToken cancellationToken)
         {
             Comment? comment = await _context.Comments.FindAsync(request.Id);
+            int parentId = comment.ParentCommentId ?? 0;
+
+            if (parentId != 0)
+            {
+                request.ParentCommentId = parentId;
+            }
+
             _mapper.Map(request, comment);
 
             if (comment is null)
