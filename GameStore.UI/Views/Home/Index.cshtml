@@ -135,9 +135,15 @@
                                 </div>
                                 @if (SignInManager.IsSignedIn(User))
                                 {
-                                    <div class="buy-btn-container">
-                                        <a href="#" class="btn btn-success buy-game" data-game-id="@game.Id" data-user-id="@UserManager.GetUserId(User)">BUY</a>
-                                    </div>
+                                    @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                                    {
+                                    }
+                                    else
+                                    {
+                                        <div class="buy-btn-container">
+                                            <a href="#" class="btn btn-success buy-game" data-game-id="@game.Id" data-user-id="@UserManager.GetUserId(User)">BUY</a>
+                                        </div>
+                                    }
                                 }
                                 else
                                 {
