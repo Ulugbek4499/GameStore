@@ -120,7 +120,6 @@ namespace GameStore.UI.Controllers
         }
 
         [HttpGet("[action]")]
-        [HttpPost("[action]")]
         public async Task<IActionResult> IsDeleteComment(int Id)
         {
             await Mediator.Send(new IsDeletedCommentCommand(Id));

@@ -122,12 +122,7 @@
                                                 }
                                                 @if (comment.User.Id == UserManager.GetUserId(User) || User.IsInRole("Manager"))
                                                 {
-                                                    <div class="collapse" id="deleteComment@(comment.Id)">
-                                                        <form asp-action="IsDeleteComment" method="post">
-                                                            <input type="hidden" name="Id" value="@comment.Id" />
-                                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                                        </form>
-                                                    </div>
+                                                    <a href="@Url.Action("IsDeleteComment", new { id = @comment.Id })" class="delete-btn btn text-primary" data-toggle="collapse" data-target="#deleteComment@(comment.Id)">Delete</a>
                                                 }
                                             }
                                             <div class="collapse" id="replyComment@(comment.Id)">
