@@ -1,6 +1,9 @@
 ﻿using GameStore.Application.Common.Interfaces;
 using GameStore.Application.UseCases.Comments.Commands.CreateComment;
 using GameStore.Application.UseCases.Comments.Commands.DeleteComment;
+using GameStore.Application.UseCases.Comments.Commands.DeleteComments;
+using GameStore.Application.UseCases.Comments.Commands.IsDeleteComment;
+using GameStore.Application.UseCases.Comments.Commands.RestoreDeleteComment;
 using GameStore.Application.UseCases.Comments.Commands.UpdateComment;
 using GameStore.Application.UseCases.Comments.Queries.GetAllComments;
 using GameStore.Application.UseCases.Comments.Queries.GetCommentById;
@@ -114,6 +117,31 @@ namespace GameStore.UI.Controllers
             var Game = await Mediator.Send(new GetGameByIdQuery(id));
 
             return View("ViewGame", Game);
+        }
+
+        [HttpGet("[action]")]
+        [HttpPost("[action]")]
+        public async Task<IActionResult> IsDeleteComment(int Id)
+        {
+            await Mediator.Send(new IsDeletedCommentCommand(Id));
+
+            return NoContent();
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> RestoreDeleteComment(int Id)
+        {
+            await Mediator.Send(new RestoreDeleteCommentCommand(Id));
+
+            return NoContent();
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> DeleteComments()
+        {
+            await Mediator.Send(new DeleteCommentsCommand());
+
+            return NoContent();
         }
 
         [HttpGet("[action]")]

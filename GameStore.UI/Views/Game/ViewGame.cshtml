@@ -122,7 +122,12 @@
                                                 }
                                                 @if (comment.User.Id == UserManager.GetUserId(User) || User.IsInRole("Manager"))
                                                 {
-                                                    <a href="#" class="delete-btn btn text-primary" data-toggle="collapse" data-target="#deleteComment@(comment.Id)">Delete</a>
+                                                    <div class="collapse" id="deleteComment@(comment.Id)">
+                                                        <form asp-action="IsDeleteComment" method="post">
+                                                            <input type="hidden" name="Id" value="@comment.Id" />
+                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                        </form>
+                                                    </div>
                                                 }
                                             }
                                             <div class="collapse" id="replyComment@(comment.Id)">
@@ -136,7 +141,7 @@
                                             </div>
                                             <div class="collapse" id="deleteComment@(comment.Id)">
                                                 <a href="@Url.Action("DeleteComment", new { id = @comment.Id })">Save </a>
-                                                <a href="@Url.Action("ViewGame", new { id = Model.Id })">Restore </a>
+                                                <a href="@Url.Action("RestoreDeleteComment", new { id = @comment.Id })">Restore </a>
                                             </div>
                                         </div>
                                     </div>
