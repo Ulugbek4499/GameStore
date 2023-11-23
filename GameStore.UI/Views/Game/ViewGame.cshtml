@@ -122,7 +122,10 @@
                                                 }
                                                 @if (comment.User.Id == UserManager.GetUserId(User) || User.IsInRole("Manager"))
                                                 {
-                                                    <a href="@Url.Action("IsDeleteComment", new { id = @comment.Id })" class="delete-btn btn text-primary" data-toggle="collapse" data-target="#deleteComment@(comment.Id)">Delete</a>
+                                                    <a href="#" class="delete-btn btn text-primary" data-comment-id="@comment.Id">Delete</a>
+
+
+                                                  @*  <a href="@Url.Action("IsDeleteComment", new { id = @comment.Id })" class="delete-btn btn text-primary" data-toggle="collapse" data-target="#deleteComment@(comment.Id)">Delete</a>*@
                                                 }
                                             }
                                             <div class="collapse" id="replyComment@(comment.Id)">
@@ -394,3 +397,26 @@
         });
 
     </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.delete-btn').click(function (e) {
+                e.preventDefault(); // Prevent the default behavior of the anchor tag
+
+                var commentId = $(this).data('comment-id');
+
+                // Make an AJAX request to the IsDeleteComment action
+                $.get('@Url.Action("IsDeleteComment")', { id: commentId })
+                    .done(function () {
+                        // Handle success, you can update the UI or take other actions
+                        // For example, show the "deleteComment" collapse section and buttons
+                        $('#deleteComment' + commentId).collapse('show');
+                    })
+                    .fail(function () {
+                        // Handle failure, if needed
+                        console.error('Failed to delete comment');
+                    });
+            });
+        });
+    </script>
+
