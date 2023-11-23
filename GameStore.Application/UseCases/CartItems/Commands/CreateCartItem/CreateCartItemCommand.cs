@@ -31,7 +31,7 @@ namespace GameStore.Application.UseCases.CartItems.Commands.CreateCartItem
 
         public async Task<int> Handle(CreateCartItemCommand request, CancellationToken cancellationToken)
         {
-            var cart = _context.Carts.Single(x => x.UserId == request.UserId && x.CartStatus != CartStatus.Sold);
+            var cart = _context.Carts.FirstOrDefault(x => x.UserId == request.UserId && x.CartStatus != CartStatus.Sold);
 
             if (cart is null)
             {
