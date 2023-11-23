@@ -31,7 +31,7 @@ namespace GameStore.Application.UseCases.CartItems.Commands.CreateCartItem
 
         public async Task<int> Handle(CreateCartItemCommand request, CancellationToken cancellationToken)
         {
-            var cart = _context.Carts.FirstOrDefault(x => x.UserId == request.UserId && x.CartStatus != CartStatus.Sold);
+            var cart = _context.Carts.Single(x => x.UserId == request.UserId && x.CartStatus != CartStatus.Sold);
 
             if (cart is null)
             {
@@ -41,13 +41,11 @@ namespace GameStore.Application.UseCases.CartItems.Commands.CreateCartItem
                 cart = _mapper.Map<Cart>(Cart);
             }
 
-            // Check if a cart item with the same GameId already exists
             var existingCartItem = _context.CartItems
                 .FirstOrDefault(x => x.Cart.UserId == request.UserId && x.GameId == request.GameId && x.CardId == cart.Id);
 
             if (existingCartItem != null)
             {
-                // If the item exists, increment its count
                 existingCartItem.Count += request.Count;
                 await _context.SaveChangesAsync(cancellationToken);
 
@@ -55,7 +53,6 @@ namespace GameStore.Application.UseCases.CartItems.Commands.CreateCartItem
             }
             else
             {
-                // Otherwise, create a new cart item
                 CartItem cartItem = _mapper.Map<CartItem>(request);
                 cartItem.CardId = cart.Id;
                 cartItem.Cart = cart;
