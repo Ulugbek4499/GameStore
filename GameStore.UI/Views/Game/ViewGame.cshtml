@@ -176,7 +176,7 @@
                                                         }
                                                         @if (reply.User.Id == UserManager.GetUserId(User) || User.IsInRole("Manager"))
                                                         {
-                                                            <a href="#" class="delete-btn btn text-primary" data-toggle="collapse" data-target="#deleteComment@(reply.Id)">Delete</a>
+                                                            <a href="#" class="delete-btn btn text-primary" data-comment-id="@reply.Id">Delete</a>
                                                         }
                                                     }
                                                     <div class="collapse" id="replyComment@(reply.Id)">
@@ -189,7 +189,7 @@
                                                     </div>
                                                     <div class="collapse" id="deleteComment@(reply.Id)">
                                                         <a href="@Url.Action("DeleteComment", new { id = @reply.Id })">Save </a>
-                                                        <a href="@Url.Action("ViewGame", new { id = Model.Id })">Restore </a>
+                                                        <a href="@Url.Action("RestoreDeleteComment", new { id = @reply.Id })">Restore </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -228,7 +228,7 @@
                                                                     }
                                                                     @if (replySecond.User.Id == UserManager.GetUserId(User) || User.IsInRole("Manager"))
                                                                     {
-                                                                        <a href="#" class="delete-btn btn text-primary" data-toggle="collapse" data-target="#deleteComment@(replySecond.Id)">Delete</a>
+                                                                        <a href="#" class="delete-btn btn text-primary" data-comment-id="@replySecond.Id">Delete</a>
                                                                     }
                                                                 }
                                                                 <div class="collapse" id="replyComment@(replySecond.Id)">
@@ -242,7 +242,7 @@
                                                                 </div>
                                                                 <div class="collapse" id="deleteComment@(replySecond.Id)">
                                                                     <a href="@Url.Action("DeleteComment", new { id = @replySecond.Id })">Save </a>
-                                                                    <a href="@Url.Action("ViewGame", new { id = Model.Id })">Restore </a>
+                                                                    <a href="@Url.Action("RestoreDeleteComment", new { id = @replySecond.Id })">Restore </a>
                                                                 </div>
                                                             </div>
                                                         </div>
