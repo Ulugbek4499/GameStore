@@ -123,9 +123,6 @@
                                                 @if (comment.User.Id == UserManager.GetUserId(User) || User.IsInRole("Manager"))
                                                 {
                                                     <a href="#" class="delete-btn btn text-primary" data-comment-id="@comment.Id">Delete</a>
-
-
-                                                  @*  <a href="@Url.Action("IsDeleteComment", new { id = @comment.Id })" class="delete-btn btn text-primary" data-toggle="collapse" data-target="#deleteComment@(comment.Id)">Delete</a>*@
                                                 }
                                             }
                                             <div class="collapse" id="replyComment@(comment.Id)">
@@ -352,16 +349,15 @@
                 $('.saveEditBtn').click(function () {
                     var commentId = $(this).data('comment-id');
                     var text = $(`#editComment${commentId}`).find('.editInput').val();
-                    var gameId = $(this).data('game-id'); // Add this line to get the gameId
+                    var gameId = $(this).data('game-id'); 
 
-                    // Capture the correct reference to $(this) before the $.post
                     var saveEditBtn = $(this);
 
                     $.post('/Game/UpdateComment', { Id: commentId, Text: text, GameId: gameId }, function (response) {
                         if (response.success) {
                             $(`#editComment${commentId}`).find('p').text(text).show();
                             $(`#editComment${commentId}`).find('.editInput').hide();
-                            // Use the correct reference to saveEditBtn
+
                             saveEditBtn.hide();
                             location.reload();
                         } else {
@@ -401,22 +397,29 @@
     <script>
         $(document).ready(function () {
             $('.delete-btn').click(function (e) {
-                e.preventDefault(); // Prevent the default behavior of the anchor tag
+                e.preventDefault();
 
                 var commentId = $(this).data('comment-id');
 
-                // Make an AJAX request to the IsDeleteComment action
                 $.get('@Url.Action("IsDeleteComment")', { id: commentId })
                     .done(function () {
-                        // Handle success, you can update the UI or take other actions
-                        // For example, show the "deleteComment" collapse section and buttons
                         $('#deleteComment' + commentId).collapse('show');
                     })
                     .fail(function () {
-                        // Handle failure, if needed
                         console.error('Failed to delete comment');
                     });
             });
         });
     </script>
 
+    <script>
+        $(document).ready(function () {
+            $.get('@Url.Action("DeleteComments")')
+                .done(function () {
+                    console.log('Comments deleted successfully');
+                })
+                .fail(function () {
+                    console.error('Failed to delete comments');
+                });
+        });
+    </script>
