@@ -21,6 +21,23 @@ namespace GameStore.Application.UseCases.Comments.Commands.DeleteComments
                     .Where(comment => comment.IsDeleted)
                     .ToListAsync(cancellationToken);
 
+            foreach (Comment comment in commentsToDelete)
+            {
+                if (comment.ChildComments is not null)
+                {
+                    foreach (Comment childComment in comment.ChildComments)
+                    {
+                        _context.Comments.Remove(childComment);
+                    }
+
+                    await _context.SaveChangesAsync(cancellationToken);
+                }
+
+                _context.Comments.Remove(comment);
+            }
+            await _context.SaveChangesAsync(cancellationToken);
+
+
             _context.Comments.RemoveRange(commentsToDelete);
 
             await _context.SaveChangesAsync(cancellationToken);

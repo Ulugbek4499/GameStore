@@ -21,7 +21,7 @@ namespace GameStore.Application.UseCases.Comments.Commands.IsDeleteComment
         public async Task Handle(IsDeletedCommentCommand request, CancellationToken cancellationToken)
         {
             var Comment = _dbContext.Comments.Find(request.Id);
-            
+
             if (!Comment.IsDeleted)
             {
                 Comment.IsDeleted = true;
