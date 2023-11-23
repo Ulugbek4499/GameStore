@@ -8,12 +8,18 @@
         <div style="display:flex; gap:5px">
             <h3>Your cart</h3>
         </div>
-        <div style="display:flex; align-items:center; gap:25px">
-            <h2>Total: $@string.Format("{0:0.00}", Model.CartItems?.Sum(item => item.Game?.Price * item.Count)) </h2>
-            <a href="@Url.Action("CreateOrder","Order")" class="proceed-btn btn text-white">
-                Proceed
-            </a>
-        </div>
+        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+        {
+        }
+        else
+        {
+            <div style="display:flex; align-items:center; gap:25px">
+                <h2>Total: $@string.Format("{0:0.00}", Model.CartItems?.Sum(item => item.Game?.Price * item.Count)) </h2>
+                <a href="@Url.Action("CreateOrder","Order")" class="proceed-btn btn text-white">
+                    Proceed
+                </a>
+            </div>
+        }
     </div>
     <div style="padding-top:35px; font-size: 28px;">
         <table class="table text-white">

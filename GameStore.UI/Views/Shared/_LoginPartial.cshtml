@@ -25,7 +25,12 @@
         </li>
         <div class="nav-item" style="margin-right:30px;">
             <form>
-                <div style="position: relative;">
+                    @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                    {
+                    }
+                    else
+                    {
+                         <div style="position: relative;">
                     <button type="button" class="nav-link btn btn-link text-white-50" onclick="redirectToViewCart()">
                         <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
                             <style>
@@ -49,6 +54,8 @@
                         <div class="count-container" id="cartItemCount"></div>
                     </button>
                 </div>
+                   
+                    }
             </form>
         </div>
 
